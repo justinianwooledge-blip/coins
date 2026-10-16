@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Justin's HQ</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#E6ECF0;--panel:#fff;--ink:#16232E;--soft:#5B6B78;--line:#C9D3DA;--green:#24855A;--green-bg:#DDF1E6;--red:#C2402F;--red-bg:#F8E1DD;--gold:#B87A10;--gold-bg:#FCEFD8;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#101A22;--panel:#18252F;--ink:#E7EEF3;--soft:#93A3B0;--line:#2A3A47;--green:#4CC48A;--green-bg:#163327;--red:#F07463;--red-bg:#3B1E1A;--gold:#F2B04A;--gold-bg:#3A2C14;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Familjen Grotesk",system-ui,-apple-system,sans-serif;font-size:17px;line-height:1.4;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+main{max-width:520px;margin:0 auto;padding:20px 16px 48px}
+.top{padding:8px 4px 18px}
+.top p{margin:0;color:var(--soft);font-size:15px}
+.total{font-size:44px;font-weight:700;letter-spacing:-.02em;line-height:1.05;margin:4px 0}
+.pl{display:inline-block;padding:5px 12px;border-radius:999px;font-weight:600;font-size:16px}
+.up{background:var(--green-bg);color:var(--green)} .down{background:var(--red-bg);color:var(--red)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.name{font-size:22px;font-weight:700}
+.price{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.sig{margin-top:8px;display:inline-block;padding:4px 10px;border-radius:999px;font-weight:600;font-size:14px;background:var(--bg);color:var(--soft)}
+.sig.sell{background:var(--green-bg);color:var(--green)} .sig.buy{background:var(--red-bg);color:var(--red)} .sig.near{background:var(--gold-bg);color:var(--gold)}
+.tf{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.tf div{background:var(--bg);border-radius:10px;padding:6px 4px;text-align:center}
+.tf span{display:block;font-size:12px;color:var(--soft)}
+.tf b{font-size:15px;font-variant-numeric:tabular-nums}
+.pos{color:var(--green)} .neg{color:var(--red)}
+.money{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.money div{border-top:1px solid var(--line);padding-top:8px}
+.money span{display:block;font-size:13px;color:var(--soft)}
+.money b{font-size:17px;font-variant-numeric:tabular-nums}
+.foot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:14px}
+.foot a{color:var(--ink);font-weight:600}
+.note{font-size:13px;color:var(--soft);text-align:center;margin-top:16px}
+.tabs{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:4px;margin:4px 0 16px;position:sticky;top:env(safe-area-inset-top);z-index:5}
+.tabs button{flex:1;background:transparent;color:var(--soft);padding:10px;border-radius:10px}
+.tabs button.on{background:var(--ink);color:var(--panel)}
+.attn{display:inline-block;margin-top:8px;padding:5px 12px;border-radius:999px;font-weight:600;font-size:15px}
+.attn.on{background:var(--gold-bg);color:var(--gold)} .attn.off{background:var(--green-bg);color:var(--green)}
+h2{font-size:22px;margin:0 0 4px}
+.sub{color:var(--soft);font-size:15px;margin:0 0 12px}
+.dots{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 10px}
+.dot{width:54px;height:54px;border-radius:50%;border:2px solid var(--line);background:transparent;color:var(--ink);font-size:18px;padding:0}
+.dot.done{background:var(--green);border-color:var(--green);color:#fff}
+.row{display:flex;align-items:center;gap:8px}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);padding:6px 12px}
+ul{list-style:none;margin:0;padding:0}
+.task{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.task:last-child{border-bottom:0}
+.task input{width:24px;height:24px;flex:none;accent-color:var(--green)}
+.task span{flex:1} .task.checked span{text-decoration:line-through;color:var(--soft)}
+.x{background:none;color:var(--soft);font-size:22px;padding:2px 8px}
+.add{display:flex;gap:8px;margin-top:12px}
+.add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer}
+</style>
+</head>
+<body>
+<main>
+  <div class="top" style="padding-bottom:10px">
+    <p id="date"></p>
+    <span class="attn" id="attn"></span>
+  </div>
+  <div class="tabs" role="tablist">
+    <button id="tabToday" class="on" role="tab">✅ Today</button>
+    <button id="tabCoins" role="tab">💰 Coins</button>
+  </div>
+
+  <div id="viewToday">
+    <div class="card">
+      <h2>Depop listings</h2>
+      <p class="sub" id="depopSub"></p>
+      <div class="dots" id="dots"></div>
+      <div class="row">
+        <span class="sub" style="margin:0;flex:1" id="streak"></span>
+        <button class="ghost" id="goalMinus" aria-label="Lower daily goal">−</button>
+        <button class="ghost" id="goalPlus" aria-label="Raise daily goal">+</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Daily reminders</h2>
+      <p class="sub">These reset every morning.</p>
+      <ul id="tasks"></ul>
+      <div class="add">
+        <input id="taskInput" placeholder="Add a reminder" aria-label="New reminder">
+        <button id="taskAdd">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="viewCoins" hidden>
+  <div class="top">
+    <p>Portfolio value</p>
+    <div class="total" id="total">…</div>
+    <span class="pl" id="totalPl"></span>
+  </div>
+  <div id="coins"><p class="note">Loading prices…</p></div>
+  <p class="note" id="updated"></p>
+  <p class="note"><button id="refresh">Refresh now</button></p>
+  </div>
+</main>
+<script>
+const REPO = 'https://raw.githubusercontent.com/justinianwooledge-blip/coin-alert-bot/main/';
+const $ = id => document.getElementById(id);
+const money = v => (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const px = v => v >= 1 ? '$' + v.toFixed(4) : '$' + Number(v.toPrecision(4));
+const pct = v => v == null ? '—' : (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+const cls = v => v == null ? '' : v > 0.05 ? 'pos' : v < -0.05 ? 'neg' : '';
+async function getJSON(url){ const r = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now()); if(!r.ok) throw new Error(r.status); return r.json(); }
+
+function ago(hist, price, minutes){
+  if (!hist || hist.length < 2) return null;
+  const target = Date.now()/1000 - minutes*60;
+  let best = null;
+  for (const h of hist) if (!best || Math.abs(h[0]-target) < Math.abs(best[0]-target)) best = h;
+  if (Math.abs(best[0]-target) > Math.max(600, minutes*6)) return null;
+  return (price/best[1] - 1) * 100;
+}
+
+async function load(){
+  let cfg, state = {}, pairs = [];
+  try { cfg = await getJSON(REPO + 'coins.json'); }
+  catch(e){ $('coins').innerHTML = '<p class="note">Couldn\'t load your coin list. Check your connection and tap Refresh.</p>'; return; }
+  try { state = await getJSON(REPO + 'state.json'); } catch(e){}
+  try {
+    const cas = cfg.coins.map(c => c.ca).filter(Boolean).join(',');
+    pairs = (await getJSON('https://api.dexscreener.com/latest/dex/tokens/' + cas)).pairs || [];
+  } catch(e){}
+
+  const TP = cfg.take_profit_pct || 50, DIP = cfg.rebuy_dip_pct || 30;
+  let tVal = 0, tCost = 0, live = false; coinAlerts = 0;
+  const box = $('coins'); box.innerHTML = '';
+
+  for (const c of cfg.coins){
+    const mine = pairs.filter(p => (p.baseToken?.address || '').toLowerCase() === c.ca.toLowerCase());
+    const pair = mine.sort((a,b) => (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0];
+    const st = state[c.name] || {};
+    const hist = st.hist || [];
+    let price = pair ? parseFloat(pair.priceUsd) : (hist.length ? hist[hist.length-1][1] : 0);
+    if (pair) live = true;
+    const ch = pair?.priceChange || {};
+    const tf = [['5m', ch.m5 ?? null], ['30m', ago(hist, price, 30)], ['1h', ch.h1 ?? ago(hist, price, 60)],
+                ['3h', ago(hist, price, 180)], ['6h', ch.h6 ?? ago(hist, price, 360)], ['12h', ago(hist, price, 720)],
+                ['24h', ch.h24 ?? ago(hist, price, 1440)]];
+
+    const value = c.tokens && price ? c.tokens * price : null;
+    const cost = c.cost_usd || null;
+    const pl = value != null && cost ? value - cost : null;
+    const plPct = pl != null ? pl / cost * 100 : null;
+    if (value != null && cost){ tVal += value; tCost += cost; }
+
+    const high = Math.max(st.high || 0, price), low = st.low ? Math.min(st.low, price) : price;
+    const gain = plPct != null ? plPct : (low ? (price/low - 1)*100 : 0);
+    const down = high ? (price/high - 1)*100 : 0;
+    const [sigTxt, sigCls] = gain >= TP ? ['💰 Take-profit zone','sell'] : down <= -DIP ? ['🛒 Rebuy zone','buy']
+      : gain >= TP*0.7 ? ['👀 Close to take-profit','near'] : down <= -DIP*0.7 ? ['👀 Close to rebuy','near'] : ['✋ Hold',''];
+    if (sigCls === 'sell' || sigCls === 'buy') coinAlerts++;
+    const be = c.tokens && cost ? cost / c.tokens : null;
+
+    const card = document.createElement('div'); card.className = 'card';
+    card.innerHTML = `
+      <div class="head"><span class="name"></span><span class="price">${price ? px(price) : '—'}</span></div>
+      <span class="sig ${sigCls}">${sigTxt}</span>
+      <div class="tf">${tf.map(([l,v]) => `<div><span>${l}</span><b class="${cls(v)}">${pct(v)}</b></div>`).join('')}</div>
+      <div class="money">
+        <div><span>Worth now</span><b>${value != null ? money(value) : '—'}</b></div>
+        <div><span>Profit / loss</span><b class="${cls(plPct)}">${pl != null ? money(pl) + ' (' + pct(plPct) + ')' : '—'}</b></div>
+        <div><span>You paid</span><b>${cost ? money(cost) : '—'}</b></div>
+        <div><span>Break-even price</span><b>${be ? px(be) : '—'}</b></div>
+      </div>
+      <div class="foot"><span style="color:var(--soft)">Week: ${px(low)} → ${px(high)}</span><a target="_blank" rel="noopener"></a></div>`;
+    card.querySelector('.name').textContent = c.name;
+    const a = card.querySelector('a'); a.href = pair?.url || ('https://dexscreener.com/search?q=' + encodeURIComponent(c.ca)); a.textContent = '📈 Chart';
+    box.append(card);
+  }
+
+  if (tCost){
+    const p = tVal - tCost;
+    $('total').textContent = money(tVal);
+    $('totalPl').className = 'pl ' + (p >= 0 ? 'up' : 'down');
+    $('totalPl').textContent = `${p >= 0 ? '▲' : '▼'} ${money(p)} (${pct(p/tCost*100)}) · paid ${money(tCost)}`;
+  }
+  renderToday();
+  $('updated').textContent = (live ? 'Live prices' : 'Prices from your bot (live feed unavailable)') +
+    ' · updated ' + new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit', second:'2-digit'}) + ' · refreshes every 30s';
+}
+// ---------- Today: Depop + reminders (saved on this device) ----------
+const dayKey = d => (d || new Date()).toLocaleDateString('en-CA');
+let T = {goal:3, listed:0, listedDay:'', streak:1, lastHitDay:'2026-10-16',
+         tasks:[{t:'Ship any sold Depop orders', d:false}], tasksDay:''};
+try { Object.assign(T, JSON.parse(localStorage.getItem('hq-today') || '{}')); } catch(e){}
+let coinAlerts = 0;
+function saveT(){ try { localStorage.setItem('hq-today', JSON.stringify(T)); } catch(e){} }
+function rollDay(){
+  const t = dayKey();
+  if (T.listedDay !== t){
+    const y = new Date(); y.setDate(y.getDate() - 1);
+    if (T.lastHitDay !== dayKey(y) && T.lastHitDay !== t) T.streak = 0;
+    T.listedDay = t; T.listed = 0;
+  }
+  if (T.tasksDay !== t){ T.tasks.forEach(x => x.d = false); T.tasksDay = t; }
+}
+function renderToday(){
+  rollDay();
+  $('date').textContent = new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+  const left = Math.max(0, T.goal - T.listed);
+  $('depopSub').textContent = left ? `List ${left} more today. Tap a circle each time you post one.` : 'Goal hit for today. Nice.';
+  const dots = $('dots'); dots.innerHTML = '';
+  for (let i = 0; i < T.goal; i++){
+    const b = document.createElement('button');
+    b.className = 'dot' + (i < T.listed ? ' done' : '');
+    b.textContent = i < T.listed ? '✓' : String(i + 1);
+    b.setAttribute('aria-label', `Listing ${i + 1} ${i < T.listed ? 'done' : 'not done'}`);
+    b.onclick = () => {
+      T.listed = i < T.listed ? i : i + 1;
+      if (T.listed >= T.goal && T.lastHitDay !== dayKey()){ T.streak++; T.lastHitDay = dayKey(); }
+      saveT(); renderToday();
+    };
+    dots.append(b);
+  }
+  $('streak').textContent = `🔥 ${T.streak}-day streak · goal ${T.goal}/day`;
+  const ul = $('tasks'); ul.innerHTML = '';
+  T.tasks.forEach((x, i) => {
+    const li = document.createElement('li'); li.className = 'task' + (x.d ? ' checked' : '');
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = x.d; cb.setAttribute('aria-label', x.t);
+    cb.onchange = () => { x.d = cb.checked; saveT(); renderToday(); };
+    const sp = document.createElement('span'); sp.textContent = x.t;
+    const del = document.createElement('button'); del.className = 'x'; del.textContent = '×'; del.setAttribute('aria-label', 'Delete ' + x.t);
+    del.onclick = () => { T.tasks.splice(i, 1); saveT(); renderToday(); };
+    li.append(cb, sp, del); ul.append(li);
+  });
+  const todo = left + T.tasks.filter(x => !x.d).length + coinAlerts;
+  $('attn').className = 'attn ' + (todo ? 'on' : 'off');
+  $('attn').textContent = todo ? `${todo} thing${todo > 1 ? 's' : ''} need you` : 'All caught up';
+}
+$('goalPlus').onclick = () => { if (T.goal < 10){ T.goal++; saveT(); renderToday(); } };
+$('goalMinus').onclick = () => { if (T.goal > 1){ T.goal--; T.listed = Math.min(T.listed, T.goal); saveT(); renderToday(); } };
+function addTask(){ const v = $('taskInput').value.trim(); if (!v) return; T.tasks.push({t:v, d:false}); $('taskInput').value = ''; saveT(); renderToday(); }
+$('taskAdd').onclick = addTask;
+$('taskInput').onkeydown = e => { if (e.key === 'Enter') addTask(); };
+
+function showTab(which){
+  $('tabToday').classList.toggle('on', which === 'today');
+  $('tabCoins').classList.toggle('on', which === 'coins');
+  $('viewToday').hidden = which !== 'today';
+  $('viewCoins').hidden = which !== 'coins';
+  try { localStorage.setItem('hq-tab', which); } catch(e){}
+}
+$('tabToday').onclick = () => showTab('today');
+$('tabCoins').onclick = () => showTab('coins');
+try { showTab(localStorage.getItem('hq-tab') || 'today'); } catch(e){ showTab('today'); }
+renderToday();
+
+$('refresh').onclick = load;
+load(); setInterval(load, 30000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden){ renderToday(); load(); } });
+</script>
+</body>
+</html>
