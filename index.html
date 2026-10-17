@@ -58,6 +58,10 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.hrow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 0;border-top:1px solid var(--line)}
+.hrow b{grid-column:1/-1;font-size:17px}
+.hrow label{font-size:12px;color:var(--soft)}
+.hrow input{width:100%;margin-top:3px;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 .listbtn{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:14px 16px;border-radius:14px;background:var(--ink);color:var(--panel);font-weight:700;font-size:17px;text-decoration:none}
 .listbtn span{font-weight:500;font-size:14px;opacity:.8}
 .recipe{padding:0;overflow:hidden}
@@ -139,10 +143,16 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
     <p>Portfolio value</p>
     <div class="total" id="total">…</div>
     <span class="pl" id="totalPl"></span>
+    <p id="totalAll" style="margin-top:8px"></p>
   </div>
   <div id="coins"><p class="note">Loading prices…</p></div>
   <p class="note" id="updated"></p>
   <p class="note"><button id="refresh">Refresh now</button></p>
+  <details class="card" style="margin-top:14px">
+    <summary style="font-weight:700;cursor:pointer">✏️ Edit my holdings</summary>
+    <p class="sub" style="margin-top:8px">Saved on this phone only, never on GitHub. Update after you buy or sell. Use Phantom's "amount invested" for Paid and "realized" for Realized.</p>
+    <div id="holdEdit"></div>
+  </details>
   </div>
 </main>
 <script>
@@ -163,6 +173,36 @@ function ago(hist, price, minutes){
   return (price/best[1] - 1) * 100;
 }
 
+// ---------- Holdings (saved on this phone only) ----------
+let HOLD = {};
+try { HOLD = JSON.parse(localStorage.getItem('hq-holdings') || '{}'); } catch(e){}
+try {
+  const m = location.hash.match(/#h=([A-Za-z0-9+/=_-]+)/);
+  if (m){
+    HOLD = JSON.parse(atob(m[1].replace(/-/g,'+').replace(/_/g,'/')));
+    localStorage.setItem('hq-holdings', JSON.stringify(HOLD));
+    history.replaceState(null, '', location.pathname);
+  }
+} catch(e){}
+function saveHold(){ try { localStorage.setItem('hq-holdings', JSON.stringify(HOLD)); } catch(e){} }
+const numIn = s => { s = String(s).trim().toLowerCase().replace(/[$,\s]/g,''); let k = 1; if (s.endsWith('k')){ k = 1e3; s = s.slice(0,-1); } const n = parseFloat(s); return isNaN(n) ? 0 : n * k; };
+let COINLIST = [];
+function renderHoldEditor(){
+  const box = $('holdEdit'); box.innerHTML = '';
+  COINLIST.forEach(c => {
+    const h = HOLD[c.name] || {};
+    const row = document.createElement('div'); row.className = 'hrow';
+    row.innerHTML = '<b></b><label>Tokens<input inputmode="decimal"></label><label>Paid $<input inputmode="decimal"></label><label>Realized $<input inputmode="decimal"></label>';
+    row.querySelector('b').textContent = c.name;
+    const [t, p, r] = row.querySelectorAll('input');
+    t.value = h.tokens ?? ''; p.value = h.paid ?? ''; r.value = h.realized ?? '';
+    [t, p, r].forEach(inp => inp.setAttribute('aria-label', c.name + ' ' + inp.parentElement.firstChild.textContent));
+    const upd = () => { HOLD[c.name] = {tokens: numIn(t.value), paid: numIn(p.value), realized: r.value.trim() ? parseFloat(r.value.replace(/[$,\s]/g,'')) || 0 : 0}; saveHold(); load(); };
+    [t, p, r].forEach(inp => inp.onchange = upd);
+    box.append(row);
+  });
+}
+
 async function load(){
   let cfg, state = {}, pairs = [];
   try { cfg = await getJSON(REPO + 'coins.json'); }
@@ -174,7 +214,8 @@ async function load(){
   } catch(e){}
 
   const TP = cfg.take_profit_pct || 50, DIP = cfg.rebuy_dip_pct || 30;
-  let tVal = 0, tCost = 0, live = false; coinAlerts = 0;
+  let tVal = 0, tCost = 0, tReal = 0, live = false; coinAlerts = 0;
+  COINLIST = cfg.coins; if (!$('holdEdit').children.length) renderHoldEditor();
   const box = $('coins'); box.innerHTML = '';
 
   for (const c of cfg.coins){
@@ -189,8 +230,11 @@ async function load(){
                 ['3h', ago(hist, price, 180)], ['6h', ch.h6 ?? ago(hist, price, 360)], ['12h', ago(hist, price, 720)],
                 ['24h', ch.h24 ?? ago(hist, price, 1440)]];
 
-    const value = c.tokens && price ? c.tokens * price : null;
-    const cost = c.cost_usd || null;
+    const h = HOLD[c.name] || {};
+    const value = h.tokens && price ? h.tokens * price : null;
+    const cost = h.paid || null;
+    const real = +h.realized || 0;
+    if (value != null && cost) tReal += real;
     const pl = value != null && cost ? value - cost : null;
     const plPct = pl != null ? pl / cost * 100 : null;
     if (value != null && cost){ tVal += value; tCost += cost; }
@@ -201,7 +245,8 @@ async function load(){
     const [sigTxt, sigCls] = gain >= TP ? ['💰 Take-profit zone','sell'] : down <= -DIP ? ['🛒 Rebuy zone','buy']
       : gain >= TP*0.7 ? ['👀 Close to take-profit','near'] : down <= -DIP*0.7 ? ['👀 Close to rebuy','near'] : ['✋ Hold',''];
     if (sigCls === 'sell' || sigCls === 'buy') coinAlerts++;
-    const be = c.tokens && cost ? cost / c.tokens : null;
+    const be = h.tokens && cost ? cost / h.tokens : null;
+    const allIn = pl != null ? pl + real : null;
 
     const card = document.createElement('div'); card.className = 'card';
     card.innerHTML = `
@@ -213,6 +258,8 @@ async function load(){
         <div><span>Profit / loss</span><b class="${cls(plPct)}">${pl != null ? money(pl) + ' (' + pct(plPct) + ')' : '—'}</b></div>
         <div><span>You paid</span><b>${cost ? money(cost) : '—'}</b></div>
         <div><span>Break-even price</span><b>${be ? px(be) : '—'}</b></div>
+        <div><span>Realized (sold)</span><b class="${cls(real)}">${value != null ? money(real) : '—'}</b></div>
+        <div><span>All-in P/L</span><b class="${cls(allIn)}">${allIn != null ? money(allIn) : '—'}</b></div>
       </div>
       <div class="foot"><span style="color:var(--soft)">Week: ${px(low)} → ${px(high)}</span><a target="_blank" rel="noopener"></a></div>`;
     card.querySelector('.name').textContent = c.name;
@@ -224,7 +271,13 @@ async function load(){
     const p = tVal - tCost;
     $('total').textContent = money(tVal);
     $('totalPl').className = 'pl ' + (p >= 0 ? 'up' : 'down');
-    $('totalPl').textContent = `${p >= 0 ? '▲' : '▼'} ${money(p)} (${pct(p/tCost*100)}) · paid ${money(tCost)}`;
+    $('totalPl').textContent = `${p >= 0 ? '▲' : '▼'} ${money(p)} (${pct(p/tCost*100)}) holding`;
+    const all = p + tReal;
+    $('totalAll').innerHTML = `Paid ${money(tCost)} · Realized <b class="${cls(tReal)}">${money(tReal)}</b> · All-in <b class="${cls(all)}">${money(all)}</b>`;
+  } else {
+    $('total').textContent = '—';
+    $('totalPl').className = 'pl'; $('totalPl').textContent = 'Add your holdings below';
+    $('totalAll').textContent = '';
   }
   renderToday();
   $('updated').textContent = (live ? 'Live prices' : 'Prices from your bot (live feed unavailable)') +
