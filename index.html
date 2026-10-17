@@ -59,6 +59,10 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.lights{display:flex;gap:6px;flex:none}
+.lt{display:flex;flex-direction:column;align-items:center;justify-content:center;width:46px;height:50px;border-radius:12px;background:var(--panel);border:1px solid var(--line);color:var(--soft);text-decoration:none;font-size:10px;font-weight:600}
+.lt span{font-size:20px;line-height:1.1}
 .pbar{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin-top:10px}
 .pbar i{display:block;height:100%;background:var(--green);border-radius:99px}
 .phase h2{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
@@ -140,9 +144,16 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
 </head>
 <body>
 <main>
-  <div class="top" style="padding-bottom:10px">
-    <p id="date"></p>
-    <span class="attn" id="attn"></span>
+  <div class="top hdr" style="padding-bottom:10px">
+    <div>
+      <p id="date"></p>
+      <span class="attn" id="attn"></span>
+    </div>
+    <div class="lights" aria-label="Lights">
+      <a href="shortcuts://run-shortcut?name=Hue%20Lights" class="lt"><span>💡</span>Hue</a>
+      <a href="shortcuts://run-shortcut?name=Govee%20Lights" class="lt"><span>🌈</span>Govee</a>
+      <a href="shortcuts://run-shortcut?name=Strip%20Lights" class="lt"><span>✨</span>StripX</a>
+    </div>
   </div>
   <div class="tabs" role="tablist">
     <button id="tabToday" class="on" role="tab"><span class="ti">✅</span>Today</button>
