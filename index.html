@@ -197,6 +197,15 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
       </div>
     </div>
     <p class="note"><button class="ghost small" id="setupBtn">⚙️ Load setup link</button></p>
+    <div class="card" id="setupBox" hidden>
+      <h2>⚙️ Load setup link</h2>
+      <p class="sub">Paste a setup link from Claude, then tap Load.</p>
+      <div class="rform">
+        <textarea id="setupText" rows="4" placeholder="Paste the link here" aria-label="Setup link"></textarea>
+        <button id="setupLoad">Load</button>
+      </div>
+      <p class="sub" id="setupMsg" style="margin:10px 0 0"></p>
+    </div>
   </div>
 
   <div id="viewGym" hidden>
@@ -228,6 +237,10 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
       <a id="ideaChat" class="ql wide" target="_blank" rel="noopener"><span>💬</span>Open my idea chat</a>
       <button id="ideaChatSet" class="ghost" style="font-size:13px">Change chat link</button>
     </div>
+    <div class="card" id="ideaChatBox" hidden>
+      <p class="sub" style="margin-top:0">Paste the link to your Claude chat for ideas. Leave it blank to start a new chat each time.</p>
+      <div class="add" style="margin-top:0"><input id="ideaChatIn" placeholder="https://claude.ai/chat/..." aria-label="Idea chat link"><button id="ideaChatSave">Save</button></div>
+    </div>
     <div class="card">
       <h2>New note</h2>
       <div class="rform">
@@ -246,6 +259,7 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
       <div class="pbar"><i id="pBar"></i></div>
       <p class="sub" id="pProg" style="margin:6px 0 0"></p>
       <button class="ghost small" id="pGrad" style="margin-top:8px">Change graduation date</button>
+      <div class="add" id="pGradBox" hidden><input type="date" id="pGradIn" aria-label="Graduation date"><button id="pGradSave">Save</button></div>
     </div>
     <div class="card" id="pNextCard">
       <h2>👉 Next step</h2>
@@ -810,11 +824,11 @@ $('noteSave').onclick = () => {
   const t = $('noteText').value.trim(); if (!t) return;
   NOTES.push({text: t, at: Date.now()}); store('hq-notes', NOTES); $('noteText').value = ''; renderNotes();
 };
-$('ideaChatSet').onclick = () => {
-  const u = prompt('Paste the link to your Claude chat for ideas (leave blank for a new chat each time):', CHAT === 'https://claude.ai/new' ? '' : CHAT);
-  if (u === null) return;
-  CHAT = /^https:\/\/claude\.ai\//.test(u.trim()) ? u.trim() : 'https://claude.ai/new';
-  store('hq-ideachat', CHAT); renderNotes();
+$('ideaChatSet').onclick = () => { $('ideaChatIn').value = CHAT === 'https://claude.ai/new' ? '' : CHAT; $('ideaChatBox').hidden = !$('ideaChatBox').hidden; };
+$('ideaChatSave').onclick = () => {
+  const u = $('ideaChatIn').value.trim();
+  CHAT = /^https:\/\/claude\.ai\//.test(u) ? u : 'https://claude.ai/new';
+  store('hq-ideachat', CHAT); renderNotes(); $('ideaChatBox').hidden = true;
 };
 
 // ---------- Path to a business by graduation ----------
@@ -936,18 +950,18 @@ $('pIdeaAdd').onclick = () => { const v = $('pIdeaIn').value.trim(); if (!v) ret
 $('pIdeaIn').onkeydown = e => { if (e.key === 'Enter') $('pIdeaAdd').click(); };
 $('pEdgeAdd').onclick = () => { const v = $('pEdgeIn').value.trim(); if (!v) return; PA.edge.push(v); $('pEdgeIn').value = ''; savePath(); renderPath(); };
 $('pEdgeIn').onkeydown = e => { if (e.key === 'Enter') $('pEdgeAdd').click(); };
-$('pGrad').onclick = () => {
-  const v = prompt('Graduation date (YYYY-MM-DD):', PA.grad);
-  if (v && /^\d{4}-\d{2}-\d{2}$/.test(v.trim())){ PA.grad = v.trim(); savePath(); renderPath(); }
-};
+$('pGrad').onclick = () => { $('pGradIn').value = PA.grad; $('pGradBox').hidden = !$('pGradBox').hidden; };
+$('pGradSave').onclick = () => { const v = $('pGradIn').value; if (/^\d{4}-\d{2}-\d{2}$/.test(v)){ PA.grad = v; savePath(); renderPath(); $('pGradBox').hidden = true; } };
 
-$('setupBtn').onclick = () => {
-  const t = prompt('Paste a setup link from Claude:');
+$('setupBtn').onclick = () => { $('setupBox').hidden = !$('setupBox').hidden; if (!$('setupBox').hidden) $('setupText').focus(); };
+$('setupLoad').onclick = () => {
+  const t = $('setupText').value.trim();
   if (!t) return;
   let ok = [];
   try { if (applyHoldSeed(t)){ ok.push('coin holdings'); load(); } } catch(e){}
   try { if (applyBizSeed(t)){ ok.push('business ideas'); renderPath(); } } catch(e){}
-  alert(ok.length ? 'Loaded your ' + ok.join(' and ') + ' ✓' : "That link didn't work. Copy the whole link and try again.");
+  $('setupMsg').textContent = ok.length ? '✓ Loaded your ' + ok.join(' and ') + '. Paste another link or close this.' : "✗ That link didn't work. Copy the whole link and try again.";
+  if (ok.length) $('setupText').value = '';
 };
 
 const TABS = {today:['tabToday','viewToday'], gym:['tabGym','viewGym'], coins:['tabCoins','viewCoins'], cook:['tabCook','viewCook'], notes:['tabNotes','viewNotes'], path:['tabPath','viewPath']};
