@@ -37,7 +37,8 @@ main{max-width:520px;margin:0 auto;padding:20px 16px 48px}
 .foot a{color:var(--ink);font-weight:600}
 .note{font-size:13px;color:var(--soft);text-align:center;margin-top:16px}
 .tabs{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:4px;margin:4px 0 16px;position:sticky;top:env(safe-area-inset-top);z-index:5}
-.tabs button{flex:1;background:transparent;color:var(--soft);padding:10px 4px;border-radius:10px;font-size:15px;white-space:nowrap}
+.tabs button{flex:1;min-width:0;background:transparent;color:var(--soft);padding:6px 0;border-radius:10px;font-size:11px;white-space:nowrap;line-height:1.2}
+.tabs .ti{display:block;font-size:20px;margin-bottom:2px}
 .tabs button.on{background:var(--ink);color:var(--panel)}
 .attn{display:inline-block;margin-top:8px;padding:5px 12px;border-radius:999px;font-weight:600;font-size:15px}
 .attn.on{background:var(--gold-bg);color:var(--gold)} .attn.off{background:var(--green-bg);color:var(--green)}
@@ -58,6 +59,58 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.pbar{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin-top:10px}
+.pbar i{display:block;height:100%;background:var(--green);border-radius:99px}
+.phase h2{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.phase h2 small{font-size:13px;color:var(--soft);font-weight:500}
+.phase.now{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
+.phase .why{font-size:14px;color:var(--soft);margin:0 0 8px}
+.idea{border-top:1px solid var(--line);padding:10px 0}
+.idea:first-child{border-top:0}
+.ihead{display:flex;align-items:center;gap:10px;width:100%;background:transparent;color:var(--ink);padding:4px 0;text-align:left;font-size:16px}
+.ihead b{flex:1;font-weight:600}
+.ihead .tot{font-variant-numeric:tabular-nums;color:var(--soft);font-size:14px}
+.ihead .rank{width:26px;height:26px;border-radius:50%;background:var(--bg);font-size:13px;display:grid;place-items:center;flex:none}
+.idea.top .rank{background:var(--green);color:#fff}
+.crit{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:14px}
+.crit span{flex:1;color:var(--soft)}
+.crit button{width:30px;height:30px;padding:0;border-radius:8px;background:var(--bg);color:var(--ink);border:1px solid var(--line);font-size:13px}
+.crit button.on{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.edge li{padding:7px 0;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:flex-start;font-size:15px}
+.edge li span{flex:1}
+.edge li:last-child{border-bottom:0}
+.links4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.ql{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 4px;color:var(--ink);text-decoration:none;font-size:12px;font-weight:600;text-align:center}
+.ql span{font-size:24px}
+.links2{display:flex;gap:8px;align-items:stretch;margin-bottom:14px}
+.ql.wide{flex:1;flex-direction:row;justify-content:center;font-size:16px;gap:8px}
+.cups{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
+.cup{width:40px;height:40px;border-radius:12px;border:2px solid var(--line);background:transparent;font-size:18px;padding:0;color:var(--ink)}
+.cup.full{background:#3B82C4;border-color:#3B82C4}
+.gbig{font-size:18px;color:var(--soft);margin:2px 0 10px}
+.gbig b{font-size:40px;color:var(--ink)}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px}
+.wd{text-align:center;font-size:12px;color:var(--soft)}
+.wd i{display:block;margin:4px auto 0;width:32px;height:32px;border-radius:50%;border:2px solid var(--line);font-style:normal;line-height:28px;font-size:14px}
+.wd.done i{background:var(--green);border-color:var(--green);color:#fff}
+.wd.today{color:var(--ink);font-weight:700}
+.wd small{display:block;height:14px;font-size:11px}
+.splits{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.splits button small{font-size:12px;color:var(--soft)}
+.splits button{background:var(--bg);color:var(--ink);border:2px solid var(--line);padding:14px 8px;border-radius:12px;font-size:15px}
+.splits button.next{border-color:var(--green);background:var(--green-bg)}
+.splits button.first{grid-column:1/-1}
+.stretch{width:100%;margin-top:10px;background:transparent;color:var(--ink);border:2px dashed var(--line);padding:12px}
+.stretch.on{border-style:solid;border-color:var(--green);background:var(--green-bg)}
+.gr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.gr:last-child{border-bottom:0}
+.gr .d{color:var(--soft);width:84px;flex:none}
+.gr span{flex:1}
+.notecard{white-space:pre-wrap}
+.notecard .when{display:block;font-size:12px;color:var(--soft);margin-bottom:6px;white-space:normal}
+.notebtns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;white-space:normal}
+.notebtns a{text-decoration:none}
+.small{font-size:14px;padding:6px 12px}
 .hrow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 0;border-top:1px solid var(--line)}
 .hrow b{grid-column:1/-1;font-size:17px}
 .hrow label{font-size:12px;color:var(--soft)}
@@ -92,12 +145,21 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
     <span class="attn" id="attn"></span>
   </div>
   <div class="tabs" role="tablist">
-    <button id="tabToday" class="on" role="tab">✅ Today</button>
-    <button id="tabCoins" role="tab">💰 Coins</button>
-    <button id="tabCook" role="tab">🍳 Cookbook</button>
+    <button id="tabToday" class="on" role="tab"><span class="ti">✅</span>Today</button>
+    <button id="tabGym" role="tab"><span class="ti">💪</span>Gym</button>
+    <button id="tabCoins" role="tab"><span class="ti">💰</span>Coins</button>
+    <button id="tabCook" role="tab"><span class="ti">🍳</span>Food</button>
+    <button id="tabNotes" role="tab"><span class="ti">📝</span>Notes</button>
+    <button id="tabPath" role="tab"><span class="ti">🚀</span>Path</button>
   </div>
 
   <div id="viewToday">
+    <div class="links4">
+      <a href="phantom://" class="ql"><span>👻</span>Phantom</a>
+      <a href="https://dexscreener.com/robinhood" target="_blank" rel="noopener" class="ql"><span>📈</span>DexScreener</a>
+      <a href="https://www.depop.com/vtgvault_co/" target="_blank" rel="noopener" class="ql"><span>🛍️</span>Depop</a>
+      <a href="https://claude.ai/artifact/PfksgzyGj1zgW3ZyUXsLKa" target="_blank" rel="noopener" class="ql"><span>🏷️</span>Listing Maker</a>
+    </div>
     <div class="card">
       <h2>Depop listings</h2>
       <p class="sub" id="depopSub"></p>
@@ -107,7 +169,23 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
         <button class="ghost" id="goalMinus" aria-label="Lower daily goal">−</button>
         <button class="ghost" id="goalPlus" aria-label="Raise daily goal">+</button>
       </div>
-      <a class="listbtn" href="https://claude.ai/artifact/PfksgzyGj1zgW3ZyUXsLKa" target="_blank" rel="noopener">🏷️ Write a listing <span>Listing Maker →</span></a>
+    </div>
+    <div class="card">
+      <h2>💧 Water</h2>
+      <div class="gbig"><b id="waterOz">0</b> / <span id="waterGoalOz">64</span> oz</div>
+      <div class="pbar" style="margin-top:0"><i id="waterBar" style="background:#3B82C4"></i></div>
+      <p class="sub" id="waterSub" style="margin:8px 0 12px"></p>
+      <div class="splits">
+        <button id="waterBottle">🥤🥤 Owala bottle<br><small>+24 oz</small></button>
+        <button id="waterCup">🥤 Cup<br><small>+8 oz</small></button>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="ghost small" id="waterUndo">Undo last</button>
+        <span style="flex:1"></span>
+        <span class="sub" style="margin:0" id="waterGoalTxt"></span>
+        <button class="ghost" id="waterMinus" aria-label="Lower water goal">−</button>
+        <button class="ghost" id="waterPlus" aria-label="Raise water goal">+</button>
+      </div>
     </div>
     <div class="card">
       <h2>Daily reminders</h2>
@@ -120,7 +198,92 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
     </div>
   </div>
 
+  <div id="viewGym" hidden>
+    <div class="card">
+      <h2>This week</h2>
+      <div class="gbig"><b id="gCount">0</b> / <span id="gGoal">4</span> workouts</div>
+      <div class="week" id="gWeek"></div>
+      <div class="row">
+        <span class="sub" style="margin:0;flex:1" id="gStreak"></span>
+        <button class="ghost" id="gMinus" aria-label="Lower weekly goal">−</button>
+        <button class="ghost" id="gPlus" aria-label="Raise weekly goal">+</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Log today's workout</h2>
+      <p class="sub" id="gNext"></p>
+      <div class="splits" id="gSplits"></div>
+      <button class="stretch" id="gStretch"></button>
+      <p class="sub" id="gToast" style="margin:10px 0 0;text-align:center"></p>
+    </div>
+    <div class="card">
+      <h2>Recent</h2>
+      <ul id="gRecent"></ul>
+    </div>
+  </div>
+
+  <div id="viewNotes" hidden>
+    <div class="links2">
+      <a id="ideaChat" class="ql wide" target="_blank" rel="noopener"><span>💬</span>Open my idea chat</a>
+      <button id="ideaChatSet" class="ghost" style="font-size:13px">Change chat link</button>
+    </div>
+    <div class="card">
+      <h2>New note</h2>
+      <div class="rform">
+        <textarea id="noteText" rows="4" placeholder="Business idea, coin to watch, anything…" aria-label="Note"></textarea>
+        <button id="noteSave">Save note</button>
+      </div>
+    </div>
+    <div id="notes"></div>
+  </div>
+
+  <div id="viewPath" hidden>
+    <div class="card pathtop">
+      <p class="sub" style="margin:0">Graduation 🎓</p>
+      <div class="gbig"><b id="pDays">0</b> days to go</div>
+      <p class="sub" id="pGoal" style="margin:0"></p>
+      <div class="pbar"><i id="pBar"></i></div>
+      <p class="sub" id="pProg" style="margin:6px 0 0"></p>
+      <button class="ghost small" id="pGrad" style="margin-top:8px">Change graduation date</button>
+    </div>
+    <div class="card" id="pNextCard">
+      <h2>👉 Next step</h2>
+      <p id="pNext" style="margin:0"></p>
+    </div>
+    <div id="pPhases"></div>
+    <div class="card">
+      <h2>💡 Idea scorecard</h2>
+      <p class="sub">Rate each idea 1–5. Highest total is on top. Tap an idea to score it.</p>
+      <div id="pIdeas"></div>
+      <div class="add">
+        <input id="pIdeaIn" placeholder="Add a business idea" aria-label="New business idea">
+        <button id="pIdeaAdd">Add</button>
+      </div>
+    </div>
+    <div class="card" id="pEdgeCard">
+      <h2>🧠 Your edge</h2>
+      <p class="sub">What your hustles taught you. Use this to judge every idea.</p>
+      <ul id="pEdge" class="edge"></ul>
+      <div class="add">
+        <input id="pEdgeIn" placeholder="Add a skill, lesson, or rule" aria-label="New edge item">
+        <button id="pEdgeAdd">Add</button>
+      </div>
+    </div>
+    <div class="links2">
+      <a id="pChat" class="ql wide" target="_blank" rel="noopener"><span>💬</span>Talk my path through</a>
+    </div>
+  </div>
+
   <div id="viewCook" hidden>
+    <div class="card">
+      <h2>🛒 Grocery list</h2>
+      <ul id="groc"></ul>
+      <div class="add">
+        <input id="grocInput" placeholder="Add an item" aria-label="Grocery item">
+        <button id="grocAdd">Add</button>
+      </div>
+      <button class="ghost" id="grocClear" style="margin-top:10px;font-size:14px">Clear checked items</button>
+    </div>
     <div class="add" style="margin:0 0 14px">
       <input id="recipeSearch" placeholder="Search recipes or ingredients" aria-label="Search recipes">
     </div>
@@ -391,7 +554,7 @@ function renderToday(){
     del.onclick = () => { T.tasks.splice(i, 1); saveT(); renderToday(); };
     li.append(cb, sp, del); ul.append(li);
   });
-  const todo = left + T.tasks.filter(x => !x.d).length + coinAlerts;
+  const todo = left + T.tasks.filter(x => !x.d).length + coinAlerts + (typeof waterLeft === 'function' ? waterLeft() : 0);
   $('attn').className = 'attn ' + (todo ? 'on' : 'off');
   $('attn').textContent = todo ? `${todo} thing${todo > 1 ? 's' : ''} need you` : 'All caught up';
 }
@@ -430,6 +593,9 @@ function recipeDetail(r, notes){
   body.append(ol);
   const n = r.notes || notes;
   if (n) body.append(el2('div', 'rnote', '💡 ' + n));
+  const gb = el2('button', 'ghost small', '🛒 Add ingredients to grocery list'); gb.style.marginTop = '12px';
+  gb.onclick = () => { (r.ingredients || []).forEach(x => addGroc(x)); gb.textContent = '✓ Added to grocery list'; };
+  body.append(gb);
   return body;
 }
 function renderRecipes(){
@@ -482,7 +648,297 @@ $('rAdd').onclick = () => {
 };
 loadRecipes();
 
-const TABS = {today:['tabToday','viewToday'], coins:['tabCoins','viewCoins'], cook:['tabCook','viewCook']};
+// ---------- small helpers ----------
+const store = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} };
+const read = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch(e){ return d; } };
+const mk = (tag, cls, text) => { const x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; };
+const mondayOf = d => { const m = new Date(d); m.setHours(0,0,0,0); m.setDate(m.getDate() - ((m.getDay() + 6) % 7)); return m; };
+const shortDate = k => new Date(k + 'T12:00').toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
+
+// ---------- Water (resets daily, tracked in ounces) ----------
+let WA = read('hq-water', {day:'', oz:0, goal:64, log:[]});
+if (WA.cups != null && WA.oz == null){ WA = {day: WA.day, oz: WA.cups * 8, goal: (WA.goal || 8) * 8, log: Array(WA.cups).fill(8)}; }
+WA.log = WA.log || [];
+function waterRoll(){ if (WA.day !== dayKey()){ WA.day = dayKey(); WA.oz = 0; WA.log = []; store('hq-water', WA); } }
+function waterLeft(){ waterRoll(); return WA.oz < WA.goal ? 1 : 0; }
+function addWater(n){ waterRoll(); WA.oz += n; WA.log.push(n); store('hq-water', WA); renderWater(); renderToday(); }
+function renderWater(){
+  waterRoll();
+  $('waterOz').textContent = WA.oz; $('waterGoalOz').textContent = WA.goal;
+  $('waterBar').style.width = Math.min(100, Math.round(WA.oz / WA.goal * 100)) + '%';
+  const bottles = WA.log.filter(x => x === 24).length, cups = WA.log.filter(x => x === 8).length;
+  const parts = [bottles && `${bottles} bottle${bottles > 1 ? 's' : ''}`, cups && `${cups} cup${cups > 1 ? 's' : ''}`].filter(Boolean).join(' + ');
+  const left = WA.goal - WA.oz;
+  $('waterSub').textContent = left > 0
+    ? (parts ? parts + ' so far. ' : '') + `${left} oz to go (about ${Math.ceil(left / 24)} more bottle${Math.ceil(left / 24) > 1 ? 's' : ''}).`
+    : `Goal hit: ${parts} today 💪`;
+  $('waterGoalTxt').textContent = `Goal ${WA.goal} oz`;
+  $('waterUndo').disabled = !WA.log.length; $('waterUndo').style.opacity = WA.log.length ? 1 : .4;
+}
+$('waterBottle').onclick = () => addWater(24);
+$('waterCup').onclick = () => addWater(8);
+$('waterUndo').onclick = () => { if (!WA.log.length) return; WA.oz -= WA.log.pop(); store('hq-water', WA); renderWater(); renderToday(); };
+$('waterPlus').onclick = () => { if (WA.goal < 200){ WA.goal += 8; store('hq-water', WA); renderWater(); renderToday(); } };
+$('waterMinus').onclick = () => { if (WA.goal > 8){ WA.goal -= 8; store('hq-water', WA); renderWater(); renderToday(); } };
+
+// ---------- Gym ----------
+const SPLITS = [
+  ['Legs', ['legs']], ['Biceps + Triceps', ['biceps','triceps']], ['Chest + Back', ['chest','back']],
+  ['Triceps + Chest', ['triceps','chest']], ['Biceps + Back', ['biceps','back']]
+];
+let GY = read('hq-gym', {goal:4, log:[], stretch:[]});
+function saveGym(){ store('hq-gym', GY); }
+function weekKeys(mon){ return Array.from({length:7}, (_, i) => { const d = new Date(mon); d.setDate(d.getDate() + i); return dayKey(d); }); }
+function workoutsIn(keys){ return new Set(GY.log.filter(x => keys.includes(x.date)).map(x => x.date)).size; }
+function suggest(){
+  const today = new Date(dayKey() + 'T12:00');
+  const since = m => {
+    const hit = GY.log.filter(x => (SPLITS.find(s => s[0] === x.type) || [0, []])[1].includes(m)).map(x => x.date).sort().pop();
+    return hit ? Math.round((today - new Date(hit + 'T12:00')) / 864e5) : 30;
+  };
+  const thisWeek = weekKeys(mondayOf(new Date()));
+  const legsThisWeek = GY.log.some(x => x.type === 'Legs' && thisWeek.includes(x.date));
+  let best = null, bestScore = -1;
+  for (const [name, muscles] of SPLITS){
+    let s = muscles.reduce((t, m) => t + since(m), 0) / muscles.length;
+    if (name === 'Legs' && !legsThisWeek) s += 3;
+    if (s > bestScore){ best = name; bestScore = s; }
+  }
+  return best;
+}
+let gToastTimer;
+function renderGym(){
+  const mon = mondayOf(new Date()), keys = weekKeys(mon), today = dayKey();
+  const count = workoutsIn(keys);
+  $('gCount').textContent = count; $('gGoal').textContent = GY.goal;
+  const wk = $('gWeek'); wk.innerHTML = '';
+  'MTWTFSS'.split('').forEach((l, i) => {
+    const k = keys[i], did = GY.log.filter(x => x.date === k);
+    const d = mk('div', 'wd' + (did.length ? ' done' : '') + (k === today ? ' today' : ''), l);
+    const dot = mk('i', '', did.length ? '✓' : ''); d.append(dot);
+    d.append(mk('small', '', GY.stretch.includes(k) ? '🧘' : ''));
+    d.title = did.map(x => x.type).join(', ');
+    wk.append(d);
+  });
+  // weekly streak: consecutive weeks hitting the goal (this week counts once it's hit)
+  let streak = count >= GY.goal ? 1 : 0;
+  for (let w = 1; w < 60; w++){
+    const m = new Date(mon); m.setDate(m.getDate() - 7*w);
+    if (workoutsIn(weekKeys(m)) >= GY.goal) streak++; else break;
+  }
+  const left = Math.max(0, GY.goal - count);
+  $('gStreak').textContent = (streak ? `🔥 ${streak}-week streak · ` : '') + (left ? `${left} more to hit your goal` : 'Weekly goal hit!');
+  const next = suggest();
+  $('gNext').innerHTML = ''; $('gNext').append('Up next: ', mk('b', '', next), document.createTextNode(' (trained least recently)'));
+  const sp = $('gSplits'); sp.innerHTML = '';
+  const loggedToday = GY.log.filter(x => x.date === today).map(x => x.type);
+  SPLITS.forEach(([name], i) => {
+    const b = mk('button', (name === next ? 'next' : '') + (i === 0 ? ' first' : ''), (loggedToday.includes(name) ? '✓ ' : '') + name);
+    b.onclick = () => {
+      GY.log.push({id: Date.now(), date: today, type: name}); saveGym(); renderGym();
+      $('gToast').textContent = `Logged ${name} for today ✓`;
+      clearTimeout(gToastTimer); gToastTimer = setTimeout(() => $('gToast').textContent = '', 2500);
+    };
+    sp.append(b);
+  });
+  const st = GY.stretch.includes(today);
+  $('gStretch').className = 'stretch' + (st ? ' on' : '');
+  $('gStretch').textContent = st ? '🧘 Stretched today ✓' : '🧘 I stretched today';
+  const ul = $('gRecent'); ul.innerHTML = '';
+  const recent = GY.log.slice().sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id).slice(0, 8);
+  if (!recent.length) ul.append(mk('li', 'sub', 'No workouts yet. Tap one above after you train.'));
+  recent.forEach(x => {
+    const li = mk('li', 'gr'); li.append(mk('span', 'd', shortDate(x.date)), mk('span', '', x.type));
+    const del = mk('button', 'x', '×'); del.setAttribute('aria-label', 'Delete ' + x.type);
+    del.onclick = () => { if (confirm('Delete this workout?')){ GY.log = GY.log.filter(o => o.id !== x.id); saveGym(); renderGym(); } };
+    li.append(del); ul.append(li);
+  });
+}
+$('gStretch').onclick = () => {
+  const t = dayKey();
+  GY.stretch = GY.stretch.includes(t) ? GY.stretch.filter(d => d !== t) : [...GY.stretch, t];
+  saveGym(); renderGym();
+};
+$('gPlus').onclick = () => { if (GY.goal < 7){ GY.goal++; saveGym(); renderGym(); } };
+$('gMinus').onclick = () => { if (GY.goal > 1){ GY.goal--; saveGym(); renderGym(); } };
+
+// ---------- Grocery list ----------
+let GROC = read('hq-groc', []);
+function addGroc(t){ t = String(t).trim(); if (!t) return; if (!GROC.some(g => g.t.toLowerCase() === t.toLowerCase() && !g.d)) GROC.push({t, d:false}); store('hq-groc', GROC); renderGroc(); }
+function renderGroc(){
+  const ul = $('groc'); ul.innerHTML = '';
+  if (!GROC.length) ul.append(mk('li', 'sub', 'Nothing on your list yet.'));
+  GROC.forEach((g, i) => {
+    const li = mk('li', 'task' + (g.d ? ' checked' : ''));
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = g.d; cb.setAttribute('aria-label', g.t);
+    cb.onchange = () => { g.d = cb.checked; store('hq-groc', GROC); renderGroc(); };
+    const del = mk('button', 'x', '×'); del.setAttribute('aria-label', 'Remove ' + g.t);
+    del.onclick = () => { GROC.splice(i, 1); store('hq-groc', GROC); renderGroc(); };
+    li.append(cb, mk('span', '', g.t), del); ul.append(li);
+  });
+}
+function grocFromInput(){ addGroc($('grocInput').value); $('grocInput').value = ''; }
+$('grocAdd').onclick = grocFromInput;
+$('grocInput').onkeydown = e => { if (e.key === 'Enter') grocFromInput(); };
+$('grocClear').onclick = () => { GROC = GROC.filter(g => !g.d); store('hq-groc', GROC); renderGroc(); };
+
+// ---------- Notes ----------
+let NOTES = read('hq-notes', []);
+let CHAT = read('hq-ideachat', 'https://claude.ai/new');
+function renderNotes(){
+  $('ideaChat').href = CHAT;
+  const box = $('notes'); box.innerHTML = '';
+  if (!NOTES.length) box.append(mk('p', 'note', 'No notes yet. Ideas you save show up here.'));
+  NOTES.slice().sort((a, b) => b.at - a.at).forEach(n => {
+    const card = mk('div', 'card notecard');
+    card.append(mk('span', 'when', new Date(n.at).toLocaleDateString('en-US', {month:'short', day:'numeric', hour:'numeric', minute:'2-digit'})));
+    card.append(document.createTextNode(n.text));
+    const btns = mk('div', 'notebtns');
+    const talk = mk('a', 'ghost small', '💬 Talk it through');
+    talk.href = 'https://claude.ai/new?q=' + encodeURIComponent("Help me think through this idea. What's good about it, what could go wrong, and what's a cheap first step to test it?\n\n" + n.text);
+    talk.target = '_blank'; talk.rel = 'noopener'; talk.style.color = 'var(--ink)';
+    const edit = mk('button', 'ghost small', 'Edit');
+    edit.onclick = () => { $('noteText').value = n.text; NOTES = NOTES.filter(o => o.at !== n.at); store('hq-notes', NOTES); renderNotes(); $('noteText').focus(); window.scrollTo({top:0, behavior:'smooth'}); };
+    const del = mk('button', 'ghost small', 'Delete');
+    del.onclick = () => { if (confirm('Delete this note?')){ NOTES = NOTES.filter(o => o.at !== n.at); store('hq-notes', NOTES); renderNotes(); } };
+    btns.append(talk, edit, del); card.append(btns); box.append(card);
+  });
+}
+$('noteSave').onclick = () => {
+  const t = $('noteText').value.trim(); if (!t) return;
+  NOTES.push({text: t, at: Date.now()}); store('hq-notes', NOTES); $('noteText').value = ''; renderNotes();
+};
+$('ideaChatSet').onclick = () => {
+  const u = prompt('Paste the link to your Claude chat for ideas (leave blank for a new chat each time):', CHAT === 'https://claude.ai/new' ? '' : CHAT);
+  if (u === null) return;
+  CHAT = /^https:\/\/claude\.ai\//.test(u.trim()) ? u.trim() : 'https://claude.ai/new';
+  store('hq-ideachat', CHAT); renderNotes();
+};
+
+// ---------- Path to a business by graduation ----------
+const PHASES = [
+  {id:'explore', name:'1. Explore', when:'Now → Dec 2026', end:'2026-12-31',
+   why:'Figure out what fits you before spending money.',
+   steps:[
+     ['e1','Fill in "Your edge" below: what each hustle taught you, what you liked and hated'],
+     ['e2','Set your rules: how much money you\'re willing to risk, hours per week, and deal-breakers'],
+     ['e3','Get your idea scorecard to 3–5 ideas and rate each one'],
+     ['e4','Talk to 3 people who run a business you\'re curious about (ask what they wish they knew)'],
+     ['e5','Pick your top 2 ideas to test in spring']]},
+  {id:'test', name:'2. Test', when:'Jan → Feb 2027', end:'2027-02-28',
+   why:'Spring semester starts. Prove people want it, cheaply.',
+   steps:[
+     ['t1','For each top idea, write the 3 riskiest assumptions (like your VDF sprints)'],
+     ['t2','Interview 10 possible customers per idea'],
+     ['t3','Run one cheap test per idea: a sign-up page, a post, or a pre-sale'],
+     ['t4','Track real signals: sign-ups, replies, people willing to pay']]},
+  {id:'decide', name:'3. Decide', when:'Mar → Apr 2027', end:'2027-04-30',
+   why:'Pick one and get proof it can make money.',
+   steps:[
+     ['d1','Re-score your ideas using what the tests showed'],
+     ['d2','Pick ONE idea and write a 1-page plan: customer, offer, price, first 90 days'],
+     ['d3','Get your first paying customer or a signed commitment'],
+     ['d4','Set your launch budget and what would make you stop']]},
+  {id:'launch', name:'4. Launch', when:'May 2027', end:'2027-05-31',
+   why:'Graduate and go.',
+   steps:[
+     ['l1','Graduate 🎓'],
+     ['l2','Set up the business basics (name, bank account, LLC if needed)'],
+     ['l3','Go full-time on your first 90-day plan']]}
+];
+const CRIT = ['Uses my skills','No physical labor','Recurring revenue','Cheap to start','People already pay for it'];
+let PA = read('hq-path', {grad:'2027-05-15', done:{}, ideas:[], edge:[]});
+try {
+  const m = location.hash.match(/#biz=([A-Za-z0-9+/=_-]+)/);
+  if (m){
+    const seed = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g,'+').replace(/_/g,'/')))));
+    (seed.ideas || []).forEach(n => { if (!PA.ideas.some(i => i.name === n)) PA.ideas.push({name:n, s:{}}); });
+    (seed.edge || []).forEach(t => { if (!PA.edge.includes(t)) PA.edge.push(t); });
+    store('hq-path', PA); history.replaceState(null, '', location.pathname);
+  }
+} catch(e){}
+const savePath = () => store('hq-path', PA);
+let openIdea = null;
+function renderPath(){
+  const today = new Date(dayKey() + 'T12:00'), grad = new Date(PA.grad + 'T12:00');
+  const days = Math.max(0, Math.round((grad - today) / 864e5));
+  $('pDays').textContent = days;
+  $('pGoal').textContent = 'Goal: pick your business during spring semester, launch when you graduate ' +
+    grad.toLocaleDateString('en-US', {month:'long', year:'numeric'}) + '.';
+  const all = PHASES.flatMap(p => p.steps), done = all.filter(s => PA.done[s[0]]).length;
+  $('pBar').style.width = Math.round(done / all.length * 100) + '%';
+  $('pProg').textContent = `${done} of ${all.length} steps done`;
+  const nowKey = dayKey();
+  const cur = PHASES.find(p => nowKey <= p.end) || PHASES[PHASES.length - 1];
+  const next = PHASES.flatMap(p => p.steps.map(s => [p, s])).find(([p, s]) => !PA.done[s[0]]);
+  $('pNext').textContent = next ? next[1][1] : 'Every step is done. Go build it 🚀';
+  const box = $('pPhases'); box.innerHTML = '';
+  PHASES.forEach(p => {
+    const card = mk('div', 'card phase' + (p === cur ? ' now' : ''));
+    const h = mk('h2', '', p.name); h.append(mk('small', '', (p === cur ? '📍 Now · ' : '') + p.when));
+    card.append(h, mk('p', 'why', p.why));
+    const ul = mk('ul');
+    p.steps.forEach(([id, text]) => {
+      const li = mk('li', 'task' + (PA.done[id] ? ' checked' : ''));
+      const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!PA.done[id]; cb.setAttribute('aria-label', text);
+      cb.onchange = () => { if (cb.checked) PA.done[id] = true; else delete PA.done[id]; savePath(); renderPath(); };
+      li.append(cb, mk('span', '', text)); ul.append(li);
+    });
+    card.append(ul); box.append(card);
+  });
+  // Idea scorecard
+  const total = i => CRIT.reduce((t, c) => t + (i.s[c] || 0), 0);
+  const ideas = PA.ideas.slice().sort((a, b) => total(b) - total(a));
+  const ib = $('pIdeas'); ib.innerHTML = '';
+  if (!ideas.length) ib.append(mk('p', 'sub', 'No ideas yet. Add your first one below.'));
+  ideas.forEach((idea, rank) => {
+    const wrap = mk('div', 'idea' + (rank === 0 && total(idea) ? ' top' : ''));
+    const head = mk('button', 'ihead'); head.setAttribute('aria-expanded', openIdea === idea.name);
+    head.append(mk('span', 'rank', String(rank + 1)), mk('b', '', idea.name), mk('span', 'tot', total(idea) + ' / ' + CRIT.length * 5), mk('span', 'chev', openIdea === idea.name ? '▲' : '▼'));
+    head.onclick = () => { openIdea = openIdea === idea.name ? null : idea.name; renderPath(); };
+    wrap.append(head);
+    if (openIdea === idea.name){
+      CRIT.forEach(c => {
+        const row = mk('div', 'crit'); row.append(mk('span', '', c));
+        for (let v = 1; v <= 5; v++){
+          const b = mk('button', (idea.s[c] || 0) >= v ? 'on' : '', String(v));
+          b.setAttribute('aria-label', `${c}: ${v} of 5`);
+          b.onclick = () => { idea.s[c] = idea.s[c] === v ? 0 : v; savePath(); renderPath(); };
+          row.append(b);
+        }
+        wrap.append(row);
+      });
+      const btns = mk('div', 'notebtns');
+      const talk = mk('a', 'ghost small', '💬 Talk this idea through'); talk.style.color = 'var(--ink)';
+      talk.href = 'https://claude.ai/new?q=' + encodeURIComponent(`I'm a business student graduating ${grad.toLocaleDateString('en-US',{month:'long',year:'numeric'})} and want to start a business after. Help me pressure-test this idea: "${idea.name}". My scores (1-5): ` + CRIT.map(c => `${c} ${idea.s[c] || '?'}`).join(', ') + '. What would you test first, cheaply, during my spring semester?');
+      talk.target = '_blank'; talk.rel = 'noopener';
+      const del = mk('button', 'ghost small', 'Remove');
+      del.onclick = () => { if (confirm('Remove ' + idea.name + '?')){ PA.ideas = PA.ideas.filter(i => i !== idea); savePath(); renderPath(); } };
+      btns.append(talk, del); wrap.append(btns);
+    }
+    ib.append(wrap);
+  });
+  // Edge
+  const eb = $('pEdge'); eb.innerHTML = '';
+  if (!PA.edge.length) eb.append(mk('li', 'sub', 'Add what you\'re good at, what you enjoy, and what to avoid.'));
+  PA.edge.forEach((t, i) => {
+    const li = mk('li'); li.append(mk('span', '', '• ' + t));
+    const x = mk('button', 'x', '×'); x.setAttribute('aria-label', 'Remove'); x.onclick = () => { PA.edge.splice(i, 1); savePath(); renderPath(); };
+    li.append(x); eb.append(li);
+  });
+  $('pChat').href = (read('hq-ideachat', 'https://claude.ai/new') !== 'https://claude.ai/new') ? read('hq-ideachat', '') :
+    'https://claude.ai/new?q=' + encodeURIComponent('Help me plan my path to starting a business when I graduate in ' + grad.toLocaleDateString('en-US',{month:'long',year:'numeric'}) + '. My ideas so far: ' + (PA.ideas.map(i => i.name).join('; ') || 'none yet') + '. What I bring: ' + (PA.edge.join('; ') || 'not listed yet') + '. What should I focus on this month?');
+}
+$('pIdeaAdd').onclick = () => { const v = $('pIdeaIn').value.trim(); if (!v) return; if (!PA.ideas.some(i => i.name === v)) PA.ideas.push({name:v, s:{}}); openIdea = v; $('pIdeaIn').value = ''; savePath(); renderPath(); };
+$('pIdeaIn').onkeydown = e => { if (e.key === 'Enter') $('pIdeaAdd').click(); };
+$('pEdgeAdd').onclick = () => { const v = $('pEdgeIn').value.trim(); if (!v) return; PA.edge.push(v); $('pEdgeIn').value = ''; savePath(); renderPath(); };
+$('pEdgeIn').onkeydown = e => { if (e.key === 'Enter') $('pEdgeAdd').click(); };
+$('pGrad').onclick = () => {
+  const v = prompt('Graduation date (YYYY-MM-DD):', PA.grad);
+  if (v && /^\d{4}-\d{2}-\d{2}$/.test(v.trim())){ PA.grad = v.trim(); savePath(); renderPath(); }
+};
+
+const TABS = {today:['tabToday','viewToday'], gym:['tabGym','viewGym'], coins:['tabCoins','viewCoins'], cook:['tabCook','viewCook'], notes:['tabNotes','viewNotes'], path:['tabPath','viewPath']};
 function showTab(which){
   if (!TABS[which]) which = 'today';
   for (const [k, [tab, view]] of Object.entries(TABS)){
@@ -495,12 +951,16 @@ function showTab(which){
 $('tabToday').onclick = () => showTab('today');
 $('tabCoins').onclick = () => showTab('coins');
 $('tabCook').onclick = () => showTab('cook');
+$('tabGym').onclick = () => showTab('gym');
+$('tabNotes').onclick = () => showTab('notes');
+$('tabPath').onclick = () => showTab('path');
+renderWater(); renderGym(); renderGroc(); renderNotes(); renderPath();
 try { showTab(localStorage.getItem('hq-tab') || 'today'); } catch(e){ showTab('today'); }
 renderToday();
 
 $('refresh').onclick = load;
 load(); setInterval(load, 30000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden){ renderToday(); load(); } });
+document.addEventListener('visibilitychange', () => { if (!document.hidden){ renderWater(); renderGym(); renderToday(); load(); } });
 </script>
 </body>
 </html>
