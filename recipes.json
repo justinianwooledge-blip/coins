@@ -46,6 +46,249 @@
     "notes": "Using 1/3 cup sugar instead of 1/2 cup makes it a little less sweet."
   },
   {
+    "title": "Easy Stove-Top Mac & Cheese",
+    "emoji": "🧀",
+    "about": "Creamy homemade mac in one pot plus a saucepan.",
+    "time": "About 25 min",
+    "ingredients": [
+      "16 oz elbow macaroni",
+      "1/4 cup butter",
+      "1/4 cup all-purpose flour",
+      "1/2 tsp salt",
+      "1 dash black pepper",
+      "2 cups milk, warmed",
+      "2 cups shredded cheddar (or 8 oz cheddar)"
+    ],
+    "steps": [
+      "Cook the macaroni following the package directions.",
+      "In a medium saucepan, melt the butter over medium heat. Stir in the flour and keep stirring for 3-5 minutes to make a roux.",
+      "Add the salt and pepper. Pour in the warm milk a little at a time, stirring well after each pour.",
+      "Keep cooking and stirring until it's bubbly.",
+      "Add the cheese a little at a time, stirring until it fully melts.",
+      "Drain the macaroni, add it to the cheese sauce, and stir to coat."
+    ],
+    "notes": ""
+  },
+  {
+    "title": "Protein Balls",
+    "emoji": "🥜",
+    "about": "3 flavors. Taste like cookie dough.",
+    "time": "10 min + 1 hr chill",
+    "notes": "Makes about 12-14 balls per flavor, about 107 calories each. Double or triple a batch if you want more.",
+    "items": [
+      {
+        "title": "Peanut Butter",
+        "ingredients": [
+          "1/2 cup peanut butter",
+          "1/2 cup old-fashioned rolled oats",
+          "3 tbsp unflavored protein powder",
+          "3 tbsp honey",
+          "1/8 tsp fine sea salt"
+        ],
+        "steps": [
+          "Mix all the ingredients for your flavor in a big bowl until it turns into a thick, even dough.",
+          "Scoop with a tablespoon or 1-oz cookie scoop and roll into balls. Set them on a parchment-lined plate or sheet.",
+          "Chill at least 1 hour so they firm up and aren't sticky.",
+          "Store in an airtight container in the fridge. They last up to 2 weeks."
+        ]
+      },
+      {
+        "title": "Cinnamon Raisin",
+        "ingredients": [
+          "1/2 cup almond butter",
+          "1/2 cup old-fashioned rolled oats",
+          "3 tbsp unflavored protein powder",
+          "2 tbsp honey",
+          "3/4 tsp ground cinnamon",
+          "1/8 tsp fine sea salt",
+          "3 tbsp raisins"
+        ],
+        "steps": [
+          "Mix all the ingredients for your flavor in a big bowl until it turns into a thick, even dough.",
+          "Scoop with a tablespoon or 1-oz cookie scoop and roll into balls. Set them on a parchment-lined plate or sheet.",
+          "Chill at least 1 hour so they firm up and aren't sticky.",
+          "Store in an airtight container in the fridge. They last up to 2 weeks."
+        ]
+      },
+      {
+        "title": "Chocolate",
+        "ingredients": [
+          "1/2 cup nut butter",
+          "1/4 cup cacao powder",
+          "1/4 cup maple syrup",
+          "2 tbsp unflavored protein powder",
+          "1/2 cup old-fashioned rolled oats",
+          "1/8 tsp fine sea salt"
+        ],
+        "steps": [
+          "Mix all the ingredients for your flavor in a big bowl until it turns into a thick, even dough.",
+          "Scoop with a tablespoon or 1-oz cookie scoop and roll into balls. Set them on a parchment-lined plate or sheet.",
+          "Chill at least 1 hour so they firm up and aren't sticky.",
+          "Store in an airtight container in the fridge. They last up to 2 weeks."
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Ginger Immunity Boost Shot",
+    "emoji": "🫚",
+    "about": "Homemade wellness shot with ginger, turmeric, and pineapple.",
+    "time": "About 10 min",
+    "ingredients": [
+      "1/4 cup fresh ginger root, chopped",
+      "1 tbsp fresh turmeric root, chopped (or 1/2 tsp ground)",
+      "1/2 cup pure unsweetened pineapple juice",
+      "Juice of 1 lemon (2-3 tbsp)",
+      "Small pinch of black pepper",
+      "1 dropper liquid echinacea or cooled echinacea tea (optional)",
+      "2-4 tbsp water (only if needed to blend)"
+    ],
+    "steps": [
+      "Add everything to a blender and blend until smooth. Add water only if it won't blend.",
+      "Strain through a fine mesh strainer or cheesecloth, pressing out all the liquid.",
+      "Pour into shot glasses or a small jar and keep it in the fridge."
+    ],
+    "notes": "Your photo cut off the instructions, so these are the basic steps. Black pepper helps your body absorb the turmeric."
+  },
+  {
+    "title": "Mojitos",
+    "emoji": "🍹",
+    "about": "8 flavors. Pick one from the dropdown.",
+    "time": "About 5 min",
+    "notes": "The photo only listed ingredients, so the steps use the standard mojito method: muddle, add rum and ice, top with soda.",
+    "items": [
+      {
+        "title": "Classic Mojito",
+        "ingredients": [
+          "1 1/2 oz white rum",
+          "1/2 oz simple syrup or sugar",
+          "1 lime, cut into 4 wedges",
+          "6-8 mint leaves",
+          "Club soda",
+          "Ice"
+        ],
+        "steps": [
+          "In a glass, gently muddle the mint, lime wedges, and simple syrup.",
+          "Fill with ice and add the rum.",
+          "Top with club soda, give it a gentle stir, and garnish with mint."
+        ]
+      },
+      {
+        "title": "Mango Mojito",
+        "ingredients": [
+          "1 large mango",
+          "1 medium lime",
+          "Sugar",
+          "12 mint leaves",
+          "2 oz Bacardí Superior white rum",
+          "Club soda"
+        ],
+        "steps": [
+          "Peel and chop the mango. Muddle or blend it with the lime juice, a little sugar, and the mint.",
+          "Add ice and the rum.",
+          "Top with club soda, give it a gentle stir, and garnish with mint."
+        ]
+      },
+      {
+        "title": "Hibiscus Mojito",
+        "ingredients": [
+          "6 mint leaves",
+          "1/2 oz hibiscus simple syrup",
+          "2 oz rum",
+          "1 oz lime juice",
+          "4 oz club soda"
+        ],
+        "steps": [
+          "Gently muddle the mint with the hibiscus syrup and lime juice.",
+          "Fill with ice and add the rum.",
+          "Top with club soda, give it a gentle stir, and garnish with mint."
+        ]
+      },
+      {
+        "title": "Strawberry Mojito",
+        "ingredients": [
+          "1/2 lime, cut into 4 wedges",
+          "4-8 whole mint leaves",
+          "4 strawberries",
+          "1-1 1/2 oz mint simple syrup",
+          "2 oz white/light rum",
+          "Crushed ice",
+          "Club soda"
+        ],
+        "steps": [
+          "Muddle the strawberries, lime wedges, mint, and mint syrup.",
+          "Fill with crushed ice and add the rum.",
+          "Top with club soda, give it a gentle stir, and garnish with mint."
+        ]
+      },
+      {
+        "title": "Watermelon Mojito",
+        "ingredients": [
+          "1 1/2 oz white rum",
+          "1/2 oz simple syrup",
+          "1/2 oz lime juice",
+          "2 oz watermelon juice",
+          "Club soda",
+          "Mint"
+        ],
+        "steps": [
+          "Gently muddle the mint with the simple syrup and lime juice.",
+          "Add ice, the rum, and the watermelon juice.",
+          "Top with club soda, give it a gentle stir, and garnish with mint."
+        ]
+      },
+      {
+        "title": "Cucumber Mojito",
+        "ingredients": [
+          "5 slices cucumber",
+          "2 oz rum",
+          "5-10 mint leaves",
+          "4 oz club soda",
+          "1 tsp simple syrup",
+          "1 tsp lime juice"
+        ],
+        "steps": [
+          "Muddle the cucumber and mint with the simple syrup and lime juice.",
+          "Fill with ice and add the rum.",
+          "Top with club soda, give it a gentle stir, and garnish with mint."
+        ]
+      },
+      {
+        "title": "Blackberry Mojito",
+        "ingredients": [
+          "Muddled blackberries",
+          "1 1/2 oz white rum",
+          "1/2 oz simple syrup",
+          "1/2 oz lime juice",
+          "Club soda",
+          "Mint"
+        ],
+        "steps": [
+          "Muddle the blackberries and mint with the simple syrup and lime juice.",
+          "Fill with ice and add the rum.",
+          "Top with club soda, give it a gentle stir, and garnish with mint."
+        ]
+      },
+      {
+        "title": "Passion Fruit Mojito",
+        "ingredients": [
+          "4 lime wedges",
+          "1/4 cup frozen passion fruit puree cubes",
+          "8 fresh mint leaves",
+          "1/2 oz lime juice",
+          "1 oz simple syrup",
+          "2 oz white rum",
+          "5 oz club soda"
+        ],
+        "steps": [
+          "Muddle the lime wedges and mint with the simple syrup.",
+          "Add the passion fruit cubes, lime juice, rum, and ice.",
+          "Top with club soda, give it a gentle stir, and garnish with mint."
+        ]
+      }
+    ]
+  },
+  {
     "title": "Simple Lemonade",
     "emoji": "🍋",
     "about": "Fresh lemonade from 3 lemons. Makes about 4 glasses.",

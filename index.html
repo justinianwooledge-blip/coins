@@ -73,6 +73,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .steps{margin:0;padding-left:22px}
 .steps li{padding:5px 0}
 .rnote{background:var(--gold-bg);color:var(--ink);border-radius:12px;padding:10px 12px;font-size:15px;margin-top:12px}
+.rpick{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:17px;font-weight:600;margin-top:2px}
 .rform{display:grid;gap:8px}
 .rform input,.rform textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px;resize:vertical}
 button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer}
@@ -289,45 +290,62 @@ async function loadRecipes(){
   try { BUILT = await getJSON('recipes.json'); } catch(e){ BUILT = []; }
   renderRecipes();
 }
+let pick = {};
+function recipeText(r){
+  return [r.title, r.about, ...(r.ingredients||[]), ...((r.items||[]).flatMap(i => [i.title, ...(i.ingredients||[])]))].join(' ').toLowerCase();
+}
+function el2(tag, cls, text){ const x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
+function recipeDetail(r, notes){
+  const body = document.createDocumentFragment();
+  body.append(el2('h3', '', 'Ingredients'));
+  const ul = el2('ul', 'ing');
+  (r.ingredients || []).forEach(x => {
+    const li = el2('li');
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.setAttribute('aria-label', x);
+    cb.onchange = () => li.classList.toggle('got', cb.checked);
+    li.append(cb, el2('span', '', x)); ul.append(li);
+  });
+  body.append(ul, el2('h3', '', 'Steps'));
+  const ol = el2('ol', 'steps');
+  (r.steps || []).forEach(x => ol.append(el2('li', '', x)));
+  body.append(ol);
+  const n = r.notes || notes;
+  if (n) body.append(el2('div', 'rnote', '💡 ' + n));
+  return body;
+}
 function renderRecipes(){
   const q = $('recipeSearch').value.trim().toLowerCase();
   const all = [...BUILT.map(r => ({...r, mine:false})), ...MINE.map(r => ({...r, mine:true}))];
-  const list = all.filter(r => !q || [r.title, r.about, ...(r.ingredients||[])].join(' ').toLowerCase().includes(q));
+  const list = all.filter(r => !q || recipeText(r).includes(q));
   const box = $('recipes'); box.innerHTML = '';
   if (!list.length){ box.innerHTML = '<p class="note">No recipes match that.</p>'; return; }
   list.forEach(r => {
-    const card = document.createElement('div'); card.className = 'card recipe';
-    const open = openRecipe === r.title;
-    const head = document.createElement('button'); head.className = 'rhead';
-    head.setAttribute('aria-expanded', open);
-    const em = document.createElement('span'); em.className = 'remoji'; em.textContent = r.emoji || '🍽️';
-    const t = document.createElement('span'); const b = document.createElement('b'); b.textContent = r.title;
-    const s = document.createElement('small'); s.textContent = [r.time, r.about].filter(Boolean).join(' · ') || (r.mine ? 'Your recipe' : '');
-    t.append(b, s);
-    const ch = document.createElement('span'); ch.className = 'chev'; ch.textContent = open ? '▲' : '▼';
-    head.append(em, t, ch);
-    head.onclick = () => { openRecipe = open ? null : r.title; renderRecipes(); };
+    const card = el2('div', 'card recipe');
+    const open = openRecipe === r.title || (q && r.items);
+    const head = el2('button', 'rhead'); head.setAttribute('aria-expanded', !!open);
+    const t = el2('span');
+    t.append(el2('b', '', r.title + (r.items ? `  (${r.items.length})` : '')),
+             el2('small', '', [r.time, r.about].filter(Boolean).join(' · ') || (r.mine ? 'Your recipe' : '')));
+    head.append(el2('span', 'remoji', r.emoji || '🍽️'), t, el2('span', 'chev', open ? '▲' : '▼'));
+    head.onclick = () => { openRecipe = openRecipe === r.title ? null : r.title; renderRecipes(); };
     card.append(head);
     if (open){
-      const body = document.createElement('div'); body.className = 'rbody';
-      const h1 = document.createElement('h3'); h1.textContent = 'Ingredients';
-      const ul = document.createElement('ul'); ul.className = 'ing';
-      (r.ingredients || []).forEach(x => {
-        const li = document.createElement('li');
-        const cb = document.createElement('input'); cb.type = 'checkbox'; cb.setAttribute('aria-label', x);
-        cb.onchange = () => li.classList.toggle('got', cb.checked);
-        const sp = document.createElement('span'); sp.textContent = x;
-        li.append(cb, sp); ul.append(li);
-      });
-      const h2 = document.createElement('h3'); h2.textContent = 'Steps';
-      const ol = document.createElement('ol'); ol.className = 'steps';
-      (r.steps || []).forEach(x => { const li = document.createElement('li'); li.textContent = x; ol.append(li); });
-      body.append(h1, ul, h2, ol);
-      if (r.notes){ const n = document.createElement('div'); n.className = 'rnote'; n.textContent = '💡 ' + r.notes; body.append(n); }
-      if (r.mine){
-        const del = document.createElement('button'); del.className = 'ghost'; del.style.marginTop = '12px'; del.textContent = 'Delete recipe';
-        del.onclick = () => { if (confirm('Delete ' + r.title + '?')){ MINE = MINE.filter(m => m.title !== r.title); saveMine(); renderRecipes(); } };
-        body.append(del);
+      const body = el2('div', 'rbody');
+      if (r.items){
+        // Dropdown group: pick one recipe inside it
+        let idx = pick[r.title] ?? 0;
+        if (q){ const hit = r.items.findIndex(i => recipeText(i).includes(q)); if (hit >= 0 && pick[r.title] == null) idx = hit; }
+        const sel = el2('select', 'rpick'); sel.setAttribute('aria-label', 'Choose ' + r.title);
+        r.items.forEach((it, i) => { const o = el2('option', '', it.title); o.value = i; if (i === idx) o.selected = true; sel.append(o); });
+        sel.onchange = () => { pick[r.title] = +sel.value; renderRecipes(); };
+        body.append(sel, recipeDetail(r.items[idx], r.notes));
+      } else {
+        body.append(recipeDetail(r));
+        if (r.mine){
+          const del = el2('button', 'ghost', 'Delete recipe'); del.style.marginTop = '12px';
+          del.onclick = () => { if (confirm('Delete ' + r.title + '?')){ MINE = MINE.filter(m => m.title !== r.title); saveMine(); renderRecipes(); } };
+          body.append(del);
+        }
       }
       card.append(body);
     }
