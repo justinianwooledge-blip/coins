@@ -196,6 +196,7 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
         <button id="taskAdd">Add</button>
       </div>
     </div>
+    <p class="note"><button class="ghost small" id="setupBtn">⚙️ Load setup link</button></p>
   </div>
 
   <div id="viewGym" hidden>
@@ -327,6 +328,7 @@ const pct = v => v == null ? '—' : (v > 0 ? '+' : '') + v.toFixed(1) + '%';
 const cls = v => v == null ? '' : v > 0.05 ? 'pos' : v < -0.05 ? 'neg' : '';
 async function getJSON(url){ const r = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now()); if(!r.ok) throw new Error(r.status); return r.json(); }
 
+function decodeSeed(b64){ return JSON.parse(decodeURIComponent(escape(atob(b64.replace(/-/g,'+').replace(/_/g,'/'))))); }
 function ago(hist, price, minutes){
   if (!hist || hist.length < 2) return null;
   const pts = hist.slice().sort((a, b) => a[0] - b[0]);
@@ -400,14 +402,14 @@ function addLocal(name, price){
 // ---------- Holdings (saved on this phone only) ----------
 let HOLD = {};
 try { HOLD = JSON.parse(localStorage.getItem('hq-holdings') || '{}'); } catch(e){}
-try {
-  const m = location.hash.match(/#h=([A-Za-z0-9+/=_-]+)/);
-  if (m){
-    HOLD = JSON.parse(atob(m[1].replace(/-/g,'+').replace(/_/g,'/')));
-    localStorage.setItem('hq-holdings', JSON.stringify(HOLD));
-    history.replaceState(null, '', location.pathname);
-  }
-} catch(e){}
+function applyHoldSeed(text){
+  const m = String(text).match(/#h=([A-Za-z0-9+/=_-]+)/);
+  if (!m) return false;
+  HOLD = decodeSeed(m[1]);
+  localStorage.setItem('hq-holdings', JSON.stringify(HOLD));
+  return true;
+}
+try { if (applyHoldSeed(location.hash)) history.replaceState(null, '', location.pathname); } catch(e){}
 function saveHold(){ try { localStorage.setItem('hq-holdings', JSON.stringify(HOLD)); } catch(e){} }
 const numIn = s => { s = String(s).trim().toLowerCase().replace(/[$,\s]/g,''); let k = 1; if (s.endsWith('k')){ k = 1e3; s = s.slice(0,-1); } const n = parseFloat(s); return isNaN(n) ? 0 : n * k; };
 let COINLIST = [];
@@ -848,15 +850,16 @@ const PHASES = [
 ];
 const CRIT = ['Uses my skills','No physical labor','Recurring revenue','Cheap to start','People already pay for it'];
 let PA = read('hq-path', {grad:'2027-05-15', done:{}, ideas:[], edge:[]});
-try {
-  const m = location.hash.match(/#biz=([A-Za-z0-9+/=_-]+)/);
-  if (m){
-    const seed = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g,'+').replace(/_/g,'/')))));
-    (seed.ideas || []).forEach(n => { if (!PA.ideas.some(i => i.name === n)) PA.ideas.push({name:n, s:{}}); });
-    (seed.edge || []).forEach(t => { if (!PA.edge.includes(t)) PA.edge.push(t); });
-    store('hq-path', PA); history.replaceState(null, '', location.pathname);
-  }
-} catch(e){}
+function applyBizSeed(text){
+  const m = String(text).match(/#biz=([A-Za-z0-9+/=_-]+)/);
+  if (!m) return false;
+  const seed = decodeSeed(m[1]);
+  (seed.ideas || []).forEach(n => { if (!PA.ideas.some(i => i.name === n)) PA.ideas.push({name:n, s:{}}); });
+  (seed.edge || []).forEach(t => { if (!PA.edge.includes(t)) PA.edge.push(t); });
+  store('hq-path', PA);
+  return true;
+}
+try { if (applyBizSeed(location.hash)) history.replaceState(null, '', location.pathname); } catch(e){}
 const savePath = () => store('hq-path', PA);
 let openIdea = null;
 function renderPath(){
@@ -936,6 +939,15 @@ $('pEdgeIn').onkeydown = e => { if (e.key === 'Enter') $('pEdgeAdd').click(); };
 $('pGrad').onclick = () => {
   const v = prompt('Graduation date (YYYY-MM-DD):', PA.grad);
   if (v && /^\d{4}-\d{2}-\d{2}$/.test(v.trim())){ PA.grad = v.trim(); savePath(); renderPath(); }
+};
+
+$('setupBtn').onclick = () => {
+  const t = prompt('Paste a setup link from Claude:');
+  if (!t) return;
+  let ok = [];
+  try { if (applyHoldSeed(t)){ ok.push('coin holdings'); load(); } } catch(e){}
+  try { if (applyBizSeed(t)){ ok.push('business ideas'); renderPath(); } } catch(e){}
+  alert(ok.length ? 'Loaded your ' + ok.join(' and ') + ' ✓' : "That link didn't work. Copy the whole link and try again.");
 };
 
 const TABS = {today:['tabToday','viewToday'], gym:['tabGym','viewGym'], coins:['tabCoins','viewCoins'], cook:['tabCook','viewCook'], notes:['tabNotes','viewNotes'], path:['tabPath','viewPath']};
