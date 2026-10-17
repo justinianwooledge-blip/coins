@@ -37,7 +37,7 @@ main{max-width:520px;margin:0 auto;padding:20px 16px 48px}
 .foot a{color:var(--ink);font-weight:600}
 .note{font-size:13px;color:var(--soft);text-align:center;margin-top:16px}
 .tabs{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:4px;margin:4px 0 16px;position:sticky;top:env(safe-area-inset-top);z-index:5}
-.tabs button{flex:1;background:transparent;color:var(--soft);padding:10px;border-radius:10px}
+.tabs button{flex:1;background:transparent;color:var(--soft);padding:10px 4px;border-radius:10px;font-size:15px;white-space:nowrap}
 .tabs button.on{background:var(--ink);color:var(--panel)}
 .attn{display:inline-block;margin-top:8px;padding:5px 12px;border-radius:999px;font-weight:600;font-size:15px}
 .attn.on{background:var(--gold-bg);color:var(--gold)} .attn.off{background:var(--green-bg);color:var(--green)}
@@ -58,6 +58,23 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.recipe{padding:0;overflow:hidden}
+.rhead{width:100%;display:flex;align-items:center;gap:12px;background:transparent;color:var(--ink);text-align:left;padding:16px;border-radius:0}
+.remoji{font-size:30px;line-height:1}
+.rhead b{display:block;font-size:19px}
+.rhead small{display:block;color:var(--soft);font-size:14px;font-weight:400}
+.rhead .chev{margin-left:auto;color:var(--soft);font-size:18px}
+.rbody{padding:0 16px 16px}
+.rbody h3{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--soft);margin:14px 0 6px}
+.ing li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--line)}
+.ing li:last-child{border-bottom:0}
+.ing input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--green)}
+.ing li.got span{text-decoration:line-through;color:var(--soft)}
+.steps{margin:0;padding-left:22px}
+.steps li{padding:5px 0}
+.rnote{background:var(--gold-bg);color:var(--ink);border-radius:12px;padding:10px 12px;font-size:15px;margin-top:12px}
+.rform{display:grid;gap:8px}
+.rform input,.rform textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px;resize:vertical}
 button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer}
 </style>
 </head>
@@ -70,6 +87,7 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
   <div class="tabs" role="tablist">
     <button id="tabToday" class="on" role="tab">✅ Today</button>
     <button id="tabCoins" role="tab">💰 Coins</button>
+    <button id="tabCook" role="tab">🍳 Cookbook</button>
   </div>
 
   <div id="viewToday">
@@ -90,6 +108,24 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
       <div class="add">
         <input id="taskInput" placeholder="Add a reminder" aria-label="New reminder">
         <button id="taskAdd">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="viewCook" hidden>
+    <div class="add" style="margin:0 0 14px">
+      <input id="recipeSearch" placeholder="Search recipes or ingredients" aria-label="Search recipes">
+    </div>
+    <div id="recipes"><p class="note">Loading recipes…</p></div>
+    <div class="card">
+      <h2>Add a recipe</h2>
+      <p class="sub">Saved on this phone. Put each ingredient and step on its own line.</p>
+      <div class="rform">
+        <input id="rTitle" placeholder="Recipe name" aria-label="Recipe name">
+        <textarea id="rIng" rows="4" placeholder="Ingredients (one per line)" aria-label="Ingredients"></textarea>
+        <textarea id="rSteps" rows="5" placeholder="Steps (one per line)" aria-label="Steps"></textarea>
+        <textarea id="rNotes" rows="2" placeholder="Notes (optional)" aria-label="Notes"></textarea>
+        <button id="rAdd">+ Save recipe</button>
       </div>
     </div>
   </div>
@@ -245,15 +281,83 @@ function addTask(){ const v = $('taskInput').value.trim(); if (!v) return; T.tas
 $('taskAdd').onclick = addTask;
 $('taskInput').onkeydown = e => { if (e.key === 'Enter') addTask(); };
 
+// ---------- Cookbook ----------
+let BUILT = [], MINE = [], openRecipe = null;
+try { MINE = JSON.parse(localStorage.getItem('hq-recipes') || '[]'); } catch(e){}
+function saveMine(){ try { localStorage.setItem('hq-recipes', JSON.stringify(MINE)); } catch(e){} }
+async function loadRecipes(){
+  try { BUILT = await getJSON('recipes.json'); } catch(e){ BUILT = []; }
+  renderRecipes();
+}
+function renderRecipes(){
+  const q = $('recipeSearch').value.trim().toLowerCase();
+  const all = [...BUILT.map(r => ({...r, mine:false})), ...MINE.map(r => ({...r, mine:true}))];
+  const list = all.filter(r => !q || [r.title, r.about, ...(r.ingredients||[])].join(' ').toLowerCase().includes(q));
+  const box = $('recipes'); box.innerHTML = '';
+  if (!list.length){ box.innerHTML = '<p class="note">No recipes match that.</p>'; return; }
+  list.forEach(r => {
+    const card = document.createElement('div'); card.className = 'card recipe';
+    const open = openRecipe === r.title;
+    const head = document.createElement('button'); head.className = 'rhead';
+    head.setAttribute('aria-expanded', open);
+    const em = document.createElement('span'); em.className = 'remoji'; em.textContent = r.emoji || '🍽️';
+    const t = document.createElement('span'); const b = document.createElement('b'); b.textContent = r.title;
+    const s = document.createElement('small'); s.textContent = [r.time, r.about].filter(Boolean).join(' · ') || (r.mine ? 'Your recipe' : '');
+    t.append(b, s);
+    const ch = document.createElement('span'); ch.className = 'chev'; ch.textContent = open ? '▲' : '▼';
+    head.append(em, t, ch);
+    head.onclick = () => { openRecipe = open ? null : r.title; renderRecipes(); };
+    card.append(head);
+    if (open){
+      const body = document.createElement('div'); body.className = 'rbody';
+      const h1 = document.createElement('h3'); h1.textContent = 'Ingredients';
+      const ul = document.createElement('ul'); ul.className = 'ing';
+      (r.ingredients || []).forEach(x => {
+        const li = document.createElement('li');
+        const cb = document.createElement('input'); cb.type = 'checkbox'; cb.setAttribute('aria-label', x);
+        cb.onchange = () => li.classList.toggle('got', cb.checked);
+        const sp = document.createElement('span'); sp.textContent = x;
+        li.append(cb, sp); ul.append(li);
+      });
+      const h2 = document.createElement('h3'); h2.textContent = 'Steps';
+      const ol = document.createElement('ol'); ol.className = 'steps';
+      (r.steps || []).forEach(x => { const li = document.createElement('li'); li.textContent = x; ol.append(li); });
+      body.append(h1, ul, h2, ol);
+      if (r.notes){ const n = document.createElement('div'); n.className = 'rnote'; n.textContent = '💡 ' + r.notes; body.append(n); }
+      if (r.mine){
+        const del = document.createElement('button'); del.className = 'ghost'; del.style.marginTop = '12px'; del.textContent = 'Delete recipe';
+        del.onclick = () => { if (confirm('Delete ' + r.title + '?')){ MINE = MINE.filter(m => m.title !== r.title); saveMine(); renderRecipes(); } };
+        body.append(del);
+      }
+      card.append(body);
+    }
+    box.append(card);
+  });
+}
+$('recipeSearch').oninput = renderRecipes;
+$('rAdd').onclick = () => {
+  const title = $('rTitle').value.trim();
+  if (!title){ $('rTitle').focus(); return; }
+  const lines = id => $(id).value.split('\n').map(x => x.trim()).filter(Boolean);
+  MINE.push({title, emoji:'🍽️', ingredients: lines('rIng'), steps: lines('rSteps'), notes: $('rNotes').value.trim()});
+  ['rTitle','rIng','rSteps','rNotes'].forEach(id => $(id).value = '');
+  saveMine(); openRecipe = title; renderRecipes();
+};
+loadRecipes();
+
+const TABS = {today:['tabToday','viewToday'], coins:['tabCoins','viewCoins'], cook:['tabCook','viewCook']};
 function showTab(which){
-  $('tabToday').classList.toggle('on', which === 'today');
-  $('tabCoins').classList.toggle('on', which === 'coins');
-  $('viewToday').hidden = which !== 'today';
-  $('viewCoins').hidden = which !== 'coins';
+  if (!TABS[which]) which = 'today';
+  for (const [k, [tab, view]] of Object.entries(TABS)){
+    $(tab).classList.toggle('on', k === which);
+    $(tab).setAttribute('aria-selected', k === which);
+    $(view).hidden = k !== which;
+  }
   try { localStorage.setItem('hq-tab', which); } catch(e){}
 }
 $('tabToday').onclick = () => showTab('today');
 $('tabCoins').onclick = () => showTab('coins');
+$('tabCook').onclick = () => showTab('cook');
 try { showTab(localStorage.getItem('hq-tab') || 'today'); } catch(e){ showTab('today'); }
 renderToday();
 

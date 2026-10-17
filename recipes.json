@@ -1,0 +1,109 @@
+[
+  {
+    "title": "Smoked Paprika Grilled Chicken",
+    "emoji": "🌮",
+    "about": "Smoky skillet chicken for tacos.",
+    "time": "About 15 min",
+    "ingredients": [
+      "1 tbsp extra virgin olive oil",
+      "3/4 lb boneless chicken breast or thighs, sliced",
+      "1 tbsp smoked paprika",
+      "1 tsp chili powder",
+      "1 tsp cumin",
+      "1 tsp dried oregano",
+      "Salt and black pepper",
+      "1 tbsp salted butter",
+      "For serving: tortillas, cheese, limes, cilantro"
+    ],
+    "steps": [
+      "In a bowl, combine the olive oil, chicken, smoked paprika, chili powder, cumin, oregano, salt, and pepper. Toss until everything is coated.",
+      "Set a skillet over high heat. Add the chicken and cook 8 to 10 minutes, until it reaches 165°F or higher.",
+      "Add the butter at the end and toss it with the chicken, then take everything off the heat.",
+      "Serve with tortillas, cheese, lime, and cilantro."
+    ],
+    "notes": ""
+  },
+  {
+    "title": "Ninja Creami Vanilla Ice Cream",
+    "emoji": "🍦",
+    "about": "Classic vanilla in the Ninja Creami.",
+    "time": "5 min + freeze overnight",
+    "ingredients": [
+      "1 cup whole milk",
+      "1 1/2 cups heavy cream",
+      "1/3 cup granulated sugar (recipe says 1/2 cup)",
+      "2 tsp vanilla extract",
+      "1/8 tsp fine sea salt (a generous pinch)",
+      "Toppings of your choice"
+    ],
+    "steps": [
+      "Add the milk, cream, sugar, vanilla, and salt to the Ninja Creami pint. Don't go past the max fill line.",
+      "Mix until the sugar dissolves.",
+      "Put the lid on and freeze for about 24 hours.",
+      "Spin on the Ice Cream setting. If it's crumbly, add a splash of milk and Re-spin.",
+      "Add toppings after. Use Mix-In if you want them blended in."
+    ],
+    "notes": "Using 1/3 cup sugar instead of 1/2 cup makes it a little less sweet."
+  },
+  {
+    "title": "Simple Lemonade",
+    "emoji": "🍋",
+    "about": "Fresh lemonade from 3 lemons. Makes about 4 glasses.",
+    "time": "5 min + 30 min chill",
+    "ingredients": [
+      "3 lemons, juiced (about 1/2 cup juice)",
+      "1/2 cup cane sugar",
+      "1/2 cup hot water (for the syrup)",
+      "3 cups cold water"
+    ],
+    "steps": [
+      "Stir the sugar into the hot water until it dissolves and looks clear. Hot tap water works, no need to boil.",
+      "Roll the lemons on the counter, cut in half, and squeeze out the juice. Remove seeds.",
+      "In a pitcher, mix the syrup, lemon juice, and cold water.",
+      "Taste. Add water or sugar if needed. Chill 30 minutes or pour over ice."
+    ],
+    "notes": "Too tart? Add a splash of water or a spoon of sugar. Too sweet? Add more lemon."
+  },
+  {
+    "title": "Crispy Air-Fryer Wings",
+    "emoji": "🍗",
+    "about": "Extra crispy wings in the Cuisinart air fryer, better than Wingstop.",
+    "time": "About 25 min per batch",
+    "ingredients": [
+      "Chicken wings (about 22)",
+      "Aluminum-free baking powder (about 1 tsp per pound of wings)",
+      "Your seasoning",
+      "Sauces for after cooking"
+    ],
+    "steps": [
+      "Pat the wings very dry with paper towels.",
+      "Mix the baking powder into your seasoning, then toss the wings in it before cooking.",
+      "Lay them on the rack with space between each one. Don't crowd them.",
+      "Air fry at 450°F for 20 to 25 minutes. Flip around the 10 to 12 minute mark.",
+      "Check later batches a little early, since the air fryer stays hot.",
+      "Toss in sauce after cooking, not before."
+    ],
+    "notes": "Use baking powder, not baking soda (tastes off) or cornstarch (less crunchy). For 3 flavors, do batches of 8, 8, and 6. The smaller batch cooks a bit faster."
+  },
+  {
+    "title": "Crispy-Bottom Homemade Pizza",
+    "emoji": "🍕",
+    "about": "How to get a crispy crust with Trader Joe's dough.",
+    "time": "About 1 hour with preheat",
+    "ingredients": [
+      "Trader Joe's pizza dough",
+      "Sauce (go light)",
+      "Cheese and toppings",
+      "Olive oil"
+    ],
+    "steps": [
+      "Preheat a pizza stone, steel, or upside-down baking sheet at 500 to 550°F for 45 to 60 minutes.",
+      "Stretch the dough thin so it doesn't steam.",
+      "Brush the bottom with a little olive oil.",
+      "Par-bake the plain dough for 3 to 4 minutes.",
+      "Add a light layer of sauce and toppings. Too much wet stuff makes it soggy.",
+      "Bake until the cheese bubbles and the bottom is browned."
+    ],
+    "notes": "Most reliable trick: brown the bottom in a cast iron skillet on the stove first, then finish in the oven or under the broiler. Check the dough's use-by date. Old dough gets sticky and won't crisp."
+  }
+]
