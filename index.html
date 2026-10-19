@@ -59,6 +59,30 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.seg.mini{margin:0;padding:3px}
+.seg.mini button{padding:6px 10px;font-size:13px}
+.photobtn{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;margin-top:12px;border:2px dashed var(--line);border-radius:14px;padding:14px;cursor:pointer;color:var(--ink);font-weight:600;background:var(--bg)}
+.photobtn img{width:100%;max-height:320px;object-fit:cover;border-radius:10px}
+.rate{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.rate button{padding:10px 0;background:var(--bg);color:var(--ink);border:2px solid var(--line);font-size:17px}
+.rate button.on{border-color:var(--ink);background:var(--ink);color:var(--panel)}
+.sinput{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
+.chip.on{background:var(--green-bg);border-color:var(--green)}
+.skchart{display:flex;align-items:flex-end;gap:2px;height:90px;border-bottom:1px solid var(--line);padding-top:6px}
+.skchart i{flex:1;border-radius:3px 3px 0 0;min-height:3px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.compare figure{margin:0}
+.compare img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;background:var(--bg)}
+.compare figcaption{font-size:12px;color:var(--soft);text-align:center;margin-top:4px}
+.skrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.skrow:last-child{border-bottom:0}
+.skrow .thumb{width:56px;height:56px;flex:none;border-radius:10px;object-fit:cover;background:var(--bg);display:grid;place-items:center;font-size:20px;border:0;padding:0}
+.skrow .info{flex:1;font-size:14px}
+.skrow .info b{font-size:15px}
+.skrow .info small{display:block;color:var(--soft)}
+.viewer{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.viewer img{max-width:100%;max-height:80vh;border-radius:12px}
+.viewer p{color:#fff;margin-top:10px}
 .feelhead{font-size:13px;font-weight:700;color:var(--soft);margin:12px 0 6px;text-transform:uppercase;letter-spacing:.05em}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:15px;font-weight:500}
@@ -200,7 +224,7 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
   <div class="tabs" role="tablist">
     <button id="tabToday" class="on" role="tab"><span class="ti">✅</span>Today</button>
     <button id="tabMind" role="tab"><span class="ti">🧘</span>Mind</button>
-    <button id="tabGym" role="tab"><span class="ti">💪</span>Gym</button>
+    <button id="tabGym" role="tab"><span class="ti">💪</span>Body</button>
     <button id="tabCoins" role="tab"><span class="ti">💰</span>Coins</button>
     <button id="tabCook" role="tab"><span class="ti">🍳</span>Food</button>
     <button id="tabNotes" role="tab"><span class="ti">📝</span>Notes</button>
@@ -326,6 +350,11 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
   </div>
 
   <div id="viewGym" hidden>
+    <div class="seg">
+      <button id="segGym" class="on">🏋️ Gym</button>
+      <button id="segSkin">🧴 Skin</button>
+    </div>
+    <div id="bodyGym">
     <div class="card">
       <h2>This week</h2>
       <div class="gbig"><b id="gCount">0</b> / <span id="gGoal">4</span> workouts</div>
@@ -347,7 +376,66 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
       <h2>Recent</h2>
       <ul id="gRecent"></ul>
     </div>
+    </div>
+
+    <div id="bodySkin" hidden>
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <h2 style="margin:0">📸 Skin check</h2>
+          <div class="seg mini"><button id="skAM">☀️ AM</button><button id="skPM">🌙 PM</button></div>
+        </div>
+        <label class="photobtn" id="skPhotoBtn">
+          <input type="file" accept="image/*" capture="user" id="skPhoto" hidden>
+          <span id="skPhotoLbl">📷 Take a photo</span>
+          <img id="skPreview" alt="" hidden>
+        </label>
+        <p class="feelhead">How's your skin?</p>
+        <div class="rate" id="skRate"></div>
+        <p class="sub" id="skRateLbl" style="margin:4px 0 0"></p>
+        <p class="feelhead">Active spots (optional)</p>
+        <input id="skSpots" inputmode="numeric" class="sinput" placeholder="0" aria-label="Active spots">
+        <p class="feelhead">Skin feels</p>
+        <div class="chips" id="skFeel"></div>
+        <p class="feelhead">Worked out today?</p>
+        <div class="chips" id="skWork"></div>
+        <p class="feelhead">Ate today</p>
+        <div class="chips" id="skFood"></div>
+        <input id="skFoodNote" class="sinput" placeholder="Anything else you ate (optional)" aria-label="Other food" style="margin-top:8px">
+        <p class="feelhead">Notes</p>
+        <textarea id="skNote" rows="3" class="nexttext" placeholder="Products, sleep, stress, new face wash…" aria-label="Skin notes"></textarea>
+        <button id="skSave" style="width:100%;margin-top:12px">Save check</button>
+        <p class="sub" id="skToast" style="margin:10px 0 0;text-align:center"></p>
+      </div>
+
+      <div class="card">
+        <h2>📈 Last 30 days</h2>
+        <div class="skchart" id="skChart"></div>
+        <p class="sub" id="skTrend" style="margin:8px 0 0"></p>
+      </div>
+
+      <div class="card">
+        <h2>🔍 Patterns</h2>
+        <div id="skPatterns"></div>
+        <a id="skAI" class="ql wide" target="_blank" rel="noopener" style="margin-top:12px"><span>🤖</span>Get AI suggestions</a>
+        <p class="sub" style="margin:8px 0 0">Opens Claude with your last 30 days filled in. Attach a few photos there for better advice. This isn't medical advice, so if breakouts are painful, deep, or leaving scars, see a dermatologist.</p>
+      </div>
+
+      <div class="card" id="skCompareCard" hidden>
+        <h2>🪞 Then vs now</h2>
+        <div class="compare">
+          <figure><img id="skThen" alt="First photo"><figcaption id="skThenLbl"></figcaption></figure>
+          <figure><img id="skNow" alt="Latest photo"><figcaption id="skNowLbl"></figcaption></figure>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>History</h2>
+        <div id="skHist"></div>
+      </div>
+    </div>
   </div>
+
+  <div class="viewer" id="skViewer" hidden><img id="skBig" alt="Skin photo"><p id="skBigLbl"></p></div>
 
   <div id="viewNotes" hidden>
     <div class="links2">
@@ -1068,6 +1156,169 @@ const PHASES = [
 ];
 const CRIT = ['Uses my skills','No physical labor','Recurring revenue','Cheap to start','People already pay for it'];
 let PA = read('hq-path', {grad:'2027-05-15', done:{}, ideas:[], edge:[]});
+// ---------- Skin tracker (photos in IndexedDB, entries in localStorage; all on this phone) ----------
+const photoDB = (() => {
+  let p;
+  const open = () => p || (p = new Promise((res, rej) => {
+    const r = indexedDB.open('hq-skin', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('photos');
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  }));
+  const tx = (mode, fn) => open().then(db => new Promise((res, rej) => {
+    const t = db.transaction('photos', mode); const req = fn(t.objectStore('photos'));
+    t.oncomplete = () => res(req && req.result); t.onerror = () => rej(t.error);
+  }));
+  return { put: (k, v) => tx('readwrite', s => s.put(v, k)), get: k => tx('readonly', s => s.get(k)), del: k => tx('readwrite', s => s.delete(k)) };
+})();
+const SK_RATE = ['Clear', 'Mostly clear', 'A few spots', 'Breaking out', 'Bad breakout'];
+const SK_COLOR = ['#2E9E6A', '#7BBF5E', '#E0B23A', '#E07B3A', '#D0473A'];
+const SK_FEEL = ['Clear', 'Dry', 'Oily', 'Irritated', 'Red', 'Itchy'];
+const SK_FOOD = ['🥛 Dairy', '🍬 Sugar', '🍔 Fast food', '🍟 Greasy', '🍺 Alcohol', '💧 Lots of water', '🥗 Healthy'];
+let SKIN = read('hq-skin', {entries: []});
+const saveSkin = () => store('hq-skin', SKIN);
+let sk = null, skPhotoData = null;
+function skReset(){
+  sk = {part: new Date().getHours() < 15 ? 'AM' : 'PM', rating: null, feel: [], workout: null, food: []};
+  skPhotoData = null; $('skPreview').hidden = true; $('skPreview').src = ''; $('skPhotoLbl').textContent = '📷 Take a photo';
+  $('skSpots').value = ''; $('skFoodNote').value = ''; $('skNote').value = '';
+}
+function chipRow(box, list, picked, multi, onPick){
+  $(box).innerHTML = '';
+  list.forEach(v => {
+    const on = multi ? picked.includes(v) : picked === v;
+    const c = mk('button', 'chip' + (on ? ' on' : ''), v);
+    c.onclick = () => { onPick(v); renderSkinForm(); };
+    $(box).append(c);
+  });
+}
+function renderSkinForm(){
+  $('skAM').classList.toggle('on', sk.part === 'AM'); $('skPM').classList.toggle('on', sk.part === 'PM');
+  const r = $('skRate'); r.innerHTML = '';
+  for (let i = 1; i <= 5; i++){
+    const b = mk('button', sk.rating === i ? 'on' : '', String(i));
+    if (sk.rating === i){ b.style.background = SK_COLOR[i-1]; b.style.borderColor = SK_COLOR[i-1]; b.style.color = '#fff'; }
+    b.setAttribute('aria-label', `${i}: ${SK_RATE[i-1]}`);
+    b.onclick = () => { sk.rating = i; renderSkinForm(); };
+    r.append(b);
+  }
+  $('skRateLbl').textContent = sk.rating ? `${sk.rating} · ${SK_RATE[sk.rating-1]}` : '1 = clear, 5 = bad breakout';
+  const tog = (arr, v) => arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v];
+  chipRow('skFeel', SK_FEEL, sk.feel, true, v => sk.feel = tog(sk.feel, v));
+  chipRow('skWork', ['💪 Yes', '😴 No'], sk.workout === true ? '💪 Yes' : sk.workout === false ? '😴 No' : null, false, v => sk.workout = v === '💪 Yes' ? (sk.workout === true ? null : true) : (sk.workout === false ? null : false));
+  chipRow('skFood', SK_FOOD, sk.food, true, v => sk.food = tog(sk.food, v));
+}
+$('skAM').onclick = () => { sk.part = 'AM'; renderSkinForm(); };
+$('skPM').onclick = () => { sk.part = 'PM'; renderSkinForm(); };
+function shrinkPhoto(file){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const max = 720, s = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg', 0.78));
+    };
+    img.onerror = rej; img.src = url;
+  });
+}
+$('skPhoto').onchange = async () => {
+  const f = $('skPhoto').files[0]; if (!f) return;
+  $('skPhotoLbl').textContent = 'Processing…';
+  try { skPhotoData = await shrinkPhoto(f); $('skPreview').src = skPhotoData; $('skPreview').hidden = false; $('skPhotoLbl').textContent = '📷 Retake photo'; }
+  catch(e){ $('skPhotoLbl').textContent = "Couldn't read that photo. Try again."; }
+  $('skPhoto').value = '';
+};
+$('skSave').onclick = async () => {
+  if (!sk.rating){ $('skToast').textContent = 'Pick a 1–5 rating first.'; return; }
+  const e = {id: Date.now(), date: dayKey(), part: sk.part, rating: sk.rating, spots: $('skSpots').value.trim() === '' ? null : parseInt($('skSpots').value, 10),
+             feel: sk.feel, workout: sk.workout, food: sk.food, foodNote: $('skFoodNote').value.trim(), note: $('skNote').value.trim(), photo: false};
+  if (skPhotoData){ try { await photoDB.put(e.id, skPhotoData); e.photo = true; } catch(err){ $('skToast').textContent = "Saved, but the photo couldn't be stored."; } }
+  SKIN.entries.push(e); saveSkin(); skReset(); renderSkinForm(); renderSkin();
+  if (!$('skToast').textContent.startsWith('Saved, but')) $('skToast').textContent = `✓ Saved your ${e.part} check.`;
+  setTimeout(() => $('skToast').textContent = '', 3000);
+};
+function skPatterns(entries){
+  const out = [];
+  if (entries.length < 5){ out.push(`Log at least 5 checks to see patterns. You have ${entries.length}.`); return out; }
+  const avg = a => a.reduce((t, e) => t + e.rating, 0) / a.length;
+  const tests = SK_FOOD.map(f => [f, e => e.food.includes(f)]).concat([['💪 Worked out', e => e.workout === true], ['☀️ AM checks', e => e.part === 'AM']]);
+  const found = [];
+  tests.forEach(([name, has]) => {
+    const yes = entries.filter(has), no = entries.filter(e => !has(e));
+    if (yes.length >= 3 && no.length >= 3){ const d = avg(yes) - avg(no); if (Math.abs(d) >= 0.6) found.push([name, d, avg(yes), avg(no), yes.length]); }
+  });
+  found.sort((a, b) => Math.abs(b[1]) - Math.abs(a[1])).slice(0, 3).forEach(([name, d, y, n, c]) => {
+    out.push(`${d > 0 ? '⚠️' : '✅'} Skin rated <b>${d > 0 ? 'worse' : 'better'}</b> with ${name} (${y.toFixed(1)} vs ${n.toFixed(1)} avg, ${c} checks).`);
+  });
+  const feelCount = {}; entries.slice(-14).forEach(e => e.feel.forEach(f => feelCount[f] = (feelCount[f] || 0) + 1));
+  const topFeel = Object.entries(feelCount).filter(([f]) => f !== 'Clear').sort((a, b) => b[1] - a[1])[0];
+  if (topFeel && topFeel[1] >= 3) out.push(`Most common lately: <b>${topFeel[0].toLowerCase()}</b> (${topFeel[1]} of your last ${Math.min(14, entries.length)} checks).`);
+  if (!found.length) out.push('No strong patterns yet. Keep logging, since they usually show up after 2–3 weeks.');
+  out.push('<span class="sub">These are just patterns in your log, not proof. Test one change at a time for 2 weeks.</span>');
+  return out;
+}
+function skPrompt(entries){
+  const lines = entries.slice(-30).map(e => [e.date, e.part, `rating ${e.rating}/5`, e.spots != null ? `${e.spots} spots` : '', e.feel.join('/'),
+    e.workout === true ? 'worked out' : e.workout === false ? 'no workout' : '', e.food.map(f => f.replace(/^\S+\s/, '')).join('/'), e.foodNote, e.note.slice(0, 80)].filter(Boolean).join(' · '));
+  let txt = "I'm tracking my acne and skin daily (rating 1 = clear, 5 = bad breakout). Here's my log. Look for patterns in food, workouts, AM vs PM, and how my skin feels, then give me practical suggestions for my routine, diet, and habits. Keep it simple. Tell me if anything means I should see a dermatologist. I may attach photos too.\n\n" + lines.join('\n');
+  return txt.length > 6000 ? txt.slice(0, 6000) : txt;
+}
+async function renderSkin(){
+  const E = SKIN.entries.slice().sort((a, b) => a.id - b.id);
+  // chart: daily average for the last 30 days
+  const ch = $('skChart'); ch.innerHTML = '';
+  const days = Array.from({length: 30}, (_, i) => { const d = new Date(); d.setDate(d.getDate() - 29 + i); return dayKey(d); });
+  const byDay = {}; E.forEach(e => (byDay[e.date] = byDay[e.date] || []).push(e.rating));
+  days.forEach(k => {
+    const r = byDay[k], bar = mk('i');
+    if (r){ const a = r.reduce((x, y) => x + y, 0) / r.length; bar.style.height = (a / 5 * 100) + '%'; bar.style.background = SK_COLOR[Math.round(a) - 1]; bar.title = `${shortDate(k)}: ${a.toFixed(1)}`; }
+    else { bar.style.height = '3px'; bar.style.background = 'var(--line)'; }
+    ch.append(bar);
+  });
+  const last7 = E.filter(e => e.date >= days[23]), prev7 = E.filter(e => e.date >= days[16] && e.date < days[23]);
+  const av = a => a.reduce((t, e) => t + e.rating, 0) / a.length;
+  $('skTrend').textContent = !E.length ? 'Your first check will show up here. Lower is better.'
+    : last7.length && prev7.length ? (av(last7) < av(prev7) - 0.2 ? `📉 Improving: ${av(last7).toFixed(1)} avg this week vs ${av(prev7).toFixed(1)} last week. Lower is better.`
+      : av(last7) > av(prev7) + 0.2 ? `📈 Rougher: ${av(last7).toFixed(1)} avg this week vs ${av(prev7).toFixed(1)} last week. Lower is better.`
+      : `➖ Steady around ${av(last7).toFixed(1)} this week. Lower is better.`) : `${E.length} check${E.length > 1 ? 's' : ''} so far. Lower is better.`;
+  const pb = $('skPatterns'); pb.innerHTML = '';
+  skPatterns(E).forEach(t => { const p = mk('p'); p.style.margin = '0 0 8px'; p.innerHTML = t; pb.append(p); });
+  $('skAI').href = 'https://claude.ai/new?q=' + encodeURIComponent(skPrompt(E));
+  // then vs now
+  const withPhoto = E.filter(e => e.photo);
+  $('skCompareCard').hidden = withPhoto.length < 2;
+  if (withPhoto.length >= 2){
+    const a = withPhoto[0], b = withPhoto[withPhoto.length - 1];
+    try { $('skThen').src = await photoDB.get(a.id) || ''; $('skNow').src = await photoDB.get(b.id) || ''; } catch(e){}
+    $('skThenLbl').textContent = `${shortDate(a.date)} · ${a.rating}/5`; $('skNowLbl').textContent = `${shortDate(b.date)} · ${b.rating}/5`;
+  }
+  // history
+  const h = $('skHist'); h.innerHTML = '';
+  if (!E.length) h.append(mk('p', 'sub', 'No checks yet.'));
+  for (const e of E.slice().reverse().slice(0, 40)){
+    const row = mk('div', 'skrow');
+    const th = e.photo ? document.createElement('img') : mk('button', 'thumb', '🙂');
+    if (e.photo){ th.className = 'thumb'; th.alt = 'Skin photo ' + e.date; photoDB.get(e.id).then(d => { if (d){ th.src = d; th.onclick = () => { $('skBig').src = d; $('skBigLbl').textContent = `${shortDate(e.date)} ${e.part} · ${e.rating}/5 ${SK_RATE[e.rating-1]}`; $('skViewer').hidden = false; }; } }).catch(() => {}); }
+    const info = mk('div', 'info');
+    const top = mk('b', '', `${shortDate(e.date)} ${e.part === 'AM' ? '☀️' : '🌙'} · `); const dot = mk('span', '', `${e.rating}/5 ${SK_RATE[e.rating-1]}`); dot.style.color = SK_COLOR[e.rating-1]; top.append(dot);
+    info.append(top);
+    const bits = [e.spots != null ? `${e.spots} spots` : '', e.feel.join(', '), e.workout === true ? '💪 worked out' : e.workout === false ? '😴 no workout' : '', e.food.join(' '), e.foodNote].filter(Boolean).join(' · ');
+    if (bits) info.append(mk('small', '', bits));
+    if (e.note) info.append(mk('small', '', '📝 ' + e.note));
+    const x = mk('button', 'x', '×'); x.setAttribute('aria-label', 'Delete check');
+    x.onclick = () => { if (confirm('Delete this check?')){ SKIN.entries = SKIN.entries.filter(o => o.id !== e.id); saveSkin(); if (e.photo) photoDB.del(e.id).catch(() => {}); renderSkin(); } };
+    row.append(th, info, x); h.append(row);
+  }
+}
+$('skViewer').onclick = () => { $('skViewer').hidden = true; };
+function bodySeg(which){
+  $('segGym').classList.toggle('on', which === 'gym'); $('segSkin').classList.toggle('on', which === 'skin');
+  $('bodyGym').hidden = which !== 'gym'; $('bodySkin').hidden = which !== 'skin';
+  try { localStorage.setItem('hq-bodyseg', which); } catch(e){}
+}
+$('segGym').onclick = () => bodySeg('gym');
+$('segSkin').onclick = () => { bodySeg('skin'); renderSkin(); };
+
 // ---------- Mind: state of being check-ins + journal (saved on this phone only) ----------
 const GOOD = [['Happy','😊'],['Calm','😌'],['Confident','💪'],['Certain','🎯'],['Peaceful','🕊️'],['Grateful','🙏'],['Loved','❤️']];
 const BAD = [['Anxious','😰'],['Stressed','😣'],['Bored','😐'],['Frustrated','😤'],['Insecure','😟'],['Angry','😠'],['Afraid','😨']];
@@ -1438,6 +1689,8 @@ $('tabNotes').onclick = () => showTab('notes');
 $('tabPath').onclick = () => showTab('path');
 $('tabMind').onclick = () => showTab('mind');
 renderMind(); renderJournal();
+skReset(); renderSkinForm(); renderSkin().catch(() => {});
+try { bodySeg(localStorage.getItem('hq-bodyseg') || 'gym'); } catch(e){ bodySeg('gym'); }
 try { mindSeg(localStorage.getItem('hq-mindseg') || 'check'); } catch(e){ mindSeg('check'); }
 renderWater(); renderGym(); renderGroc(); renderNotes(); renderPath(); renderWins(); renderMoney();
 try { pathSeg(localStorage.getItem('hq-pathseg') || 'biz'); } catch(e){ pathSeg('biz'); }
