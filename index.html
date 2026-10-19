@@ -37,8 +37,8 @@ main{max-width:520px;margin:0 auto;padding:20px 16px 48px}
 .foot a{color:var(--ink);font-weight:600}
 .note{font-size:13px;color:var(--soft);text-align:center;margin-top:16px}
 .tabs{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:4px;margin:4px 0 16px;position:sticky;top:env(safe-area-inset-top);z-index:5}
-.tabs button{flex:1;min-width:0;background:transparent;color:var(--soft);padding:6px 0;border-radius:10px;font-size:11px;white-space:nowrap;line-height:1.2}
-.tabs .ti{display:block;font-size:20px;margin-bottom:2px}
+.tabs button{flex:1;min-width:0;background:transparent;color:var(--soft);padding:6px 0;border-radius:10px;font-size:10px;white-space:nowrap;line-height:1.2}
+.tabs .ti{display:block;font-size:19px;margin-bottom:2px}
 .tabs button.on{background:var(--ink);color:var(--panel)}
 .attn{display:inline-block;margin-top:8px;padding:5px 12px;border-radius:999px;font-weight:600;font-size:15px}
 .attn.on{background:var(--gold-bg);color:var(--gold)} .attn.off{background:var(--green-bg);color:var(--green)}
@@ -59,6 +59,26 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.feelhead{font-size:13px;font-weight:700;color:var(--soft);margin:12px 0 6px;text-transform:uppercase;letter-spacing:.05em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:15px;font-weight:500}
+.chip.good:active,.chip.good.on{background:var(--green-bg);border-color:var(--green)}
+.chip.bad:active,.chip.bad.on{background:var(--gold-bg);border-color:var(--gold)}
+.sob{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.sobstep{font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.05em;margin:0 0 8px}
+.sobsay{font-size:21px;font-weight:600;line-height:1.35;margin:4px 0 14px}
+.breath{width:130px;height:130px;margin:14px auto 6px;border-radius:18px;background:var(--green-bg);border:3px solid var(--green);color:var(--green);display:grid;place-items:center;text-align:center;font-weight:700;font-size:18px;line-height:1.2;transform:scale(.8);transition:transform 4s linear}
+.breath.big{transform:scale(1.1)}
+.breath b{display:block;font-size:34px}
+.ck{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.ck:last-child{border-bottom:0}
+.ck .d{color:var(--soft);width:70px;flex:none}
+.ck span{flex:1}
+.wk{display:flex;gap:4px;height:12px;border-radius:99px;overflow:hidden;margin:6px 0 10px;background:var(--bg)}
+.wk i{display:block;height:100%}
+.bigplus{width:100%;font-size:20px;padding:16px;border-radius:16px;margin-bottom:14px}
+.jentry{white-space:pre-wrap}
+.jentry .when{display:block;font-size:13px;color:var(--soft);font-weight:600;margin-bottom:6px;white-space:normal}
 .seg{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:14px}
 .seg button{flex:1;background:transparent;color:var(--soft);padding:9px 2px;font-size:14px;border-radius:9px}
 .seg button.on{background:var(--ink);color:var(--panel)}
@@ -179,6 +199,7 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
   </div>
   <div class="tabs" role="tablist">
     <button id="tabToday" class="on" role="tab"><span class="ti">✅</span>Today</button>
+    <button id="tabMind" role="tab"><span class="ti">🧘</span>Mind</button>
     <button id="tabGym" role="tab"><span class="ti">💪</span>Gym</button>
     <button id="tabCoins" role="tab"><span class="ti">💰</span>Coins</button>
     <button id="tabCook" role="tab"><span class="ti">🍳</span>Food</button>
@@ -238,6 +259,69 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
         <button id="setupLoad">Load</button>
       </div>
       <p class="sub" id="setupMsg" style="margin:10px 0 0"></p>
+    </div>
+  </div>
+
+  <div id="viewMind" hidden>
+    <div class="seg">
+      <button id="segCheck" class="on">🧭 Check-in</button>
+      <button id="segJournal">📓 Journal</button>
+    </div>
+
+    <div id="mindCheck">
+      <div class="card">
+        <h2>How are you feeling right now?</h2>
+        <p class="sub">Your state of being. No wrong answers.</p>
+        <p class="feelhead">🌤️ Acceptance</p>
+        <div class="chips" id="feelGood"></div>
+        <p class="feelhead">🌧️ Resistance</p>
+        <div class="chips" id="feelBad"></div>
+        <p class="sub" id="feelToast" style="margin:12px 0 0"></p>
+      </div>
+
+      <div class="card sob" id="sobFlow" hidden>
+        <div id="sob1">
+          <p class="sobstep">Step 1 · Accept it</p>
+          <p class="sobsay" id="sobAccept"></p>
+          <button id="sobNext1">I accept it</button>
+        </div>
+        <div id="sob2" hidden>
+          <p class="sobstep">Step 2 · Pause</p>
+          <div class="breath" id="sobBreath"><span>Inhale</span></div>
+          <p class="sub" style="text-align:center" id="sobCount"></p>
+          <button id="sobNext2" class="ghost">Skip</button>
+        </div>
+        <div id="sob3" hidden>
+          <p class="sobstep">Step 3 · Be willing to consider</p>
+          <p class="sub" style="margin:0 0 8px">What would you like to feel instead?</p>
+          <div class="chips" id="sobTargets"></div>
+          <p class="sobsay" id="sobConsider"></p>
+          <p class="sub">You don't have to know how. Be willing to consider that you're moving through it right now.</p>
+          <button id="sobDone">Done ✓</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Today</h2>
+        <ul id="checkToday"></ul>
+      </div>
+      <div class="card">
+        <h2>Last 7 days</h2>
+        <div id="checkWeek"></div>
+      </div>
+    </div>
+
+    <div id="mindJournal" hidden>
+      <button class="bigplus" id="jNew">＋ New entry</button>
+      <div class="card" id="jEditor" hidden>
+        <p class="sub" id="jWhen" style="margin:0 0 8px"></p>
+        <textarea id="jText" rows="7" class="nexttext" placeholder="Write whatever's on your mind…" aria-label="Journal entry"></textarea>
+        <div class="notebtns">
+          <button id="jSave">Save</button>
+          <button id="jCancel" class="ghost small">Cancel</button>
+        </div>
+      </div>
+      <div id="jList"></div>
     </div>
   </div>
 
@@ -984,6 +1068,147 @@ const PHASES = [
 ];
 const CRIT = ['Uses my skills','No physical labor','Recurring revenue','Cheap to start','People already pay for it'];
 let PA = read('hq-path', {grad:'2027-05-15', done:{}, ideas:[], edge:[]});
+// ---------- Mind: state of being check-ins + journal (saved on this phone only) ----------
+const GOOD = [['Happy','😊'],['Calm','😌'],['Confident','💪'],['Certain','🎯'],['Peaceful','🕊️'],['Grateful','🙏'],['Loved','❤️']];
+const BAD = [['Anxious','😰'],['Stressed','😣'],['Bored','😐'],['Frustrated','😤'],['Insecure','😟'],['Angry','😠'],['Afraid','😨']];
+const SHIFT = [['calm','😌'],['peace','🕊️'],['confidence','💪'],['happiness','😊'],['certainty','🎯']];
+let MIND = read('hq-mind', {checks:[], journal:[]});
+const saveMind = () => store('hq-mind', MIND);
+const emo = n => (GOOD.concat(BAD).find(x => x[0] === n) || [n, '•'])[1];
+const timeOf = ts => new Date(ts).toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'});
+const partOfDay = ts => { const h = new Date(ts).getHours(); return h < 5 ? 'late night' : h < 12 ? 'mornings' : h < 17 ? 'afternoons' : h < 21 ? 'evenings' : 'late night'; };
+let sobFeel = null, sobTarget = 'calm', sobTimer = null;
+
+function renderMind(){
+  const mkChips = (box, list, cls) => {
+    $(box).innerHTML = '';
+    list.forEach(([n, e]) => { const b = mk('button', 'chip ' + cls, e + ' ' + n); b.onclick = () => checkIn(n, cls); $(box).append(b); });
+  };
+  mkChips('feelGood', GOOD, 'good'); mkChips('feelBad', BAD, 'bad');
+  // today
+  const ul = $('checkToday'); ul.innerHTML = '';
+  const today = MIND.checks.filter(c => dayKey(new Date(c.at)) === dayKey()).reverse();
+  if (!today.length) ul.append(mk('li', 'sub', 'No check-ins yet today.'));
+  today.forEach(c => {
+    const li = mk('li', 'ck'); li.append(mk('span', 'd', timeOf(c.at)));
+    li.append(mk('span', '', emo(c.feel) + ' ' + c.feel + (c.shift ? ' → considered ' + c.shift : '')));
+    const x = mk('button', 'x', '×'); x.setAttribute('aria-label', 'Delete check-in');
+    x.onclick = () => { MIND.checks = MIND.checks.filter(o => o.at !== c.at); saveMind(); renderMind(); };
+    li.append(x); ul.append(li);
+  });
+  // last 7 days
+  const wk = $('checkWeek'); wk.innerHTML = '';
+  const since = Date.now() - 7 * 864e5, recent = MIND.checks.filter(c => c.at >= since);
+  if (!recent.length){ wk.append(mk('p', 'sub', 'Check in a few times and your patterns will show up here.')); return; }
+  const good = recent.filter(c => c.type === 'good').length, bad = recent.length - good;
+  const bar = mk('div', 'wk');
+  const g = mk('i'); g.style.width = (good / recent.length * 100) + '%'; g.style.background = 'var(--green)';
+  const b = mk('i'); b.style.width = (bad / recent.length * 100) + '%'; b.style.background = 'var(--gold)';
+  bar.append(g, b); wk.append(bar);
+  wk.append(mk('p', '', `${good} acceptance · ${bad} resistance (${Math.round(good / recent.length * 100)}% acceptance)`));
+  if (bad){
+    const count = {}, when = {};
+    recent.filter(c => c.type === 'bad').forEach(c => { count[c.feel] = (count[c.feel] || 0) + 1; const p = partOfDay(c.at); when[p] = (when[p] || 0) + 1; });
+    const top = Object.entries(count).sort((a, b) => b[1] - a[1])[0];
+    const topWhen = Object.entries(when).sort((a, b) => b[1] - a[1])[0];
+    wk.append(mk('p', 'sub', `Most common resistance: ${emo(top[0])} ${top[0]} (${top[1]}x). It shows up most in the ${topWhen[0]}.`));
+    const shifted = recent.filter(c => c.type === 'bad' && c.shift).length;
+    if (shifted) wk.append(mk('p', 'sub', `You moved through resistance ${shifted} time${shifted > 1 ? 's' : ''} this week 💪`));
+  }
+}
+function checkIn(feel, type){
+  $('feelToast').textContent = '';
+  if (type === 'good'){
+    MIND.checks.push({at: Date.now(), feel, type}); saveMind(); renderMind();
+    $('sobFlow').hidden = true;
+    $('feelToast').textContent = `✓ Logged ${emo(feel)} ${feel}. You're in a state of acceptance. Stay here.`;
+    return;
+  }
+  sobFeel = feel; sobTarget = 'calm';
+  $('sobAccept').textContent = `"I accept that I'm feeling ${feel.toLowerCase()} right now, and it's okay."`;
+  $('sob1').hidden = false; $('sob2').hidden = true; $('sob3').hidden = true; $('sobFlow').hidden = false;
+  $('sobFlow').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function sobStep3(){
+  clearInterval(sobTimer); $('sob2').hidden = true; $('sob3').hidden = false;
+  const box = $('sobTargets'); box.innerHTML = '';
+  SHIFT.forEach(([n, e]) => {
+    const c = mk('button', 'chip good' + (n === sobTarget ? ' on' : ''), e + ' ' + n);
+    c.onclick = () => { sobTarget = n; sobStep3(); }; box.append(c);
+  });
+  $('sobConsider').textContent = `"I'm willing to consider that I can experience ${sobTarget}."`;
+}
+$('sobNext1').onclick = () => {
+  $('sob1').hidden = true; $('sob2').hidden = false;
+  // Box breathing: inhale 4, hold 4, exhale 4, hold 4. Two rounds.
+  const PHASES = [['Inhale', true], ['Hold', true], ['Exhale', false], ['Hold', false]];
+  const ROUNDS = 2, total = ROUNDS * 16;
+  let s = 0; const br = $('sobBreath');
+  br.classList.remove('big');
+  const tick = () => {
+    if (s >= total){ sobStep3(); return; }
+    const phase = Math.floor(s / 4) % 4, left = 4 - (s % 4), round = Math.floor(s / 16) + 1;
+    const [label, big] = PHASES[phase];
+    br.innerHTML = ''; br.append(mk('span', '', label), mk('b', '', String(left)));
+    if (s % 4 === 0) br.classList.toggle('big', big);
+    $('sobCount').textContent = `Box breathing · round ${round} of ${ROUNDS}`;
+    s++;
+  };
+  clearInterval(sobTimer); tick(); sobTimer = setInterval(tick, 1000);
+};
+$('sobNext2').onclick = sobStep3;
+$('sobDone').onclick = () => {
+  MIND.checks.push({at: Date.now(), feel: sobFeel, type: 'bad', shift: sobTarget}); saveMind();
+  $('sobFlow').hidden = true; renderMind();
+  $('feelToast').textContent = `✓ Logged. You noticed you felt ${sobFeel.toLowerCase()}, accepted it, and opened the door to ${sobTarget}. I'm proud of you.`;
+  window.scrollTo({top:0, behavior:'smooth'});
+};
+
+// Journal
+let jEditing = null;
+function renderJournal(){
+  const box = $('jList'); box.innerHTML = '';
+  if (!MIND.journal.length) box.append(mk('p', 'note', 'Tap ＋ whenever you feel like writing.'));
+  MIND.journal.slice().sort((a, b) => b.at - a.at).forEach(j => {
+    const c = mk('div', 'card jentry');
+    c.append(mk('span', 'when', new Date(j.at).toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'}) + ' · ' + timeOf(j.at)));
+    c.append(document.createTextNode(j.text));
+    const btns = mk('div', 'notebtns');
+    const ed = mk('button', 'ghost small', 'Edit');
+    ed.onclick = () => openJournal(j);
+    const del = mk('button', 'ghost small', 'Delete');
+    del.onclick = () => { if (confirm('Delete this entry?')){ MIND.journal = MIND.journal.filter(o => o.at !== j.at); saveMind(); renderJournal(); } };
+    btns.append(ed, del); c.append(btns); box.append(c);
+  });
+}
+function openJournal(j){
+  jEditing = j || null;
+  const at = j ? j.at : Date.now();
+  $('jWhen').textContent = new Date(at).toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'}) + ' · ' + timeOf(at);
+  $('jText').value = j ? j.text : (read('hq-jdraft', '') || '');
+  $('jEditor').hidden = false; $('jNew').hidden = true; $('jText').focus();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function closeJournal(){ $('jEditor').hidden = true; $('jNew').hidden = false; jEditing = null; }
+$('jNew').onclick = () => openJournal(null);
+$('jText').oninput = () => { if (!jEditing) store('hq-jdraft', $('jText').value); };
+$('jSave').onclick = () => {
+  const t = $('jText').value.trim();
+  if (t){
+    if (jEditing) jEditing.text = t; else MIND.journal.push({at: Date.now(), text: t});
+    saveMind();
+  }
+  store('hq-jdraft', ''); closeJournal(); renderJournal();
+};
+$('jCancel').onclick = () => { closeJournal(); };
+function mindSeg(which){
+  $('segCheck').classList.toggle('on', which === 'check'); $('segJournal').classList.toggle('on', which === 'journal');
+  $('mindCheck').hidden = which !== 'check'; $('mindJournal').hidden = which !== 'journal';
+  try { localStorage.setItem('hq-mindseg', which); } catch(e){}
+}
+$('segCheck').onclick = () => mindSeg('check');
+$('segJournal').onclick = () => mindSeg('journal');
+
 // ---------- Wins + Money (saved on this phone only) ----------
 let LIFE = read('hq-life', {wins:[], next:'', money:{goal:1000000, age:22, monthly:0, accounts:[], hist:[]}});
 LIFE.money = Object.assign({goal:1000000, age:22, monthly:0, accounts:[], hist:[]}, LIFE.money || {});
@@ -1195,7 +1420,7 @@ $('setupLoad').onclick = () => {
   if (ok.length) $('setupText').value = '';
 };
 
-const TABS = {today:['tabToday','viewToday'], gym:['tabGym','viewGym'], coins:['tabCoins','viewCoins'], cook:['tabCook','viewCook'], notes:['tabNotes','viewNotes'], path:['tabPath','viewPath']};
+const TABS = {today:['tabToday','viewToday'], mind:['tabMind','viewMind'], gym:['tabGym','viewGym'], coins:['tabCoins','viewCoins'], cook:['tabCook','viewCook'], notes:['tabNotes','viewNotes'], path:['tabPath','viewPath']};
 function showTab(which){
   if (!TABS[which]) which = 'today';
   for (const [k, [tab, view]] of Object.entries(TABS)){
@@ -1211,6 +1436,9 @@ $('tabCook').onclick = () => showTab('cook');
 $('tabGym').onclick = () => showTab('gym');
 $('tabNotes').onclick = () => showTab('notes');
 $('tabPath').onclick = () => showTab('path');
+$('tabMind').onclick = () => showTab('mind');
+renderMind(); renderJournal();
+try { mindSeg(localStorage.getItem('hq-mindseg') || 'check'); } catch(e){ mindSeg('check'); }
 renderWater(); renderGym(); renderGroc(); renderNotes(); renderPath(); renderWins(); renderMoney();
 try { pathSeg(localStorage.getItem('hq-pathseg') || 'biz'); } catch(e){ pathSeg('biz'); }
 try { showTab(localStorage.getItem('hq-tab') || 'today'); } catch(e){ showTab('today'); }
