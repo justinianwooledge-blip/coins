@@ -274,7 +274,8 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
         <button id="taskAdd">Add</button>
       </div>
     </div>
-    <p class="note"><button class="ghost small" id="setupBtn">⚙️ Load setup link</button></p>
+    <p class="note"><button class="ghost small" id="setupBtn">⚙️ Load setup link</button> <button class="ghost small" id="updBtn">🔄 Check for updates</button></p>
+    <p class="note" id="verLine"></p>
     <div class="card" id="setupBox" hidden>
       <h2>⚙️ Load setup link</h2>
       <p class="sub">Paste a setup link from Claude, then tap Load.</p>
@@ -604,6 +605,21 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
   </div>
 </main>
 <script>
+// ---------- Auto-update: change APP_VERSION every time index.html is updated ----------
+const APP_VERSION = '2026-10-19b';
+async function checkForUpdate(manual){
+  try {
+    const r = await fetch(location.pathname + '?check=' + Date.now(), {cache: 'no-store'});
+    const m = (await r.text()).match(/const APP_VERSION = '([^']+)'/);
+    if (!m) return manual && (document.getElementById('verLine').textContent = "Couldn't check right now. Try again in a minute.");
+    if (m[1] === APP_VERSION){ if (manual) document.getElementById('verLine').textContent = `✓ You're on the newest version (${APP_VERSION}).`; return; }
+    const last = +(localStorage.getItem('hq-upd-try') || 0);
+    if (!manual && Date.now() - last < 2 * 60 * 1000) return;   // don't reload in a loop
+    localStorage.setItem('hq-upd-try', Date.now());
+    location.replace(location.pathname + '?v=' + Date.now());
+  } catch(e){ if (manual) document.getElementById('verLine').textContent = "Couldn't check right now. Try again in a minute."; }
+}
+
 const REPO = 'https://raw.githubusercontent.com/justinianwooledge-blip/coin-alert-bot/main/';
 const $ = id => document.getElementById(id);
 const money = v => (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -1699,7 +1715,10 @@ renderToday();
 
 $('refresh').onclick = load;
 load(); setInterval(load, 30000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden){ renderWater(); renderGym(); renderToday(); load(); } });
+document.addEventListener('visibilitychange', () => { if (!document.hidden){ renderWater(); renderGym(); renderToday(); load(); checkForUpdate(false); } });
+$('verLine').textContent = 'Version ' + APP_VERSION;
+$('updBtn').onclick = () => { $('verLine').textContent = 'Checking…'; checkForUpdate(true); };
+setTimeout(() => checkForUpdate(false), 1500);
 </script>
 </body>
 </html>
