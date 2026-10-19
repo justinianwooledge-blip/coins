@@ -59,9 +59,30 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.seg{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:14px}
+.seg button{flex:1;background:transparent;color:var(--soft);padding:9px 2px;font-size:14px;border-radius:9px}
+.seg button.on{background:var(--ink);color:var(--panel)}
+.wins{list-style:none;margin:0;padding:0;counter-reset:w}
+.wins li{counter-increment:w;display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.wins li:last-child{border-bottom:0}
+.wins li::before{content:counter(w);flex:none;width:28px;height:28px;border-radius:50%;background:var(--green-bg);color:var(--green);font-weight:700;display:grid;place-items:center;font-size:14px}
+.wins li span{flex:1;padding-top:3px}
+.nextcard{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.nexttext{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px;resize:vertical}
+.proj{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line)}
+.proj:last-child{border-bottom:0}
+.proj b{font-size:20px}
+.proj small{display:block;color:var(--soft);font-size:13px}
+.acct{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.acct span{flex:1}
+.acct small{display:block;color:var(--soft);font-size:12px}
+.acct input{width:110px;padding:7px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px;text-align:right}
+.mset{display:grid;gap:10px}
+.mset label{font-size:14px;color:var(--soft);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mset input{width:140px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px;text-align:right}
 .hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.lights{display:flex;gap:6px;flex:none}
-.lt{display:flex;flex-direction:column;align-items:center;justify-content:center;width:46px;height:50px;border-radius:12px;background:var(--panel);border:1px solid var(--line);color:var(--soft);text-decoration:none;font-size:10px;font-weight:600}
+.lights{display:flex;gap:5px;flex:none}
+.lt{display:flex;flex-direction:column;align-items:center;justify-content:center;width:42px;height:48px;border-radius:12px;background:var(--panel);border:1px solid var(--line);color:var(--soft);text-decoration:none;font-size:10px;font-weight:600}
 .lt span{font-size:20px;line-height:1.1}
 .pbar{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin-top:10px}
 .pbar i{display:block;height:100%;background:var(--green);border-radius:99px}
@@ -153,6 +174,7 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
       <a href="shortcuts://run-shortcut?name=Hue%20Lights" class="lt"><span>💡</span>Hue</a>
       <a href="shortcuts://run-shortcut?name=Govee%20Lights" class="lt"><span>🌈</span>Govee</a>
       <a href="shortcuts://run-shortcut?name=Strip%20Lights" class="lt"><span>✨</span>StripX</a>
+      <a href="shortcuts://run-shortcut?name=Air%20Purifier" class="lt"><span>🌬️</span>Air</a>
     </div>
   </div>
   <div class="tabs" role="tablist">
@@ -263,6 +285,12 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
   </div>
 
   <div id="viewPath" hidden>
+    <div class="seg">
+      <button id="segBiz" class="on">🚀 Business</button>
+      <button id="segWins">🏆 Wins</button>
+      <button id="segMoney">💰 Money</button>
+    </div>
+    <div id="pathBiz">
     <div class="card pathtop">
       <p class="sub" style="margin:0">Graduation 🎓</p>
       <div class="gbig"><b id="pDays">0</b> days to go</div>
@@ -297,6 +325,65 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
     </div>
     <div class="links2">
       <a id="pChat" class="ql wide" target="_blank" rel="noopener"><span>💬</span>Talk my path through</a>
+    </div>
+    </div>
+
+    <div id="pathWins" hidden>
+      <div class="card">
+        <h2>🏆 My wins</h2>
+        <p class="sub">Proof of what you can do. Read this when you doubt yourself.</p>
+        <ol id="winsList" class="wins"></ol>
+        <div class="add">
+          <input id="winIn" placeholder="Add a win" aria-label="New win">
+          <button id="winAdd">Add</button>
+        </div>
+      </div>
+      <div class="card nextcard">
+        <h2>🔮 What's next?</h2>
+        <textarea id="nextText" rows="5" aria-label="What's next" class="nexttext" placeholder="Your next big move…"></textarea>
+        <div class="notebtns">
+          <a id="nextTalk" class="ghost small" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:none">💬 Talk it through</a>
+          <button id="nextScore" class="ghost small">Score it on the Business tab</button>
+        </div>
+        <p class="sub" style="margin:10px 0 0">You're already building a rough version of it: this app.</p>
+      </div>
+    </div>
+
+    <div id="pathMoney" hidden>
+      <div class="card">
+        <p class="sub" style="margin:0">Freedom number 🎯</p>
+        <div class="gbig"><b id="mNow">$0</b> / <span id="mGoalTxt">$1M</span></div>
+        <div class="pbar"><i id="mBar"></i></div>
+        <p class="sub" id="mPct" style="margin:6px 0 0"></p>
+      </div>
+      <div class="card">
+        <h2>📈 When you could hit it</h2>
+        <div id="mProj"></div>
+        <p class="sub" id="mNote" style="margin:10px 0 0">Your stocks are heavy in semiconductors, which can swing 30% or more in a year. That's why this shows a range instead of one number. Update your balance monthly and watch the trend, not the daily moves.</p>
+      </div>
+      <div class="card">
+        <h2>💼 What you have</h2>
+        <div id="mAccts"></div>
+        <div class="add">
+          <input id="mAcctName" placeholder="Account name" aria-label="New account name">
+          <input id="mAcctVal" inputmode="decimal" placeholder="$ value" aria-label="New account value" style="max-width:110px">
+          <button id="mAcctAdd">Add</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>⚙️ Your numbers</h2>
+        <div class="mset">
+          <label>Freedom number $<input id="mGoal" inputmode="decimal"></label>
+          <label>Your age<input id="mAge" inputmode="numeric"></label>
+          <label>Adding per month $<input id="mMonthly" inputmode="decimal"></label>
+        </div>
+      </div>
+      <div class="card">
+        <h2>🗓️ Monthly check-ins</h2>
+        <p class="sub">Tap once a month to save your total and see how it's trending.</p>
+        <button id="mSnap">Save today's total</button>
+        <ul id="mHist" style="margin-top:10px"></ul>
+      </div>
     </div>
   </div>
 
@@ -351,7 +438,11 @@ const money = v => (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US',{mi
 const px = v => v >= 1 ? '$' + v.toFixed(4) : '$' + Number(v.toPrecision(4));
 const pct = v => v == null ? '—' : (v > 0 ? '+' : '') + v.toFixed(1) + '%';
 const cls = v => v == null ? '' : v > 0.05 ? 'pos' : v < -0.05 ? 'neg' : '';
-async function getJSON(url){ const r = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now()); if(!r.ok) throw new Error(r.status); return r.json(); }
+function tfetch(url, opts, ms){
+  const ac = new AbortController(); const t = setTimeout(() => ac.abort(), ms || 6000);
+  return fetch(url, Object.assign({}, opts, {signal: ac.signal})).finally(() => clearTimeout(t));
+}
+async function getJSON(url){ const r = await tfetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now(), {}, 8000); if(!r.ok) throw new Error(r.status); return r.json(); }
 
 function decodeSeed(b64){ return JSON.parse(decodeURIComponent(escape(atob(b64.replace(/-/g,'+').replace(/_/g,'/'))))); }
 function ago(hist, price, minutes){
@@ -376,13 +467,13 @@ function ago(hist, price, minutes){
   return then ? (price/then - 1) * 100 : null;
 }
 // Price history from GeckoTerminal (15-min candles), refreshed every 5 minutes
-const GT = {};
+const GT = {}, GT_BUSY = {};
 async function geckoCandles(name, pool, ca){
   const g = GT[name];
   if (g && Date.now() - g.at < 5*60*1000) return g.pts;
   const base = 'https://api.geckoterminal.com/api/v2/networks/robinhood/';
   const get = async p => {
-    const r = await fetch(base + 'pools/' + p + '/ohlcv/minute?aggregate=15&limit=64', {headers:{Accept:'application/json'}});
+    const r = await tfetch(base + 'pools/' + p + '/ohlcv/minute?aggregate=15&limit=64', {headers:{Accept:'application/json'}}, 5000);
     if (!r.ok) throw new Error(r.status);
     const j = await r.json();
     const now = Date.now()/1000;
@@ -393,7 +484,7 @@ async function geckoCandles(name, pool, ca){
   try { if (pool) pts = await get(pool); else throw 0; }
   catch(e){
     try {
-      const r = await fetch(base + 'tokens/' + ca + '/pools?page=1', {headers:{Accept:'application/json'}});
+      const r = await tfetch(base + 'tokens/' + ca + '/pools?page=1', {headers:{Accept:'application/json'}}, 5000);
       const j = await r.json();
       const p = j.data && j.data[0] && j.data[0].attributes && j.data[0].attributes.address;
       if (p) pts = await get(p);
@@ -454,7 +545,18 @@ function renderHoldEditor(){
   });
 }
 
+let loading = false, loadAgain = false;
 async function load(){
+  if (loading){ loadAgain = true; return; }
+  loading = true;
+  try { await drawCoins(); }
+  catch(e){ console.log(e); }
+  finally {
+    loading = false;
+    if (loadAgain){ loadAgain = false; load(); }
+  }
+}
+async function drawCoins(){
   let cfg, state = {}, pairs = [];
   try { cfg = await getJSON(REPO + 'coins.json'); }
   catch(e){ $('coins').innerHTML = '<p class="note">Couldn\'t load your coin list. Check your connection and tap Refresh.</p>'; return; }
@@ -467,7 +569,7 @@ async function load(){
   const TP = cfg.take_profit_pct || 50, DIP = cfg.rebuy_dip_pct || 30;
   let tVal = 0, tCost = 0, tReal = 0, live = false; coinAlerts = 0;
   COINLIST = cfg.coins; if (!$('holdEdit').children.length) renderHoldEditor();
-  const box = $('coins'); box.innerHTML = '';
+  const cards = [];
 
   for (const c of cfg.coins){
     const mine = pairs.filter(p => (p.baseToken?.address || '').toLowerCase() === c.ca.toLowerCase());
@@ -477,7 +579,11 @@ async function load(){
     let price = pair ? parseFloat(pair.priceUsd) : (botHist.length ? botHist[botHist.length-1][1] : 0);
     if (pair){ live = true; addLocal(c.name, price); }
     const hist = botHist.concat(LOCALH[c.name] || []);
-    const cand = pair ? await geckoCandles(c.name, pair.pairAddress, c.ca) : [];
+    const cand = GT[c.name] ? GT[c.name].pts : [];
+    if (pair && (!GT[c.name] || Date.now() - GT[c.name].at > 5*60*1000) && !GT_BUSY[c.name]){
+      GT_BUSY[c.name] = true;
+      geckoCandles(c.name, pair.pairAddress, c.ca).finally(() => { GT_BUSY[c.name] = false; load(); });
+    }
     const ch = pair?.priceChange || {};
     const tf = [['5m', ch.m5 ?? (pair ? 0 : null)], ['30m', since(cand, hist, price, 30)], ['1h', ch.h1 ?? since(cand, hist, price, 60)],
                 ['3h', since(cand, hist, price, 180)], ['6h', ch.h6 ?? since(cand, hist, price, 360)], ['12h', since(cand, hist, price, 720)],
@@ -517,9 +623,12 @@ async function load(){
       <div class="foot"><span style="color:var(--soft)">Week: ${px(low)} → ${px(high)}</span><a target="_blank" rel="noopener"></a></div>`;
     card.querySelector('.name').textContent = c.name;
     const a = card.querySelector('a'); a.href = pair?.url || ('https://dexscreener.com/search?q=' + encodeURIComponent(c.ca)); a.textContent = '📈 Chart';
-    box.append(card);
+    cards.push(card);
   }
+  $('coins').replaceChildren(...cards);
 
+  window.cryptoNow = tCost ? tVal : 0;
+  if (typeof renderMoney === 'function') renderMoney();
   if (tCost){
     const p = tVal - tCost;
     $('total').textContent = money(tVal);
@@ -533,7 +642,7 @@ async function load(){
     $('totalAll').textContent = '';
   }
   renderToday();
-  $('updated').textContent = (live ? 'Live prices' : 'Prices from your bot (live feed unavailable)') +
+  $('updated').textContent = cfg.coins.length + ' coins · ' + (live ? 'Live prices' : 'Prices from your bot (live feed unavailable)') +
     ' · updated ' + new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit', second:'2-digit'}) + ' · refreshes every 30s';
 }
 // ---------- Today: Depop + reminders (saved on this device) ----------
@@ -875,6 +984,116 @@ const PHASES = [
 ];
 const CRIT = ['Uses my skills','No physical labor','Recurring revenue','Cheap to start','People already pay for it'];
 let PA = read('hq-path', {grad:'2027-05-15', done:{}, ideas:[], edge:[]});
+// ---------- Wins + Money (saved on this phone only) ----------
+let LIFE = read('hq-life', {wins:[], next:'', money:{goal:1000000, age:22, monthly:0, accounts:[], hist:[]}});
+LIFE.money = Object.assign({goal:1000000, age:22, monthly:0, accounts:[], hist:[]}, LIFE.money || {});
+const saveLife = () => store('hq-life', LIFE);
+const usd0 = v => '$' + Math.round(v).toLocaleString('en-US');
+const short$ = v => v >= 1e6 ? '$' + (v/1e6).toFixed(v % 1e6 ? 2 : 0).replace(/\.?0+$/, '') + 'M' : usd0(v);
+function applyLifeSeed(text){
+  const m = String(text).match(/#life=([A-Za-z0-9+/=_-]+)/);
+  if (!m) return false;
+  const s = decodeSeed(m[1]);
+  (s.wins || []).forEach(w => { if (!LIFE.wins.includes(w)) LIFE.wins.push(w); });
+  if (s.next && !LIFE.next) LIFE.next = s.next;
+  if (s.money){
+    const mo = s.money;
+    ['goal','age','monthly'].forEach(k => { if (mo[k] != null) LIFE.money[k] = mo[k]; });
+    (mo.accounts || []).forEach(a => { if (!LIFE.money.accounts.some(x => x.name === a.name)) LIFE.money.accounts.push(a); });
+  }
+  saveLife();
+  return true;
+}
+try { if (applyLifeSeed(location.hash)) history.replaceState(null, '', location.pathname); } catch(e){}
+
+function renderWins(){
+  const ol = $('winsList'); ol.innerHTML = '';
+  if (!LIFE.wins.length) ol.append(mk('li', 'sub', 'Add your first win below.'));
+  LIFE.wins.forEach((w, i) => {
+    const li = mk('li'); li.append(mk('span', '', w));
+    const x = mk('button', 'x', '×'); x.setAttribute('aria-label', 'Remove win');
+    x.onclick = () => { if (confirm('Remove this win?')){ LIFE.wins.splice(i, 1); saveLife(); renderWins(); } };
+    li.append(x); ol.append(li);
+  });
+  if (document.activeElement !== $('nextText')) $('nextText').value = LIFE.next || '';
+  $('nextTalk').href = 'https://claude.ai/new?q=' + encodeURIComponent("Here's a big idea I want to build someday. Help me figure out the smallest version I could test during my spring semester, who would pay for it, and what already exists.\n\n" + (LIFE.next || ''));
+}
+$('winAdd').onclick = () => { const v = $('winIn').value.trim(); if (!v) return; LIFE.wins.push(v); $('winIn').value = ''; saveLife(); renderWins(); };
+$('winIn').onkeydown = e => { if (e.key === 'Enter') $('winAdd').click(); };
+$('nextText').oninput = () => { LIFE.next = $('nextText').value; saveLife(); };
+$('nextText').onchange = renderWins;
+$('nextScore').onclick = () => {
+  const ai = PA.ideas.find(i => /ai/i.test(i.name) && /(life|plan)/i.test(i.name));
+  if (ai) openIdea = ai.name;
+  pathSeg('biz'); renderPath();
+  setTimeout(() => { const el = document.querySelector('.idea .ihead[aria-expanded="true"]'); if (el) el.scrollIntoView({behavior:'smooth', block:'center'}); }, 50);
+};
+
+function yearsTo(start, monthly, goal, rate){
+  if (start >= goal) return 0;
+  const r = rate / 12; let v = start, m = 0;
+  while (v < goal && m < 12 * 80){ v = v * (1 + r) + monthly; m++; }
+  return m >= 12 * 80 ? null : m / 12;
+}
+function renderMoney(){
+  const M = LIFE.money, crypto = window.cryptoNow || 0;
+  const total = M.accounts.reduce((t, a) => t + (+a.value || 0), 0) + crypto;
+  $('mNow').textContent = usd0(total); $('mGoalTxt').textContent = short$(M.goal);
+  const pct = Math.min(100, total / M.goal * 100);
+  $('mBar').style.width = pct.toFixed(1) + '%';
+  $('mPct').textContent = `${pct.toFixed(1)}% of the way there`;
+  const pj = $('mProj'); pj.innerHTML = '';
+  [['Slow years', 0.04, '4% a year'], ['Average', 0.07, '7% a year, the long-run stock average after inflation'], ['Strong years', 0.10, '10% a year']].forEach(([name, rate, why]) => {
+    const y = yearsTo(total, +M.monthly || 0, M.goal, rate);
+    const row = mk('div', 'proj');
+    const l = mk('div'); l.append(mk('span', '', name), mk('small', '', why));
+    const r = mk('b', '', y == null ? '80+ yrs' : y === 0 ? 'Done 🎉' : 'Age ' + Math.round((+M.age || 22) + y));
+    row.append(l, r); pj.append(row);
+  });
+  const ab = $('mAccts'); ab.innerHTML = '';
+  M.accounts.forEach((a, i) => {
+    const row = mk('div', 'acct');
+    const nm = mk('span', '', a.name); nm.append(mk('small', '', a.at ? 'Updated ' + shortDate(a.at) : ''));
+    const inp = document.createElement('input'); inp.inputMode = 'decimal'; inp.value = Math.round(a.value); inp.setAttribute('aria-label', a.name + ' value');
+    inp.onchange = () => { const v = parseFloat(inp.value.replace(/[$,\s]/g, '')); if (!isNaN(v)){ a.value = v; a.at = dayKey(); saveLife(); renderMoney(); } };
+    const x = mk('button', 'x', '×'); x.setAttribute('aria-label', 'Remove ' + a.name);
+    x.onclick = () => { if (confirm('Remove ' + a.name + '?')){ M.accounts.splice(i, 1); saveLife(); renderMoney(); } };
+    row.append(nm, inp, x); ab.append(row);
+  });
+  const cr = mk('div', 'acct'); const cn = mk('span', '', 'Crypto'); cn.append(mk('small', '', 'Live from your Coins tab'));
+  cr.append(cn, mk('b', '', usd0(crypto))); ab.append(cr);
+  [['mGoal', M.goal], ['mAge', M.age], ['mMonthly', M.monthly]].forEach(([id, v]) => { if (document.activeElement !== $(id)) $(id).value = v; });
+  const hl = $('mHist'); hl.innerHTML = '';
+  M.hist.slice().reverse().slice(0, 12).forEach((h, i, arr) => {
+    const prev = arr[i + 1];
+    const li = mk('li', 'gr'); li.append(mk('span', 'd', shortDate(h.date)), mk('span', '', usd0(h.total)));
+    if (prev){ const d = h.total - prev.total; li.append(mk('b', d >= 0 ? 'pos' : 'neg', (d >= 0 ? '+' : '-') + usd0(Math.abs(d)))); }
+    hl.append(li);
+  });
+}
+[['mGoal','goal'], ['mAge','age'], ['mMonthly','monthly']].forEach(([id, k]) => {
+  $(id).onchange = () => { const v = parseFloat($(id).value.replace(/[$,\s]/g, '')); if (!isNaN(v)){ LIFE.money[k] = v; saveLife(); renderMoney(); } };
+});
+$('mAcctAdd').onclick = () => {
+  const n = $('mAcctName').value.trim(), v = parseFloat($('mAcctVal').value.replace(/[$,\s]/g, ''));
+  if (!n || isNaN(v)) return;
+  LIFE.money.accounts.push({name:n, value:v, at:dayKey()}); $('mAcctName').value = ''; $('mAcctVal').value = ''; saveLife(); renderMoney();
+};
+$('mSnap').onclick = () => {
+  const M = LIFE.money, total = M.accounts.reduce((t, a) => t + (+a.value || 0), 0) + (window.cryptoNow || 0);
+  M.hist = M.hist.filter(h => h.date !== dayKey()); M.hist.push({date: dayKey(), total: Math.round(total)}); saveLife(); renderMoney();
+};
+function pathSeg(which){
+  [['biz','segBiz','pathBiz'], ['wins','segWins','pathWins'], ['money','segMoney','pathMoney']].forEach(([k, b, v]) => {
+    $(b).classList.toggle('on', k === which); $(v).hidden = k !== which;
+  });
+  try { localStorage.setItem('hq-pathseg', which); } catch(e){}
+  if (which === 'money') renderMoney(); if (which === 'wins') renderWins();
+}
+$('segBiz').onclick = () => pathSeg('biz');
+$('segWins').onclick = () => pathSeg('wins');
+$('segMoney').onclick = () => pathSeg('money');
+
 function applyBizSeed(text){
   const m = String(text).match(/#biz=([A-Za-z0-9+/=_-]+)/);
   if (!m) return false;
@@ -971,6 +1190,7 @@ $('setupLoad').onclick = () => {
   let ok = [];
   try { if (applyHoldSeed(t)){ ok.push('coin holdings'); load(); } } catch(e){}
   try { if (applyBizSeed(t)){ ok.push('business ideas'); renderPath(); } } catch(e){}
+  try { if (applyLifeSeed(t)){ ok.push('wins and money'); renderWins(); renderMoney(); } } catch(e){}
   $('setupMsg').textContent = ok.length ? '✓ Loaded your ' + ok.join(' and ') + '. Paste another link or close this.' : "✗ That link didn't work. Copy the whole link and try again.";
   if (ok.length) $('setupText').value = '';
 };
@@ -991,7 +1211,8 @@ $('tabCook').onclick = () => showTab('cook');
 $('tabGym').onclick = () => showTab('gym');
 $('tabNotes').onclick = () => showTab('notes');
 $('tabPath').onclick = () => showTab('path');
-renderWater(); renderGym(); renderGroc(); renderNotes(); renderPath();
+renderWater(); renderGym(); renderGroc(); renderNotes(); renderPath(); renderWins(); renderMoney();
+try { pathSeg(localStorage.getItem('hq-pathseg') || 'biz'); } catch(e){ pathSeg('biz'); }
 try { showTab(localStorage.getItem('hq-tab') || 'today'); } catch(e){ showTab('today'); }
 renderToday();
 
