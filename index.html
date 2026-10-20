@@ -59,6 +59,9 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.walletbox{background:var(--bg);border-radius:12px;padding:10px 12px;margin-top:10px}
+.walletbox input{background:var(--panel)}
+.hrow .auto{font-size:11px;color:var(--green);font-weight:600}
 .binsbtn{width:100%;display:flex;justify-content:space-between;align-items:center;margin:0 0 14px;padding:16px;border-radius:16px;font-size:18px}
 .binsbtn span{font-size:13px;font-weight:500;opacity:.8}
 .binthumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
@@ -670,14 +673,20 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
   <p class="note"><button id="refresh">Refresh now</button></p>
   <details class="card" style="margin-top:14px">
     <summary style="font-weight:700;cursor:pointer">✏️ Edit my holdings</summary>
-    <p class="sub" style="margin-top:8px">Saved on this phone only, never on GitHub. Update after you buy or sell. Use Phantom's "amount invested" for Paid and "realized" for Realized.</p>
+    <div class="walletbox">
+      <p class="feelhead" style="margin-top:6px">🔗 Wallet auto-sync</p>
+      <p class="sub" style="margin:0 0 8px">Paste your Phantom wallet address (starts with 0x). Coin amounts then update by themselves after every buy, sell, or swap. Saved on this phone only.</p>
+      <div class="add" style="margin-top:0"><input id="walletIn" placeholder="0x…" spellcheck="false" autocapitalize="off" aria-label="Wallet address"><button id="walletSync">Sync</button></div>
+      <p class="sub" id="walletMsg" style="margin:8px 0 0"></p>
+    </div>
+    <p class="sub" style="margin-top:12px">Paid and Realized come from Phantom (tap a coin, then use "amount invested" and "realized"). They're only needed for exact P/L. Tokens fill in automatically once your wallet is synced.</p>
     <div id="holdEdit"></div>
   </details>
   </div>
 </main>
 <script>
 // ---------- Auto-update: change APP_VERSION every time index.html is updated ----------
-const APP_VERSION = '2026-10-20a';
+const APP_VERSION = '2026-10-20b';
 async function checkForUpdate(manual){
   try {
     const r = await fetch(location.pathname + '?check=' + Date.now(), {cache: 'no-store'});
@@ -788,6 +797,71 @@ try { if (applyHoldSeed(location.hash)) history.replaceState(null, '', location.
 function saveHold(){ try { localStorage.setItem('hq-holdings', JSON.stringify(HOLD)); } catch(e){} }
 const numIn = s => { s = String(s).trim().toLowerCase().replace(/[$,\s]/g,''); let k = 1; if (s.endsWith('k')){ k = 1e3; s = s.slice(0,-1); } const n = parseFloat(s); return isNaN(n) ? 0 : n * k; };
 let COINLIST = [];
+// Wallet auto-sync: read token balances straight from Robinhood Chain (Blockscout explorer, RPC as backup)
+const STABLES = /^(CASH|USDC|USDT|USDG|DAI|PYUSD|USDE|USDS|FDUSD|WETH|ETH|WBTC)$/i;
+let WAL = {addr: '', at: 0, coins: {}, extra: []};
+try { WAL = Object.assign(WAL, JSON.parse(localStorage.getItem('hq-wallet') || '{}')); } catch(e){}
+const saveWal = () => { try { localStorage.setItem('hq-wallet', JSON.stringify(WAL)); } catch(e){} };
+const toUnits = (raw, dec) => { try { const b = BigInt(raw), d = 10n ** BigInt(dec); return Number(b / d) + Number(b % d) / Number(d); } catch(e){ return parseFloat(raw) / Math.pow(10, dec); } };
+async function balancesFromExplorer(addr){
+  const r = await tfetch('https://robinhoodchain.blockscout.com/api/v2/addresses/' + addr + '/token-balances', {headers: {Accept: 'application/json'}}, 9000);
+  if (!r.ok) throw new Error('explorer ' + r.status);
+  const j = await r.json(), items = Array.isArray(j) ? j : (j.items || []);
+  const out = {};
+  items.forEach(it => {
+    const t = it.token || {}, ca = (t.address_hash || t.address || '').toLowerCase(), type = t.type || 'ERC-20';
+    if (!ca || !/ERC-?20/i.test(type)) return;
+    out[ca] = {symbol: t.symbol || ca.slice(0, 6), amount: toUnits(it.value || '0', +t.decimals || 18)};
+  });
+  return out;
+}
+async function balancesFromRPC(addr, list){
+  const rpc = 'https://rpc.mainnet.chain.robinhood.com', out = {};
+  const call = (to, data) => tfetch(rpc, {method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({jsonrpc: '2.0', id: 1, method: 'eth_call', params: [{to, data}, 'latest']})}, 8000).then(r => r.json()).then(j => j.result);
+  for (const c of list){
+    try {
+      const [bal, dec] = await Promise.all([call(c.ca, '0x70a08231' + addr.slice(2).toLowerCase().padStart(64, '0')), call(c.ca, '0x313ce567')]);
+      if (bal) out[c.ca.toLowerCase()] = {symbol: c.name, amount: toUnits(BigInt(bal).toString(), dec ? parseInt(dec, 16) : 18)};
+    } catch(e){}
+  }
+  return out;
+}
+let walletBusy = false;
+async function syncWallet(manual){
+  const addr = (WAL.addr || '').trim();
+  if (!/^0x[0-9a-fA-F]{40}$/.test(addr)){ if (manual) $('walletMsg').textContent = '✗ That doesn\'t look like a wallet address. It should start with 0x and be 42 characters.'; return false; }
+  if (walletBusy) return false;
+  if (!manual && Date.now() - (WAL.at || 0) < 2 * 60 * 1000) return false;   // every 2 minutes at most
+  walletBusy = true; if (manual) $('walletMsg').textContent = 'Syncing…';
+  try {
+    let bal, source = 'explorer';
+    try { bal = await balancesFromExplorer(addr); }
+    catch(e){ source = 'chain'; bal = await balancesFromRPC(addr, COINLIST.length ? COINLIST : []); }
+    const known = {}; COINLIST.filter(c => !c.extra).forEach(c => known[c.ca.toLowerCase()] = c.name);
+    const coins = {}, extra = [];
+    Object.entries(bal).forEach(([ca, b]) => {
+      if (STABLES.test(b.symbol) || b.amount <= 0) return;
+      const name = known[ca] || (Object.values(known).includes(b.symbol.toUpperCase()) ? b.symbol.toUpperCase() + '·' + ca.slice(2, 6) : b.symbol.toUpperCase());
+      coins[name] = b.amount;
+      if (!known[ca]) extra.push({name, ca, extra: true});
+    });
+    Object.values(known).forEach(n => { if (coins[n] == null) coins[n] = 0; });   // in your list but not in wallet = sold
+    Object.entries(coins).forEach(([n, amt]) => { HOLD[n] = Object.assign({}, HOLD[n] || {}, {tokens: amt}); });
+    saveHold();
+    WAL.coins = coins; WAL.extra = extra; WAL.at = Date.now(); saveWal();
+    const held = Object.values(coins).filter(a => a > 0).length;
+    $('walletMsg').textContent = `✓ Synced ${new Date().toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'})} · ${held} coin${held === 1 ? '' : 's'} found` + (source === 'chain' ? ' (backup method: only coins already in your list)' : '');
+    $('holdEdit').innerHTML = '';
+    return true;
+  } catch(e){
+    $('walletMsg').textContent = "✗ Couldn't reach Robinhood Chain right now. It'll try again in a couple minutes.";
+    return false;
+  } finally { walletBusy = false; }
+}
+$('walletIn').value = WAL.addr || '';
+if (WAL.at) $('walletMsg').textContent = `Last synced ${new Date(WAL.at).toLocaleString([], {month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'})}`;
+$('walletSync').onclick = async () => { WAL.addr = $('walletIn').value.trim(); WAL.at = 0; saveWal(); if (await syncWallet(true)) load(); };
 function renderHoldEditor(){
   const box = $('holdEdit'); box.innerHTML = '';
   COINLIST.forEach(c => {
@@ -796,6 +870,7 @@ function renderHoldEditor(){
     row.innerHTML = '<b></b><label>Tokens<input inputmode="decimal"></label><label>Paid $<input inputmode="decimal"></label><label>Realized $<input inputmode="decimal"></label>';
     row.querySelector('b').textContent = c.name;
     const [t, p, r] = row.querySelectorAll('input');
+    if (WAL.addr && WAL.coins && WAL.coins[c.name] != null){ t.readOnly = true; t.style.opacity = .7; const tag = document.createElement('span'); tag.className = 'auto'; tag.textContent = ' · auto from wallet'; row.querySelector('b').append(tag); }
     t.value = h.tokens ?? ''; p.value = h.paid ?? ''; r.value = h.realized ?? '';
     [t, p, r].forEach(inp => inp.setAttribute('aria-label', c.name + ' ' + inp.parentElement.firstChild.textContent));
     const upd = () => { HOLD[c.name] = {tokens: numIn(t.value), paid: numIn(p.value), realized: r.value.trim() ? parseFloat(r.value.replace(/[$,\s]/g,'')) || 0 : 0}; saveHold(); load(); };
@@ -819,15 +894,21 @@ async function drawCoins(){
   let cfg, state = {}, pairs = [];
   try { cfg = await getJSON(REPO + 'coins.json'); }
   catch(e){ $('coins').innerHTML = '<p class="note">Couldn\'t load your coin list. Check your connection and tap Refresh.</p>'; return; }
+  COINLIST = cfg.coins;
+  if (WAL.addr){ await syncWallet(false); }
+  const synced = WAL.addr && WAL.at;
+  const soldNames = synced ? cfg.coins.filter(c => WAL.coins && WAL.coins[c.name] === 0).map(c => c.name) : [];
+  cfg = Object.assign({}, cfg, {coins: cfg.coins.concat(synced ? (WAL.extra || []) : []).filter(c => !soldNames.includes(c.name))});   // sold coins drop off
+  COINLIST = cfg.coins;
   try { state = await getJSON(REPO + 'state.json'); } catch(e){}
   try {
-    const cas = cfg.coins.map(c => c.ca).filter(Boolean).join(',');
+    const cas = cfg.coins.map(c => c.ca).filter(Boolean).slice(0, 30).join(',');
     pairs = (await getJSON('https://api.dexscreener.com/latest/dex/tokens/' + cas)).pairs || [];
   } catch(e){}
 
   const TP = cfg.take_profit_pct || 50, DIP = cfg.rebuy_dip_pct || 30;
-  let tVal = 0, tCost = 0, tReal = 0, live = false; coinAlerts = 0;
-  COINLIST = cfg.coins; if (!$('holdEdit').children.length) renderHoldEditor();
+  let tVal = 0, tCost = 0, tReal = 0, tAll = 0, live = false; coinAlerts = 0;
+  if (!$('holdEdit').children.length) renderHoldEditor();
   const cards = [];
 
   for (const c of cfg.coins){
@@ -856,6 +937,8 @@ async function drawCoins(){
     const pl = value != null && cost ? value - cost : null;
     const plPct = pl != null ? pl / cost * 100 : null;
     if (value != null && cost){ tVal += value; tCost += cost; }
+    if (value != null) tAll += value;
+    if (pair && c.extra && value != null && value < 1) continue;   // skip dust and junk airdrops
 
     const high = Math.max(st.high || 0, price), low = st.low ? Math.min(st.low, price) : price;
     const gain = plPct != null ? plPct : (low ? (price/low - 1)*100 : 0);
@@ -886,15 +969,21 @@ async function drawCoins(){
   }
   $('coins').replaceChildren(...cards);
 
-  window.cryptoNow = tCost ? tVal : 0;
+  soldNames.forEach(n => { tReal += +((HOLD[n] || {}).realized) || 0; });   // profit/loss from coins you fully sold still counts
+  window.cryptoNow = tAll;
   if (typeof renderMoney === 'function') renderMoney();
   if (tCost){
     const p = tVal - tCost;
-    $('total').textContent = money(tVal);
+    $('total').textContent = money(tAll);
     $('totalPl').className = 'pl ' + (p >= 0 ? 'up' : 'down');
     $('totalPl').textContent = `${p >= 0 ? '▲' : '▼'} ${money(p)} (${pct(p/tCost*100)}) holding`;
     const all = p + tReal;
-    $('totalAll').innerHTML = `Paid ${money(tCost)} · Realized <b class="${cls(tReal)}">${money(tReal)}</b> · All-in <b class="${cls(all)}">${money(all)}</b>`;
+    $('totalAll').innerHTML = `Paid ${money(tCost)} · Realized <b class="${cls(tReal)}">${money(tReal)}</b> · All-in <b class="${cls(all)}">${money(all)}</b>` +
+      (tAll - tVal > 0.5 ? `<br><span class="sub">P/L covers coins with a Paid amount. ${money(tAll - tVal)} is in coins without one yet.</span>` : '');
+  } else if (tAll){
+    $('total').textContent = money(tAll);
+    $('totalPl').className = 'pl'; $('totalPl').textContent = 'Add Paid amounts for P/L';
+    $('totalAll').textContent = '';
   } else {
     $('total').textContent = '—';
     $('totalPl').className = 'pl'; $('totalPl').textContent = 'Add your holdings below';
