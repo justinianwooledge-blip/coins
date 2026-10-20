@@ -62,7 +62,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .walletbox{background:var(--bg);border-radius:12px;padding:10px 12px;margin-top:10px}
 .walletbox input{background:var(--panel)}
 .hrow .auto{font-size:11px;color:var(--green);font-weight:600}
-.binsbtn{width:100%;display:flex;justify-content:space-between;align-items:center;margin:0 0 14px;padding:16px;border-radius:16px;font-size:18px}
+.binsbtn{width:100%;display:flex;background:var(--ink);color:var(--panel);font-weight:600;justify-content:space-between;align-items:center;margin:0 0 14px;padding:16px;border-radius:16px;font-size:18px}
 .binsbtn span{font-size:13px;font-weight:500;opacity:.8}
 .binthumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .binthumbs div{position:relative}
@@ -253,7 +253,8 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
       <a href="depop://" class="ql"><span>🛍️</span>Depop</a>
       <a href="https://claude.ai/artifact/PfksgzyGj1zgW3ZyUXsLKa" target="_blank" rel="noopener" class="ql"><span>🏷️</span>Listing Maker</a>
     </div>
-    <button class="binsbtn" id="openBins">🔍 Bins Scanner <span>Snap a tag, get search terms</span></button>
+    <a class="binsbtn" href="https://claude.ai/artifact/EP1q2LNQiNA4Hm1rzuRPc6" target="_blank" rel="noopener" style="text-decoration:none">🔍 Bins Scanner <span>Claude identifies it from photos</span></a>
+    <button class="ghost small" id="openBins" style="width:100%;margin:-6px 0 14px;font-size:13px">Offline tag reader (no Claude)</button>
     <div class="card">
       <h2>Depop listings</h2>
       <p class="sub" id="depopSub"></p>
@@ -686,7 +687,7 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
 </main>
 <script>
 // ---------- Auto-update: change APP_VERSION every time index.html is updated ----------
-const APP_VERSION = '2026-10-20b';
+const APP_VERSION = '2026-10-20c';
 async function checkForUpdate(manual){
   try {
     const r = await fetch(location.pathname + '?check=' + Date.now(), {cache: 'no-store'});
