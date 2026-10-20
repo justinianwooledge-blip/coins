@@ -59,6 +59,8 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.hiddenline{margin:4px 0 14px;font-size:14px;color:var(--soft)}
+.hiddenline summary{cursor:pointer;padding:6px 2px}
 .walletbox{background:var(--bg);border-radius:12px;padding:10px 12px;margin-top:10px}
 .walletbox input{background:var(--panel)}
 .hrow .auto{font-size:11px;color:var(--green);font-weight:600}
@@ -687,7 +689,7 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
 </main>
 <script>
 // ---------- Auto-update: change APP_VERSION every time index.html is updated ----------
-const APP_VERSION = '2026-10-20c';
+const APP_VERSION = '2026-10-20e';
 async function checkForUpdate(manual){
   try {
     const r = await fetch(location.pathname + '?check=' + Date.now(), {cache: 'no-store'});
@@ -865,7 +867,7 @@ if (WAL.at) $('walletMsg').textContent = `Last synced ${new Date(WAL.at).toLocal
 $('walletSync').onclick = async () => { WAL.addr = $('walletIn').value.trim(); WAL.at = 0; saveWal(); if (await syncWallet(true)) load(); };
 function renderHoldEditor(){
   const box = $('holdEdit'); box.innerHTML = '';
-  COINLIST.forEach(c => {
+  COINLIST.filter(c => !window.__shown || window.__shown.includes(c.name)).forEach(c => {
     const h = HOLD[c.name] || {};
     const row = document.createElement('div'); row.className = 'hrow';
     row.innerHTML = '<b></b><label>Tokens<input inputmode="decimal"></label><label>Paid $<input inputmode="decimal"></label><label>Realized $<input inputmode="decimal"></label>';
@@ -909,12 +911,28 @@ async function drawCoins(){
 
   const TP = cfg.take_profit_pct || 50, DIP = cfg.rebuy_dip_pct || 30;
   let tVal = 0, tCost = 0, tReal = 0, tAll = 0, live = false; coinAlerts = 0;
+  const hiddenCoins = [], shown = []; let tinyCount = 0, ignoredCount = 0;
   if (!$('holdEdit').children.length) renderHoldEditor();
   const cards = [];
 
   for (const c of cfg.coins){
     const mine = pairs.filter(p => (p.baseToken?.address || '').toLowerCase() === c.ca.toLowerCase());
     const pair = mine.sort((a,b) => (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0];
+    {
+      const key = c.ca.toLowerCase(), liq = pair ? (pair.liquidity?.usd || 0) : 0;
+      const tk = (HOLD[c.name] || {}).tokens || 0, est = pair ? tk * parseFloat(pair.priceUsd) : null;
+      const trusted = (WAL.allow || []).includes(key);
+      if ((WAL.ignore || []).includes(key)){ ignoredCount++; continue; }
+      if (c.extra && !trusted && (!pair || liq < 5000)){                       // no real market: junk airdrop
+        if (est != null && est >= 5) hiddenCoins.push({name: c.name, ca: key, liq, est}); else tinyCount++;
+        continue;
+      }
+      if (synced && est != null && est < 5 && !trusted){                      // worth under $5: leave it off
+        tinyCount++; tReal += +((HOLD[c.name] || {}).realized) || 0;
+        continue;
+      }
+    }
+    shown.push(c.name);
     const st = state[c.name] || {};
     const botHist = st.hist || [];
     let price = pair ? parseFloat(pair.priceUsd) : (botHist.length ? botHist[botHist.length-1][1] : 0);
@@ -939,7 +957,6 @@ async function drawCoins(){
     const plPct = pl != null ? pl / cost * 100 : null;
     if (value != null && cost){ tVal += value; tCost += cost; }
     if (value != null) tAll += value;
-    if (pair && c.extra && value != null && value < 1) continue;   // skip dust and junk airdrops
 
     const high = Math.max(st.high || 0, price), low = st.low ? Math.min(st.low, price) : price;
     const gain = plPct != null ? plPct : (low ? (price/low - 1)*100 : 0);
@@ -965,10 +982,39 @@ async function drawCoins(){
       </div>
       <div class="foot"><span style="color:var(--soft)">Week: ${px(low)} → ${px(high)}</span><a target="_blank" rel="noopener"></a></div>`;
     card.querySelector('.name').textContent = c.name;
+    if (c.extra){
+      const hb = mk('button', 'ghost small', 'Hide this coin'); hb.style.marginTop = '10px';
+      hb.onclick = () => { WAL.ignore = [...new Set([...(WAL.ignore || []), c.ca.toLowerCase()])]; WAL.allow = (WAL.allow || []).filter(x => x !== c.ca.toLowerCase()); saveWal(); load(); };
+      const tag = mk('p', 'sub', '🔗 Found in your wallet'); tag.style.margin = '6px 0 0';
+      card.append(tag, hb);
+    }
     const a = card.querySelector('a'); a.href = pair?.url || ('https://dexscreener.com/search?q=' + encodeURIComponent(c.ca)); a.textContent = '📈 Chart';
     cards.push(card);
   }
+  const nHidden = hiddenCoins.length + tinyCount + ignoredCount;
+  if (nHidden){
+    const hc = mk('details', 'hiddenline');
+    hc.append(mk('summary', '', `🙈 ${nHidden} small or junk coin${nHidden === 1 ? '' : 's'} hidden`));
+    hc.append(mk('p', 'sub', `${tinyCount ? tinyCount + ' worth under $5. ' : ''}Coins with fake prices are listed below. Don't swap or "claim" junk coins, since that's how wallet scams work. If one is real, tap Track.`));
+    hiddenCoins.forEach(x => {
+      const row = mk('div', 'gr');
+      row.append(mk('span', '', x.name), mk('span', 'sub', x.est != null ? `shows ~$${Math.round(x.est).toLocaleString()} · $${Math.round(x.liq).toLocaleString()} liquidity` : 'no market'));
+      const t = mk('button', 'ghost small', 'Track');
+      t.onclick = () => { WAL.allow = [...new Set([...(WAL.allow || []), x.ca])]; saveWal(); load(); };
+      row.append(t); hc.append(row);
+    });
+    (WAL.ignore || []).forEach(ca => {
+      const ex = (WAL.extra || []).find(e => e.ca.toLowerCase() === ca);
+      const row = mk('div', 'gr'); row.append(mk('span', '', ex ? ex.name : ca.slice(0, 8) + '…'), mk('span', 'sub', 'hidden by you'));
+      const t = mk('button', 'ghost small', 'Unhide');
+      t.onclick = () => { WAL.ignore = (WAL.ignore || []).filter(x => x !== ca); saveWal(); load(); };
+      row.append(t); hc.append(row);
+    });
+    cards.push(hc);
+  }
   $('coins').replaceChildren(...cards);
+  const shownKey = shown.join('|');
+  if (shownKey !== window.__shownKey && !$('holdEdit').contains(document.activeElement)){ window.__shownKey = shownKey; window.__shown = shown; $('holdEdit').innerHTML = ''; renderHoldEditor(); }
 
   soldNames.forEach(n => { tReal += +((HOLD[n] || {}).realized) || 0; });   // profit/loss from coins you fully sold still counts
   window.cryptoNow = tAll;
