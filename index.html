@@ -59,6 +59,18 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.binsbtn{width:100%;display:flex;justify-content:space-between;align-items:center;margin:0 0 14px;padding:16px;border-radius:16px;font-size:18px}
+.binsbtn span{font-size:13px;font-weight:500;opacity:.8}
+.binthumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.binthumbs div{position:relative}
+.binthumbs img{width:74px;height:74px;object-fit:cover;border-radius:10px}
+.binthumbs button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;padding:0;font-size:12px;line-height:22px}
+.clue{background:var(--gold-bg);border:1px solid var(--gold);border-radius:999px;padding:5px 10px;font-size:13px;font-weight:600}
+.term{border-top:1px solid var(--line);padding:10px 0}
+.term:first-child{border-top:0}
+.term b{display:block;font-size:16px;margin-bottom:6px;word-break:break-word}
+.term .sites{display:flex;flex-wrap:wrap;gap:6px}
+.term .sites a,.term .sites button{font-size:13px;padding:6px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600}
 .seg.mini{margin:0;padding:3px}
 .seg.mini button{padding:6px 10px;font-size:13px}
 .photobtn{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;margin-top:12px;border:2px dashed var(--line);border-radius:14px;padding:14px;cursor:pointer;color:var(--ink);font-weight:600;background:var(--bg)}
@@ -238,6 +250,7 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
       <a href="depop://" class="ql"><span>🛍️</span>Depop</a>
       <a href="https://claude.ai/artifact/PfksgzyGj1zgW3ZyUXsLKa" target="_blank" rel="noopener" class="ql"><span>🏷️</span>Listing Maker</a>
     </div>
+    <button class="binsbtn" id="openBins">🔍 Bins Scanner <span>Snap a tag, get search terms</span></button>
     <div class="card">
       <h2>Depop listings</h2>
       <p class="sub" id="depopSub"></p>
@@ -284,6 +297,64 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
         <button id="setupLoad">Load</button>
       </div>
       <p class="sub" id="setupMsg" style="margin:10px 0 0"></p>
+    </div>
+  </div>
+
+  <div id="viewBins" hidden>
+    <div class="row" style="margin-bottom:12px">
+      <button class="ghost" id="binsBack">← Back</button>
+      <h2 style="margin:0;flex:1;text-align:center">🔍 Bins Scanner</h2>
+      <span style="width:70px"></span>
+    </div>
+
+    <div class="card">
+      <label class="photobtn">
+        <input type="file" accept="image/*" capture="environment" id="binPhoto" hidden>
+        <span>📷 Snap the tag</span>
+        <small class="sub" style="margin:0">Get close and in focus. Add more photos for the inside label or the item.</small>
+      </label>
+      <div class="binthumbs" id="binThumbs"></div>
+      <p class="sub" id="binStatus" style="margin:10px 0 0"></p>
+    </div>
+
+    <div class="card" id="binFound" hidden>
+      <h2>🏷️ What the tag says</h2>
+      <div class="chips" id="binClues"></div>
+      <p class="feelhead">Brand</p>
+      <input id="binBrand" class="sinput" placeholder="Brand" aria-label="Brand">
+      <p class="feelhead">Item</p>
+      <div class="chips" id="binType"></div>
+      <p class="feelhead">Color / details (optional)</p>
+      <input id="binColor" class="sinput" placeholder="e.g. black, graphic, faded" aria-label="Color or details">
+      <details style="margin-top:10px"><summary class="sub">Raw text from the tag (edit if it misread)</summary>
+        <textarea id="binText" rows="5" class="nexttext" style="margin-top:8px" aria-label="Tag text"></textarea>
+      </details>
+    </div>
+
+    <div class="card" id="binSearch" hidden>
+      <h2>🔎 Look it up</h2>
+      <p class="sub">Tap a site to see what it sold for. eBay, Poshmark, and Mercari open to <b>sold</b> listings.</p>
+      <div id="binTerms"></div>
+      <a id="binClaude" class="ql wide" target="_blank" rel="noopener" style="margin-top:10px"><span>🤖</span>Ask Claude to identify it</a>
+      <p class="sub" style="margin:6px 0 0">Attach your tag photos in the chat for the best answer.</p>
+    </div>
+
+    <div class="card" id="binSaveCard" hidden>
+      <h2>💾 Save this find</h2>
+      <div class="mset">
+        <label>Sold-for price you found $<input id="binValue" inputmode="decimal" placeholder="optional"></label>
+      </div>
+      <div class="chips" id="binStatusChips" style="margin-top:10px"></div>
+      <textarea id="binNote" rows="2" class="nexttext" style="margin-top:10px" placeholder="Notes (condition, flaws, size…)" aria-label="Find notes"></textarea>
+      <div class="notebtns">
+        <button id="binSave">Save find</button>
+        <button id="binClear" class="ghost small">Start over</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🛍️ Recent finds</h2>
+      <div id="binFinds"></div>
     </div>
   </div>
 
@@ -606,7 +677,7 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
 </main>
 <script>
 // ---------- Auto-update: change APP_VERSION every time index.html is updated ----------
-const APP_VERSION = '2026-10-19b';
+const APP_VERSION = '2026-10-20a';
 async function checkForUpdate(manual){
   try {
     const r = await fetch(location.pathname + '?check=' + Date.now(), {cache: 'no-store'});
@@ -1172,6 +1243,168 @@ const PHASES = [
 ];
 const CRIT = ['Uses my skills','No physical labor','Recurring revenue','Cheap to start','People already pay for it'];
 let PA = read('hq-path', {grad:'2027-05-15', done:{}, ideas:[], edge:[]});
+// ---------- Bins Scanner: read tags on the phone, build search terms ----------
+const BRANDS = ['Nike','Adidas','Carhartt',"Levi's",'Levis','Patagonia','The North Face','North Face','Ralph Lauren','Polo','Tommy Hilfiger','Harley-Davidson','Harley Davidson','Champion','Columbia','Wrangler','Dickies','Lululemon','Stussy','Supreme','Vans','Nautica','Eddie Bauer','L.L.Bean','LL Bean','Pendleton','Woolrich','Starter','Reebok','Under Armour','Puma','Coach','Disney','Hanes','Fruit of the Loom','Gildan','Russell','Jerzees','Lee','Guess','Calvin Klein','Gap','Old Navy','Abercrombie','Hollister','American Eagle','J.Crew','Banana Republic','Brooks Brothers','Lacoste','Timberland','Dr. Martens','Converse','New Balance','Jordan','Arc\'teryx','Arcteryx','Filson','Orvis','Members Only','Tommy Bahama','Wilson','Spalding','Majestic','Mitchell & Ness','47 Brand','New Era','Zara','H&M','Uniqlo','Free People','Urban Outfitters','Kappa','Fila','Ellesse','Umbro','Diesel','True Religion','Ed Hardy','Affliction','Von Dutch','BAPE','Kith','Fear of God','Essentials','Carhartt WIP','Duluth','Cabela\'s','Bass Pro','Realtree','Mossy Oak','Liz Claiborne','Chico\'s','Talbots','Anthropologie','Madewell','Aritzia','Gymshark','Alo','Vuori'];
+const BIN_TYPES = ['T-shirt','Hoodie','Sweatshirt','Jacket','Jeans','Pants','Shorts','Sweater','Flannel','Button-up','Jersey','Hat','Shoes','Bag','Dress','Other'];
+const SITES = [
+  ['eBay sold', q => 'https://www.ebay.com/sch/i.html?_nkw=' + encodeURIComponent(q) + '&LH_Sold=1&LH_Complete=1'],
+  ['Depop', q => 'https://www.depop.com/search/?q=' + encodeURIComponent(q)],
+  ['Poshmark sold', q => 'https://poshmark.com/search?query=' + encodeURIComponent(q) + '&availability=sold_out'],
+  ['Mercari', q => 'https://www.mercari.com/search/?keyword=' + encodeURIComponent(q)],
+  ['Google', q => 'https://www.google.com/search?q=' + encodeURIComponent(q)]
+];
+let BIN = {photos: [], text: '', brand: '', type: '', color: '', status: null};
+let BINS = read('hq-bins', {finds: []});
+const saveBins = () => store('hq-bins', BINS);
+
+function parseTag(text){
+  const T = ' ' + text.replace(/\s+/g, ' ') + ' ', U = T.toUpperCase(), out = {};
+  const rn = U.match(/\bRN\s*[#:.]?\s*(\d{4,6})\b/); if (rn) out.rn = rn[1];
+  const ca = U.match(/\bCA\s*[#:.]?\s*(\d{5})\b/); if (ca) out.ca = ca[1];
+  const style = U.match(/\b(?:STYLE|STY|ART|MODEL|SKU|PRODUCT|PROD|ITEM|MODELO)\s*(?:NO\.?|NUMBER|#|:)?\s*[:#]?\s*([A-Z0-9][A-Z0-9-]{2,14})\b/)
+             || U.match(/\b([A-Z]{2}\d{4}-\d{3})\b/);
+  if (style && !/^(SIZE|COTTON|MADE)/.test(style[1])) out.style = style[1];
+  const size = U.match(/\b(?:SIZE|SZ|TALLA|TAILLE)\s*[:.]?\s*(XXS|XS|S|M|L|XL|XXL|2XL|3XL|XXXL|\d{1,2})\b/)
+            || U.match(/\b(XXS|XS|XL|XXL|2XL|3XL|XXXL)\b/) || U.match(/\bW\s?(\d{2})\s*L\s?(\d{2})\b/);
+  if (size) out.size = size[2] ? `W${size[1]} L${size[2]}` : size[1];
+  const made = U.match(/MADE IN (?:THE )?([A-Z]{3,}(?: [A-Z]{3,})?)/);
+  if (made) out.madeIn = made[1].replace(/\b(OF|IMPORTED|FABRIC|AND)\b.*$/, '').trim().replace(/^U\.?S\.?A\.?$/, 'USA');
+  const mat = U.match(/\b(\d{2,3}%\s*(?:COTTON|POLYESTER|WOOL|NYLON|ACRYLIC|RAYON|LINEN|SILK|LEATHER|SPANDEX))/); if (mat) out.material = mat[1].replace(/\s+/g, ' ');
+  const brand = BRANDS.slice().sort((a, b) => b.length - a.length).find(b => new RegExp('\\b' + b.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s/g, '\\s*') + '\\b', 'i').test(T));
+  if (brand && /^Levi/.test(brand) && !out.style){ const lv = U.match(/\b(5\d\d)\b/); if (lv) out.style = lv[1]; }
+  if (brand) out.brand = brand.replace(/^Levis$/, "Levi's").replace(/^North Face$/, 'The North Face').replace(/^Harley Davidson$/, 'Harley-Davidson').replace(/^LL Bean$/, 'L.L.Bean');
+  return out;
+}
+function binTerms(){
+  const p = parseTag(BIN.text), b = BIN.brand.trim(), t = BIN.type && BIN.type !== 'Other' ? BIN.type : '', c = BIN.color.trim();
+  const terms = [];
+  if (b && p.style) terms.push(`${b} ${p.style}`);
+  if (b || t) terms.push([b, t, c].filter(Boolean).join(' '));
+  if (p.madeIn === 'USA' && (b || t)) terms.push(['vintage', b, t, 'made in USA'].filter(Boolean).join(' '));
+  else if (b && t) terms.push(`vintage ${b} ${t}`);
+  if (p.rn) terms.push(`RN ${p.rn}`);
+  return [...new Set(terms.map(s => s.replace(/\s+/g, ' ').trim()).filter(Boolean))];
+}
+function renderBins(){
+  const th = $('binThumbs'); th.innerHTML = '';
+  BIN.photos.forEach((ph, i) => {
+    const w = mk('div'); const im = document.createElement('img'); im.src = ph.thumb; im.alt = 'Tag photo ' + (i + 1);
+    const x = mk('button', '', '×'); x.setAttribute('aria-label', 'Remove photo');
+    x.onclick = () => { BIN.photos.splice(i, 1); renderBins(); };
+    w.append(im, x); th.append(w);
+  });
+  const has = BIN.photos.length || BIN.text.trim();
+  $('binFound').hidden = !has; $('binSearch').hidden = !has; $('binSaveCard').hidden = !has;
+  const p = parseTag(BIN.text);
+  const cl = $('binClues'); cl.innerHTML = '';
+  [['Brand', p.brand], ['Size', p.size], ['RN', p.rn], ['Style #', p.style], ['Made in', p.madeIn], ['', p.material]].forEach(([k, v]) => { if (v) cl.append(mk('span', 'clue', (k ? k + ': ' : '') + v)); });
+  if (p.madeIn === 'USA') cl.append(mk('span', 'clue', '⭐ Made in USA often means older/vintage'));
+  if (!cl.children.length && BIN.text) cl.append(mk('span', 'sub', 'No clear numbers found. Try a closer photo, or type the brand.'));
+  if (document.activeElement !== $('binText')) $('binText').value = BIN.text;
+  if (document.activeElement !== $('binBrand')) $('binBrand').value = BIN.brand;
+  if (document.activeElement !== $('binColor')) $('binColor').value = BIN.color;
+  chipRow('binType', BIN_TYPES, BIN.type, false, v => { BIN.type = BIN.type === v ? '' : v; renderBins(); });
+  const tb = $('binTerms'); tb.innerHTML = '';
+  const terms = binTerms();
+  if (!terms.length) tb.append(mk('p', 'sub', 'Pick the item type or type a brand to get search terms.'));
+  terms.forEach(q => {
+    const row = mk('div', 'term'); row.append(mk('b', '', q));
+    const s = mk('div', 'sites');
+    (q.startsWith('RN ') ? [SITES[4]] : SITES).forEach(([name, url]) => { const a = mk('a', '', name); a.href = url(q); a.target = '_blank'; a.rel = 'noopener'; s.append(a); });
+    const cp = mk('button', '', 'Copy');
+    cp.onclick = async () => { try { await navigator.clipboard.writeText(q); cp.textContent = 'Copied'; } catch(e){ cp.textContent = 'Hold to copy'; } setTimeout(() => cp.textContent = 'Copy', 1500); };
+    s.append(cp); row.append(s); tb.append(row);
+  });
+  if (terms.some(q => q.startsWith('RN '))) tb.append(mk('p', 'sub', 'RN numbers are registered to a company. Googling the RN can reveal the brand when the label is worn off.'));
+  $('binClaude').href = 'https://claude.ai/new?q=' + encodeURIComponent(
+    "I'm at the Goodwill bins looking at a clothing item to resell. Help me identify the exact item (brand, line, era if vintage) and give me 3 search terms for eBay sold listings, Depop, and Poshmark, plus a rough resale range. I'll attach photos of the tag.\n\nTag text I scanned:\n" + (BIN.text || '(none)') +
+    "\n\nWhat I know: " + [BIN.brand && 'brand ' + BIN.brand, BIN.type && 'item ' + BIN.type, BIN.color && BIN.color, p.size && 'size ' + p.size, p.rn && 'RN ' + p.rn, p.style && 'style # ' + p.style, p.madeIn && 'made in ' + p.madeIn].filter(Boolean).join(', '));
+  chipRow('binStatusChips', ['✅ Bought it', '⏭️ Passed'], BIN.status, false, v => { BIN.status = BIN.status === v ? null : v; });
+  renderFinds();
+}
+function renderFinds(){
+  const box = $('binFinds'); box.innerHTML = '';
+  if (!BINS.finds.length) box.append(mk('p', 'sub', 'Finds you save show up here.'));
+  BINS.finds.slice().reverse().slice(0, 30).forEach(f => {
+    const row = mk('div', 'skrow');
+    const th = f.photos ? document.createElement('img') : mk('button', 'thumb', '👕');
+    if (f.photos){ th.className = 'thumb'; th.alt = f.brand || 'Find'; photoDB.get('bin-' + f.id + '-0').then(d => { if (d){ th.src = d; th.onclick = () => { $('skBig').src = d; $('skBigLbl').textContent = [f.brand, f.type].filter(Boolean).join(' '); $('skViewer').hidden = false; }; } }).catch(() => {}); }
+    const info = mk('div', 'info');
+    info.append(mk('b', '', [f.brand, f.type].filter(Boolean).join(' ') || 'Unknown item'));
+    info.append(mk('small', '', [shortDate(f.date), f.size && 'size ' + f.size, f.value ? 'sold for ~$' + f.value : '', f.status].filter(Boolean).join(' · ')));
+    if (f.note) info.append(mk('small', '', '📝 ' + f.note));
+    if (f.terms && f.terms[0]){ const a = mk('a', '', '🔎 ' + f.terms[0]); a.href = SITES[0][1](f.terms[0]); a.target = '_blank'; a.rel = 'noopener'; a.style.fontSize = '13px'; a.style.color = 'var(--ink)'; info.append(a); }
+    const x = mk('button', 'x', '×'); x.setAttribute('aria-label', 'Delete find');
+    x.onclick = () => { if (confirm('Delete this find?')){ BINS.finds = BINS.finds.filter(o => o.id !== f.id); saveBins(); for (let i = 0; i < (f.photos || 0); i++) photoDB.del('bin-' + f.id + '-' + i).catch(() => {}); renderFinds(); } };
+    row.append(th, info, x); box.append(row);
+  });
+}
+function loadTesseract(){
+  if (window.Tesseract) return Promise.resolve(window.Tesseract);
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+    s.onload = () => res(window.Tesseract); s.onerror = () => rej(new Error('load failed'));
+    document.head.append(s);
+  });
+}
+function shrinkTo(file, max, q){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const s = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg', q));
+    };
+    img.onerror = rej; img.src = url;
+  });
+}
+async function readTag(dataUrl){
+  $('binStatus').textContent = 'Getting the tag reader ready… (first time takes a bit, use Wi-Fi if you can)';
+  const T = await loadTesseract();
+  const r = await T.recognize(dataUrl, 'eng', {logger: m => { if (m.status === 'recognizing text') $('binStatus').textContent = `Reading tag… ${Math.round(m.progress * 100)}%`; }});
+  return (r && r.data && r.data.text) || '';
+}
+$('binPhoto').onchange = async () => {
+  const f = $('binPhoto').files[0]; $('binPhoto').value = ''; if (!f) return;
+  $('binStatus').textContent = 'Processing photo…';
+  try {
+    const [ocr, thumb] = await Promise.all([shrinkTo(f, 1600, 0.9), shrinkTo(f, 720, 0.75)]);
+    BIN.photos.push({thumb}); renderBins();
+    try {
+      const text = (await readTag(ocr)).trim();
+      BIN.text = [BIN.text, text].filter(Boolean).join('\n');
+      const p = parseTag(BIN.text);
+      if (!BIN.brand && p.brand) BIN.brand = p.brand;
+      $('binStatus').textContent = text ? '✓ Read the tag. Check the details below.' : "Couldn't read any text. Try a closer, sharper photo, or type the brand below.";
+    } catch(e){ $('binStatus').textContent = "Couldn't run the tag reader (check your connection). You can still type the brand below."; }
+    renderBins();
+  } catch(e){ $('binStatus').textContent = "Couldn't read that photo. Try again."; }
+};
+$('binText').oninput = () => { BIN.text = $('binText').value; };
+$('binText').onchange = () => { const p = parseTag(BIN.text); if (!BIN.brand && p.brand) BIN.brand = p.brand; renderBins(); };
+$('binBrand').oninput = () => { BIN.brand = $('binBrand').value; };
+$('binBrand').onchange = renderBins;
+$('binColor').oninput = () => { BIN.color = $('binColor').value; };
+$('binColor').onchange = renderBins;
+$('binSave').onclick = async () => {
+  const p = parseTag(BIN.text), id = Date.now();
+  const find = {id, date: dayKey(), brand: BIN.brand.trim(), type: BIN.type, size: p.size || '', value: $('binValue').value.replace(/[$,\s]/g, ''), status: BIN.status,
+                note: $('binNote').value.trim(), terms: binTerms(), text: BIN.text.slice(0, 1500), photos: 0};
+  for (const ph of BIN.photos){ try { await photoDB.put('bin-' + id + '-' + find.photos, ph.thumb); find.photos++; } catch(e){} }
+  BINS.finds.push(find); saveBins(); binReset(); $('binStatus').textContent = '✓ Saved to your finds.';
+};
+function binReset(){ BIN = {photos: [], text: '', brand: '', type: '', color: '', status: null}; $('binValue').value = ''; $('binNote').value = ''; renderBins(); }
+$('binClear').onclick = () => { binReset(); $('binStatus').textContent = ''; };
+let tabBeforeBins = 'today';
+$('openBins').onclick = () => {
+  tabBeforeBins = (localStorage.getItem('hq-tab') || 'today');
+  Object.values(TABS).forEach(([, v]) => $(v).hidden = true);
+  $('viewBins').hidden = false; window.scrollTo({top: 0}); renderBins();
+  loadTesseract().catch(() => {});   // warm up the tag reader
+};
+$('binsBack').onclick = () => { $('viewBins').hidden = true; showTab(tabBeforeBins); };
+
 // ---------- Skin tracker (photos in IndexedDB, entries in localStorage; all on this phone) ----------
 const photoDB = (() => {
   let p;
@@ -1690,6 +1923,7 @@ $('setupLoad').onclick = () => {
 const TABS = {today:['tabToday','viewToday'], mind:['tabMind','viewMind'], gym:['tabGym','viewGym'], coins:['tabCoins','viewCoins'], cook:['tabCook','viewCook'], notes:['tabNotes','viewNotes'], path:['tabPath','viewPath']};
 function showTab(which){
   if (!TABS[which]) which = 'today';
+  $('viewBins').hidden = true;
   for (const [k, [tab, view]] of Object.entries(TABS)){
     $(tab).classList.toggle('on', k === which);
     $(tab).setAttribute('aria-selected', k === which);
