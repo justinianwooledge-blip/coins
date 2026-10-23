@@ -59,6 +59,58 @@ ul{list-style:none;margin:0;padding:0}
 .add input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
+.live{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:center}
+.live .wx{font-size:44px;line-height:1}
+.live .temp{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.live .temp small{font-size:15px;font-weight:500;color:var(--soft);margin-left:6px}
+.secbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin:0 -16px 14px;padding:8px 16px;position:sticky;top:0;padding-top:calc(8px + env(safe-area-inset-top));z-index:5;background:var(--bg)}
+.secbar h2{margin:0;flex:1;text-align:center;font-size:20px}
+.secbar button{justify-self:start}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:14px;text-align:left;min-height:108px}
+.tile .te{font-size:30px;line-height:1;margin-bottom:auto;padding-bottom:10px}
+.tile b{font-size:18px;display:block}
+.tile small{display:block}
+.tile small{font-size:13px;color:var(--soft);font-weight:500}
+.tile.hot small{color:var(--gold);font-weight:700}
+.tile.done small{color:var(--green);font-weight:700}
+.tile.wide{grid-column:1/-1;flex-direction:row;align-items:center;min-height:0;gap:14px}
+.tile.wide .te{margin:0;padding:0}
+.tile.wide div{flex:1}
+.tile .chev{color:var(--soft);font-size:20px}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.tool{display:flex;flex-direction:column;gap:4px;background:var(--ink);color:var(--panel);border-radius:16px;padding:16px;text-decoration:none;font-weight:700;font-size:17px}
+.tool span{font-size:28px;line-height:1.1}
+.tool small{font-weight:500;font-size:13px;opacity:.8}
+.quick{display:flex;gap:8px;margin-bottom:6px}
+.quick a{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;border-radius:12px;background:var(--panel);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px;font-weight:600}
+.pfnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.pfnav button{padding:4px 12px;font-size:18px}
+.pfbig{font-size:40px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;text-align:center;margin:4px 0}
+.pfsplit{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.pfsplit div{background:var(--bg);border-radius:12px;padding:8px 10px;text-align:center}
+.pfsplit span{display:block;font-size:12px;color:var(--soft)}
+.pfsplit b{font-size:18px;font-variant-numeric:tabular-nums}
+.pfform{display:grid;gap:8px;background:var(--bg);border-radius:12px;padding:10px;margin-top:10px}
+.pfform input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:16px}
+.pfform .row input{flex:1}
+.rc{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.rc:last-child{border-bottom:0}
+.rc img{width:44px;height:44px;object-fit:cover;border-radius:8px;flex:none;cursor:pointer}
+.rc .d{color:var(--soft);width:62px;flex:none;font-size:13px}
+.rc span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rc b{font-variant-numeric:tabular-nums}
+.pfdue{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;background:var(--gold-bg);color:var(--ink);border:1px solid var(--gold);border-radius:14px;padding:12px 14px;margin-bottom:14px;text-align:left;font-size:15px}
+.pfdue span{color:var(--gold);font-weight:700}
+.pfview{position:fixed;inset:0;background:rgba(0,0,0,.85);display:grid;place-items:center;z-index:50;padding:20px}
+.pfview img{max-width:100%;max-height:90vh;border-radius:12px}
+.cds{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.cd{background:var(--bg);border-radius:12px;padding:8px 12px;min-width:92px;position:relative}
+.cd b{display:block;font-size:22px;font-variant-numeric:tabular-nums;line-height:1.1}
+.cd span{font-size:13px;color:var(--soft)}
+.cd button{position:absolute;top:2px;right:2px;background:none;color:var(--soft);padding:0 6px;font-size:16px}
+.cdadd{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.cdadd input{flex:1;min-width:110px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
 .hiddenline{margin:4px 0 14px;font-size:14px;color:var(--soft)}
 .hiddenline summary{cursor:pointer;padding:6px 2px}
 .walletbox{background:var(--bg);border-radius:12px;padding:10px 12px;margin-top:10px}
@@ -144,6 +196,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .lights{display:flex;gap:5px;flex:none}
 .lt{display:flex;flex-direction:column;align-items:center;justify-content:center;width:42px;height:48px;border-radius:12px;background:var(--panel);border:1px solid var(--line);color:var(--soft);text-decoration:none;font-size:10px;font-weight:600}
+.lt.all{background:var(--ink);color:var(--panel);border-color:var(--ink)}
 .lt span{font-size:20px;line-height:1.1}
 .pbar{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin-top:10px}
 .pbar i{display:block;height:100%;background:var(--green);border-radius:99px}
@@ -226,12 +279,13 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
 </head>
 <body>
 <main>
-  <div class="top hdr" style="padding-bottom:10px">
+  <div class="top hdr" id="hdr" style="padding-bottom:10px">
     <div>
       <p id="date"></p>
       <span class="attn" id="attn"></span>
     </div>
     <div class="lights" aria-label="Lights">
+      <a href="shortcuts://run-shortcut?name=All%20Lights" class="lt all"><span>🔆</span>All</a>
       <a href="shortcuts://run-shortcut?name=Hue%20Lights" class="lt"><span>💡</span>Hue</a>
       <a href="shortcuts://run-shortcut?name=Govee%20Lights" class="lt"><span>🌈</span>Govee</a>
       <a href="shortcuts://run-shortcut?name=Strip%20Lights" class="lt"><span>✨</span>StripX</a>
@@ -239,51 +293,17 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
     </div>
   </div>
   <div class="tabs" role="tablist">
-    <button id="tabToday" class="on" role="tab"><span class="ti">✅</span>Today</button>
-    <button id="tabMind" role="tab"><span class="ti">🧘</span>Mind</button>
-    <button id="tabGym" role="tab"><span class="ti">💪</span>Body</button>
-    <button id="tabCoins" role="tab"><span class="ti">💰</span>Coins</button>
-    <button id="tabCook" role="tab"><span class="ti">🍳</span>Food</button>
-    <button id="tabNotes" role="tab"><span class="ti">📝</span>Notes</button>
-    <button id="tabPath" role="tab"><span class="ti">🚀</span>Path</button>
+    <button data-go="today" role="tab"><span class="ti">✅</span>Today</button>
+    <button data-go="depop" role="tab"><span class="ti">🛍️</span>Depop</button>
+    <button data-go="gym" role="tab"><span class="ti">💪</span>Body</button>
+    <button data-go="mind" role="tab"><span class="ti">🧘</span>Mind</button>
+    <button data-go="cook" role="tab"><span class="ti">🍳</span>Food</button>
+    <button data-go="notes" role="tab"><span class="ti">📝</span>Notes</button>
+    <button data-go="path" role="tab"><span class="ti">🚀</span>Path</button>
   </div>
 
   <div id="viewToday">
-    <div class="links4">
-      <a href="phantom://" class="ql"><span>👻</span>Phantom</a>
-      <a href="https://dexscreener.com/robinhood" target="_blank" rel="noopener" class="ql"><span>📈</span>DexScreener</a>
-      <a href="depop://" class="ql"><span>🛍️</span>Depop</a>
-      <a href="https://claude.ai/artifact/PfksgzyGj1zgW3ZyUXsLKa" target="_blank" rel="noopener" class="ql"><span>🏷️</span>Listing Maker</a>
-    </div>
-    <a class="binsbtn" href="https://claude.ai/artifact/EP1q2LNQiNA4Hm1rzuRPc6" target="_blank" rel="noopener" style="text-decoration:none">🔍 Bins Scanner <span>Claude identifies it from photos</span></a>
-    <button class="ghost small" id="openBins" style="width:100%;margin:-6px 0 14px;font-size:13px">Offline tag reader (no Claude)</button>
-    <div class="card">
-      <h2>Depop listings</h2>
-      <p class="sub" id="depopSub"></p>
-      <div class="dots" id="dots"></div>
-      <div class="row">
-        <span class="sub" style="margin:0;flex:1" id="streak"></span>
-        <button class="ghost" id="goalMinus" aria-label="Lower daily goal">−</button>
-        <button class="ghost" id="goalPlus" aria-label="Raise daily goal">+</button>
-      </div>
-    </div>
-    <div class="card">
-      <h2>💧 Water</h2>
-      <div class="gbig"><b id="waterOz">0</b> / <span id="waterGoalOz">64</span> oz</div>
-      <div class="pbar" style="margin-top:0"><i id="waterBar" style="background:#3B82C4"></i></div>
-      <p class="sub" id="waterSub" style="margin:8px 0 12px"></p>
-      <div class="splits">
-        <button id="waterBottle">🥤🥤 Owala bottle<br><small>+24 oz</small></button>
-        <button id="waterCup">🥤 Cup<br><small>+8 oz</small></button>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <button class="ghost small" id="waterUndo">Undo last</button>
-        <span style="flex:1"></span>
-        <span class="sub" style="margin:0" id="waterGoalTxt"></span>
-        <button class="ghost" id="waterMinus" aria-label="Lower water goal">−</button>
-        <button class="ghost" id="waterPlus" aria-label="Raise water goal">+</button>
-      </div>
-    </div>
+    <button class="pfdue" id="pfDue" hidden></button>
     <div class="card">
       <h2>Daily reminders</h2>
       <p class="sub">These reset every morning.</p>
@@ -292,6 +312,17 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
         <input id="taskInput" placeholder="Add a reminder" aria-label="New reminder">
         <button id="taskAdd">Add</button>
       </div>
+    </div>
+    <div class="card" id="liveCard">
+      <h2>⏳ Countdowns</h2>
+      <div class="cds" id="cds" style="margin-top:8px;padding-top:0;border-top:0"></div>
+      <details style="margin-top:8px"><summary class="sub" style="cursor:pointer;margin:0">+ Add a countdown</summary>
+        <div class="cdadd"><input id="cdName" placeholder="What" aria-label="Countdown name"><input id="cdDate" type="date" aria-label="Countdown date"><button id="cdAdd">Add</button></div>
+      </details>
+    </div>
+    <div class="quick">
+      <a href="phantom://">👻 Phantom</a>
+      <a href="https://dexscreener.com/robinhood" target="_blank" rel="noopener">📈 DexScreener</a>
     </div>
     <p class="note"><button class="ghost small" id="setupBtn">⚙️ Load setup link</button> <button class="ghost small" id="updBtn">🔄 Check for updates</button></p>
     <p class="note" id="verLine"></p>
@@ -303,6 +334,51 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
         <button id="setupLoad">Load</button>
       </div>
       <p class="sub" id="setupMsg" style="margin:10px 0 0"></p>
+    </div>
+  </div>
+
+  <div id="viewDepop" hidden>
+    <div class="tools">
+      <a class="tool" href="https://claude.ai/artifact/PfksgzyGj1zgW3ZyUXsLKa" target="_blank" rel="noopener"><span>🏷️</span>Listing Maker<small>Write a listing</small></a>
+      <a class="tool" href="https://claude.ai/artifact/EP1q2LNQiNA4Hm1rzuRPc6" target="_blank" rel="noopener"><span>🔍</span>Bins Scanner<small>ID it from photos</small></a>
+    </div>
+    <div class="quick" style="margin-bottom:14px">
+      <a href="depop://">🛍️ Open Depop</a>
+      <a href="#" id="openBins" role="button">📷 Tag reader</a>
+    </div>
+    <div class="card">
+      <h2>Depop listings</h2>
+      <p class="sub" id="depopSub"></p>
+      <div class="dots" id="dots"></div>
+      <div class="row">
+        <span class="sub" style="margin:0;flex:1" id="streak"></span>
+        <button class="ghost" id="goalMinus" aria-label="Lower daily goal">−</button>
+        <button class="ghost" id="goalPlus" aria-label="Raise daily goal">+</button>
+      </div>
+    </div>
+    <div class="card" id="pfCard">
+      <div class="pfnav"><button class="ghost" id="pfPrev" aria-label="Previous month">‹</button><h2 style="margin:0" id="pfMonth"></h2><button class="ghost" id="pfNext" aria-label="Next month">›</button></div>
+      <div class="pfbig" id="pfProfit">$0</div>
+      <p class="sub" style="text-align:center;margin:0" id="pfProfitLbl">profit</p>
+      <div class="pfsplit"><div><span>Spent at bins</span><b id="pfSpent">$0</b></div><div><span>Made (after fees)</span><b id="pfMade">—</b></div></div>
+      <p class="sub" id="pfBreak" style="margin:-4px 0 10px;text-align:center"></p>
+      <div class="row"><button style="flex:1" id="pfAddBuy">🧾 + Receipt</button><button class="ghost" style="flex:1" id="pfAddMade">💵 Earnings</button></div>
+      <div class="pfform" id="pfBuyForm" hidden>
+        <div class="row"><input id="pfAmt" inputmode="decimal" placeholder="$ paid" aria-label="Amount paid"><input id="pfDate" type="date" aria-label="Date"></div>
+        <input id="pfNote" placeholder="Note (optional)" aria-label="Note">
+        <div class="row"><button class="ghost" style="flex:1" id="pfPhotoBtn">📷 Add photo (optional)</button><img id="pfPhotoPrev" hidden style="width:44px;height:44px;object-fit:cover;border-radius:8px"></div>
+        <input type="file" accept="image/*" id="pfPhoto" hidden>
+        <button id="pfSaveBuy">Save receipt</button>
+      </div>
+      <div class="pfform" id="pfMadeForm" hidden>
+        <p class="sub" style="margin:0">From your Depop seller dashboard for this month.</p>
+        <div class="row"><input id="pfEarn" inputmode="decimal" placeholder="Total sales $" aria-label="Total sales"><input id="pfFees" inputmode="decimal" placeholder="Depop fees $" aria-label="Depop fees"></div>
+        <div class="row"><input id="pfShip" inputmode="decimal" placeholder="Shipping $ (optional)" aria-label="Shipping costs"><input id="pfSold" inputmode="numeric" placeholder="# sold (optional)" aria-label="Items sold"></div>
+        <input id="pfMNote" placeholder="Note (optional)" aria-label="Month note">
+        <button id="pfSaveMade">Save month</button>
+      </div>
+      <ul id="pfList" style="margin-top:10px"></ul>
+      <div id="pfYear" style="margin-top:12px;border-top:1px solid var(--line);padding-top:10px"></div>
     </div>
   </div>
 
@@ -664,32 +740,10 @@ button{font:inherit;background:var(--ink);color:var(--panel);border:0;border-rad
     </div>
   </div>
 
-  <div id="viewCoins" hidden>
-  <div class="top">
-    <p>Portfolio value</p>
-    <div class="total" id="total">…</div>
-    <span class="pl" id="totalPl"></span>
-    <p id="totalAll" style="margin-top:8px"></p>
-  </div>
-  <div id="coins"><p class="note">Loading prices…</p></div>
-  <p class="note" id="updated"></p>
-  <p class="note"><button id="refresh">Refresh now</button></p>
-  <details class="card" style="margin-top:14px">
-    <summary style="font-weight:700;cursor:pointer">✏️ Edit my holdings</summary>
-    <div class="walletbox">
-      <p class="feelhead" style="margin-top:6px">🔗 Wallet auto-sync</p>
-      <p class="sub" style="margin:0 0 8px">Paste your Phantom wallet address (starts with 0x). Coin amounts then update by themselves after every buy, sell, or swap. Saved on this phone only.</p>
-      <div class="add" style="margin-top:0"><input id="walletIn" placeholder="0x…" spellcheck="false" autocapitalize="off" aria-label="Wallet address"><button id="walletSync">Sync</button></div>
-      <p class="sub" id="walletMsg" style="margin:8px 0 0"></p>
-    </div>
-    <p class="sub" style="margin-top:12px">Paid and Realized come from Phantom (tap a coin, then use "amount invested" and "realized"). They're only needed for exact P/L. Tokens fill in automatically once your wallet is synced.</p>
-    <div id="holdEdit"></div>
-  </details>
-  </div>
 </main>
 <script>
 // ---------- Auto-update: change APP_VERSION every time index.html is updated ----------
-const APP_VERSION = '2026-10-20e';
+const APP_VERSION = '2026-10-23c';
 async function checkForUpdate(manual){
   try {
     const r = await fetch(location.pathname + '?check=' + Date.now(), {cache: 'no-store'});
@@ -703,7 +757,6 @@ async function checkForUpdate(manual){
   } catch(e){ if (manual) document.getElementById('verLine').textContent = "Couldn't check right now. Try again in a minute."; }
 }
 
-const REPO = 'https://raw.githubusercontent.com/justinianwooledge-blip/coin-alert-bot/main/';
 const $ = id => document.getElementById(id);
 const money = v => (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 const px = v => v >= 1 ? '$' + v.toFixed(4) : '$' + Number(v.toPrecision(4));
@@ -716,330 +769,6 @@ function tfetch(url, opts, ms){
 async function getJSON(url){ const r = await tfetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now(), {}, 8000); if(!r.ok) throw new Error(r.status); return r.json(); }
 
 function decodeSeed(b64){ return JSON.parse(decodeURIComponent(escape(atob(b64.replace(/-/g,'+').replace(/_/g,'/'))))); }
-function ago(hist, price, minutes){
-  if (!hist || hist.length < 2) return null;
-  const pts = hist.slice().sort((a, b) => a[0] - b[0]);
-  const target = Date.now()/1000 - minutes*60;
-  if (target < pts[0][0] - 300) return null;              // not enough history yet
-  let then = null;
-  for (let i = 0; i < pts.length - 1; i++){
-    const [t1, p1] = pts[i], [t2, p2] = pts[i+1];
-    if (t1 <= target && target <= t2){
-      if (t2 - t1 > Math.max(5400, minutes*60*0.75)) return null;  // gap too big to trust
-      then = p1 + (p2 - p1) * ((target - t1) / ((t2 - t1) || 1));
-      break;
-    }
-  }
-  if (then == null){
-    const last = pts[pts.length - 1];
-    if (target >= last[0] && target - last[0] <= 900) then = last[1];
-    else if (Math.abs(pts[0][0] - target) <= 300) then = pts[0][1];
-  }
-  return then ? (price/then - 1) * 100 : null;
-}
-// Price history from GeckoTerminal (15-min candles), refreshed every 5 minutes
-const GT = {}, GT_BUSY = {};
-async function geckoCandles(name, pool, ca){
-  const g = GT[name];
-  if (g && Date.now() - g.at < 5*60*1000) return g.pts;
-  const base = 'https://api.geckoterminal.com/api/v2/networks/robinhood/';
-  const get = async p => {
-    const r = await tfetch(base + 'pools/' + p + '/ohlcv/minute?aggregate=15&limit=64', {headers:{Accept:'application/json'}}, 5000);
-    if (!r.ok) throw new Error(r.status);
-    const j = await r.json();
-    const now = Date.now()/1000;
-    return ((j.data && j.data.attributes && j.data.attributes.ohlcv_list) || [])
-      .map(c => [Math.min(c[0] + 900, now), +c[4]]).sort((a, b) => a[0] - b[0]);
-  };
-  let pts = g ? g.pts : [];
-  try { if (pool) pts = await get(pool); else throw 0; }
-  catch(e){
-    try {
-      const r = await tfetch(base + 'tokens/' + ca + '/pools?page=1', {headers:{Accept:'application/json'}}, 5000);
-      const j = await r.json();
-      const p = j.data && j.data[0] && j.data[0].attributes && j.data[0].attributes.address;
-      if (p) pts = await get(p);
-    } catch(e2){}
-  }
-  GT[name] = {at: Date.now(), pts};
-  return pts;
-}
-// % change using real trades: price then = last trade at or before that time
-function since(candles, hist, price, minutes){
-  if (candles && candles.length){
-    const target = Date.now()/1000 - minutes*60;
-    let then = null;
-    for (const [t, p] of candles){ if (t <= target) then = p; else break; }
-    if (then) return (price/then - 1) * 100;
-  }
-  return ago(hist, price, minutes);
-}
-
-// Prices this phone has seen (kept 13 hours) to fill gaps between bot runs
-let LOCALH = {};
-try { LOCALH = JSON.parse(localStorage.getItem('hq-hist') || '{}'); } catch(e){}
-function addLocal(name, price){
-  const now = Date.now()/1000;
-  const h = (LOCALH[name] || []).filter(x => now - x[0] < 13*3600);
-  if (!h.length || now - h[h.length-1][0] >= 60) h.push([Math.round(now), price]);
-  LOCALH[name] = h;
-  try { localStorage.setItem('hq-hist', JSON.stringify(LOCALH)); } catch(e){}
-}
-
-// ---------- Holdings (saved on this phone only) ----------
-let HOLD = {};
-try { HOLD = JSON.parse(localStorage.getItem('hq-holdings') || '{}'); } catch(e){}
-function applyHoldSeed(text){
-  const m = String(text).match(/#h=([A-Za-z0-9+/=_-]+)/);
-  if (!m) return false;
-  HOLD = decodeSeed(m[1]);
-  localStorage.setItem('hq-holdings', JSON.stringify(HOLD));
-  return true;
-}
-try { if (applyHoldSeed(location.hash)) history.replaceState(null, '', location.pathname); } catch(e){}
-function saveHold(){ try { localStorage.setItem('hq-holdings', JSON.stringify(HOLD)); } catch(e){} }
-const numIn = s => { s = String(s).trim().toLowerCase().replace(/[$,\s]/g,''); let k = 1; if (s.endsWith('k')){ k = 1e3; s = s.slice(0,-1); } const n = parseFloat(s); return isNaN(n) ? 0 : n * k; };
-let COINLIST = [];
-// Wallet auto-sync: read token balances straight from Robinhood Chain (Blockscout explorer, RPC as backup)
-const STABLES = /^(CASH|USDC|USDT|USDG|DAI|PYUSD|USDE|USDS|FDUSD|WETH|ETH|WBTC)$/i;
-let WAL = {addr: '', at: 0, coins: {}, extra: []};
-try { WAL = Object.assign(WAL, JSON.parse(localStorage.getItem('hq-wallet') || '{}')); } catch(e){}
-const saveWal = () => { try { localStorage.setItem('hq-wallet', JSON.stringify(WAL)); } catch(e){} };
-const toUnits = (raw, dec) => { try { const b = BigInt(raw), d = 10n ** BigInt(dec); return Number(b / d) + Number(b % d) / Number(d); } catch(e){ return parseFloat(raw) / Math.pow(10, dec); } };
-async function balancesFromExplorer(addr){
-  const r = await tfetch('https://robinhoodchain.blockscout.com/api/v2/addresses/' + addr + '/token-balances', {headers: {Accept: 'application/json'}}, 9000);
-  if (!r.ok) throw new Error('explorer ' + r.status);
-  const j = await r.json(), items = Array.isArray(j) ? j : (j.items || []);
-  const out = {};
-  items.forEach(it => {
-    const t = it.token || {}, ca = (t.address_hash || t.address || '').toLowerCase(), type = t.type || 'ERC-20';
-    if (!ca || !/ERC-?20/i.test(type)) return;
-    out[ca] = {symbol: t.symbol || ca.slice(0, 6), amount: toUnits(it.value || '0', +t.decimals || 18)};
-  });
-  return out;
-}
-async function balancesFromRPC(addr, list){
-  const rpc = 'https://rpc.mainnet.chain.robinhood.com', out = {};
-  const call = (to, data) => tfetch(rpc, {method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({jsonrpc: '2.0', id: 1, method: 'eth_call', params: [{to, data}, 'latest']})}, 8000).then(r => r.json()).then(j => j.result);
-  for (const c of list){
-    try {
-      const [bal, dec] = await Promise.all([call(c.ca, '0x70a08231' + addr.slice(2).toLowerCase().padStart(64, '0')), call(c.ca, '0x313ce567')]);
-      if (bal) out[c.ca.toLowerCase()] = {symbol: c.name, amount: toUnits(BigInt(bal).toString(), dec ? parseInt(dec, 16) : 18)};
-    } catch(e){}
-  }
-  return out;
-}
-let walletBusy = false;
-async function syncWallet(manual){
-  const addr = (WAL.addr || '').trim();
-  if (!/^0x[0-9a-fA-F]{40}$/.test(addr)){ if (manual) $('walletMsg').textContent = '✗ That doesn\'t look like a wallet address. It should start with 0x and be 42 characters.'; return false; }
-  if (walletBusy) return false;
-  if (!manual && Date.now() - (WAL.at || 0) < 2 * 60 * 1000) return false;   // every 2 minutes at most
-  walletBusy = true; if (manual) $('walletMsg').textContent = 'Syncing…';
-  try {
-    let bal, source = 'explorer';
-    try { bal = await balancesFromExplorer(addr); }
-    catch(e){ source = 'chain'; bal = await balancesFromRPC(addr, COINLIST.length ? COINLIST : []); }
-    const known = {}; COINLIST.filter(c => !c.extra).forEach(c => known[c.ca.toLowerCase()] = c.name);
-    const coins = {}, extra = [];
-    Object.entries(bal).forEach(([ca, b]) => {
-      if (STABLES.test(b.symbol) || b.amount <= 0) return;
-      const name = known[ca] || (Object.values(known).includes(b.symbol.toUpperCase()) ? b.symbol.toUpperCase() + '·' + ca.slice(2, 6) : b.symbol.toUpperCase());
-      coins[name] = b.amount;
-      if (!known[ca]) extra.push({name, ca, extra: true});
-    });
-    Object.values(known).forEach(n => { if (coins[n] == null) coins[n] = 0; });   // in your list but not in wallet = sold
-    Object.entries(coins).forEach(([n, amt]) => { HOLD[n] = Object.assign({}, HOLD[n] || {}, {tokens: amt}); });
-    saveHold();
-    WAL.coins = coins; WAL.extra = extra; WAL.at = Date.now(); saveWal();
-    const held = Object.values(coins).filter(a => a > 0).length;
-    $('walletMsg').textContent = `✓ Synced ${new Date().toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'})} · ${held} coin${held === 1 ? '' : 's'} found` + (source === 'chain' ? ' (backup method: only coins already in your list)' : '');
-    $('holdEdit').innerHTML = '';
-    return true;
-  } catch(e){
-    $('walletMsg').textContent = "✗ Couldn't reach Robinhood Chain right now. It'll try again in a couple minutes.";
-    return false;
-  } finally { walletBusy = false; }
-}
-$('walletIn').value = WAL.addr || '';
-if (WAL.at) $('walletMsg').textContent = `Last synced ${new Date(WAL.at).toLocaleString([], {month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'})}`;
-$('walletSync').onclick = async () => { WAL.addr = $('walletIn').value.trim(); WAL.at = 0; saveWal(); if (await syncWallet(true)) load(); };
-function renderHoldEditor(){
-  const box = $('holdEdit'); box.innerHTML = '';
-  COINLIST.filter(c => !window.__shown || window.__shown.includes(c.name)).forEach(c => {
-    const h = HOLD[c.name] || {};
-    const row = document.createElement('div'); row.className = 'hrow';
-    row.innerHTML = '<b></b><label>Tokens<input inputmode="decimal"></label><label>Paid $<input inputmode="decimal"></label><label>Realized $<input inputmode="decimal"></label>';
-    row.querySelector('b').textContent = c.name;
-    const [t, p, r] = row.querySelectorAll('input');
-    if (WAL.addr && WAL.coins && WAL.coins[c.name] != null){ t.readOnly = true; t.style.opacity = .7; const tag = document.createElement('span'); tag.className = 'auto'; tag.textContent = ' · auto from wallet'; row.querySelector('b').append(tag); }
-    t.value = h.tokens ?? ''; p.value = h.paid ?? ''; r.value = h.realized ?? '';
-    [t, p, r].forEach(inp => inp.setAttribute('aria-label', c.name + ' ' + inp.parentElement.firstChild.textContent));
-    const upd = () => { HOLD[c.name] = {tokens: numIn(t.value), paid: numIn(p.value), realized: r.value.trim() ? parseFloat(r.value.replace(/[$,\s]/g,'')) || 0 : 0}; saveHold(); load(); };
-    [t, p, r].forEach(inp => inp.onchange = upd);
-    box.append(row);
-  });
-}
-
-let loading = false, loadAgain = false;
-async function load(){
-  if (loading){ loadAgain = true; return; }
-  loading = true;
-  try { await drawCoins(); }
-  catch(e){ console.log(e); }
-  finally {
-    loading = false;
-    if (loadAgain){ loadAgain = false; load(); }
-  }
-}
-async function drawCoins(){
-  let cfg, state = {}, pairs = [];
-  try { cfg = await getJSON(REPO + 'coins.json'); }
-  catch(e){ $('coins').innerHTML = '<p class="note">Couldn\'t load your coin list. Check your connection and tap Refresh.</p>'; return; }
-  COINLIST = cfg.coins;
-  if (WAL.addr){ await syncWallet(false); }
-  const synced = WAL.addr && WAL.at;
-  const soldNames = synced ? cfg.coins.filter(c => WAL.coins && WAL.coins[c.name] === 0).map(c => c.name) : [];
-  cfg = Object.assign({}, cfg, {coins: cfg.coins.concat(synced ? (WAL.extra || []) : []).filter(c => !soldNames.includes(c.name))});   // sold coins drop off
-  COINLIST = cfg.coins;
-  try { state = await getJSON(REPO + 'state.json'); } catch(e){}
-  try {
-    const cas = cfg.coins.map(c => c.ca).filter(Boolean).slice(0, 30).join(',');
-    pairs = (await getJSON('https://api.dexscreener.com/latest/dex/tokens/' + cas)).pairs || [];
-  } catch(e){}
-
-  const TP = cfg.take_profit_pct || 50, DIP = cfg.rebuy_dip_pct || 30;
-  let tVal = 0, tCost = 0, tReal = 0, tAll = 0, live = false; coinAlerts = 0;
-  const hiddenCoins = [], shown = []; let tinyCount = 0, ignoredCount = 0;
-  if (!$('holdEdit').children.length) renderHoldEditor();
-  const cards = [];
-
-  for (const c of cfg.coins){
-    const mine = pairs.filter(p => (p.baseToken?.address || '').toLowerCase() === c.ca.toLowerCase());
-    const pair = mine.sort((a,b) => (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0];
-    {
-      const key = c.ca.toLowerCase(), liq = pair ? (pair.liquidity?.usd || 0) : 0;
-      const tk = (HOLD[c.name] || {}).tokens || 0, est = pair ? tk * parseFloat(pair.priceUsd) : null;
-      const trusted = (WAL.allow || []).includes(key);
-      if ((WAL.ignore || []).includes(key)){ ignoredCount++; continue; }
-      if (c.extra && !trusted && (!pair || liq < 5000)){                       // no real market: junk airdrop
-        if (est != null && est >= 5) hiddenCoins.push({name: c.name, ca: key, liq, est}); else tinyCount++;
-        continue;
-      }
-      if (synced && est != null && est < 5 && !trusted){                      // worth under $5: leave it off
-        tinyCount++; tReal += +((HOLD[c.name] || {}).realized) || 0;
-        continue;
-      }
-    }
-    shown.push(c.name);
-    const st = state[c.name] || {};
-    const botHist = st.hist || [];
-    let price = pair ? parseFloat(pair.priceUsd) : (botHist.length ? botHist[botHist.length-1][1] : 0);
-    if (pair){ live = true; addLocal(c.name, price); }
-    const hist = botHist.concat(LOCALH[c.name] || []);
-    const cand = GT[c.name] ? GT[c.name].pts : [];
-    if (pair && (!GT[c.name] || Date.now() - GT[c.name].at > 5*60*1000) && !GT_BUSY[c.name]){
-      GT_BUSY[c.name] = true;
-      geckoCandles(c.name, pair.pairAddress, c.ca).finally(() => { GT_BUSY[c.name] = false; load(); });
-    }
-    const ch = pair?.priceChange || {};
-    const tf = [['5m', ch.m5 ?? (pair ? 0 : null)], ['30m', since(cand, hist, price, 30)], ['1h', ch.h1 ?? since(cand, hist, price, 60)],
-                ['3h', since(cand, hist, price, 180)], ['6h', ch.h6 ?? since(cand, hist, price, 360)], ['12h', since(cand, hist, price, 720)],
-                ['24h', ch.h24 ?? since(cand, hist, price, 1440)]];
-
-    const h = HOLD[c.name] || {};
-    const value = h.tokens && price ? h.tokens * price : null;
-    const cost = h.paid || null;
-    const real = +h.realized || 0;
-    if (value != null && cost) tReal += real;
-    const pl = value != null && cost ? value - cost : null;
-    const plPct = pl != null ? pl / cost * 100 : null;
-    if (value != null && cost){ tVal += value; tCost += cost; }
-    if (value != null) tAll += value;
-
-    const high = Math.max(st.high || 0, price), low = st.low ? Math.min(st.low, price) : price;
-    const gain = plPct != null ? plPct : (low ? (price/low - 1)*100 : 0);
-    const down = high ? (price/high - 1)*100 : 0;
-    const [sigTxt, sigCls] = gain >= TP ? ['💰 Take-profit zone','sell'] : down <= -DIP ? ['🛒 Rebuy zone','buy']
-      : gain >= TP*0.7 ? ['👀 Close to take-profit','near'] : down <= -DIP*0.7 ? ['👀 Close to rebuy','near'] : ['✋ Hold',''];
-    if (sigCls === 'sell' || sigCls === 'buy') coinAlerts++;
-    const be = h.tokens && cost ? cost / h.tokens : null;
-    const allIn = pl != null ? pl + real : null;
-
-    const card = document.createElement('div'); card.className = 'card';
-    card.innerHTML = `
-      <div class="head"><span class="name"></span><span class="price">${price ? px(price) : '—'}</span></div>
-      <span class="sig ${sigCls}">${sigTxt}</span>
-      <div class="tf">${tf.map(([l,v]) => `<div><span>${l}</span><b class="${cls(v)}">${pct(v)}</b></div>`).join('')}</div>
-      <div class="money">
-        <div><span>Worth now</span><b>${value != null ? money(value) : '—'}</b></div>
-        <div><span>Profit / loss</span><b class="${cls(plPct)}">${pl != null ? money(pl) + ' (' + pct(plPct) + ')' : '—'}</b></div>
-        <div><span>You paid</span><b>${cost ? money(cost) : '—'}</b></div>
-        <div><span>Break-even price</span><b>${be ? px(be) : '—'}</b></div>
-        <div><span>Realized (sold)</span><b class="${cls(real)}">${value != null ? money(real) : '—'}</b></div>
-        <div><span>All-in P/L</span><b class="${cls(allIn)}">${allIn != null ? money(allIn) : '—'}</b></div>
-      </div>
-      <div class="foot"><span style="color:var(--soft)">Week: ${px(low)} → ${px(high)}</span><a target="_blank" rel="noopener"></a></div>`;
-    card.querySelector('.name').textContent = c.name;
-    if (c.extra){
-      const hb = mk('button', 'ghost small', 'Hide this coin'); hb.style.marginTop = '10px';
-      hb.onclick = () => { WAL.ignore = [...new Set([...(WAL.ignore || []), c.ca.toLowerCase()])]; WAL.allow = (WAL.allow || []).filter(x => x !== c.ca.toLowerCase()); saveWal(); load(); };
-      const tag = mk('p', 'sub', '🔗 Found in your wallet'); tag.style.margin = '6px 0 0';
-      card.append(tag, hb);
-    }
-    const a = card.querySelector('a'); a.href = pair?.url || ('https://dexscreener.com/search?q=' + encodeURIComponent(c.ca)); a.textContent = '📈 Chart';
-    cards.push(card);
-  }
-  const nHidden = hiddenCoins.length + tinyCount + ignoredCount;
-  if (nHidden){
-    const hc = mk('details', 'hiddenline');
-    hc.append(mk('summary', '', `🙈 ${nHidden} small or junk coin${nHidden === 1 ? '' : 's'} hidden`));
-    hc.append(mk('p', 'sub', `${tinyCount ? tinyCount + ' worth under $5. ' : ''}Coins with fake prices are listed below. Don't swap or "claim" junk coins, since that's how wallet scams work. If one is real, tap Track.`));
-    hiddenCoins.forEach(x => {
-      const row = mk('div', 'gr');
-      row.append(mk('span', '', x.name), mk('span', 'sub', x.est != null ? `shows ~$${Math.round(x.est).toLocaleString()} · $${Math.round(x.liq).toLocaleString()} liquidity` : 'no market'));
-      const t = mk('button', 'ghost small', 'Track');
-      t.onclick = () => { WAL.allow = [...new Set([...(WAL.allow || []), x.ca])]; saveWal(); load(); };
-      row.append(t); hc.append(row);
-    });
-    (WAL.ignore || []).forEach(ca => {
-      const ex = (WAL.extra || []).find(e => e.ca.toLowerCase() === ca);
-      const row = mk('div', 'gr'); row.append(mk('span', '', ex ? ex.name : ca.slice(0, 8) + '…'), mk('span', 'sub', 'hidden by you'));
-      const t = mk('button', 'ghost small', 'Unhide');
-      t.onclick = () => { WAL.ignore = (WAL.ignore || []).filter(x => x !== ca); saveWal(); load(); };
-      row.append(t); hc.append(row);
-    });
-    cards.push(hc);
-  }
-  $('coins').replaceChildren(...cards);
-  const shownKey = shown.join('|');
-  if (shownKey !== window.__shownKey && !$('holdEdit').contains(document.activeElement)){ window.__shownKey = shownKey; window.__shown = shown; $('holdEdit').innerHTML = ''; renderHoldEditor(); }
-
-  soldNames.forEach(n => { tReal += +((HOLD[n] || {}).realized) || 0; });   // profit/loss from coins you fully sold still counts
-  window.cryptoNow = tAll;
-  if (typeof renderMoney === 'function') renderMoney();
-  if (tCost){
-    const p = tVal - tCost;
-    $('total').textContent = money(tAll);
-    $('totalPl').className = 'pl ' + (p >= 0 ? 'up' : 'down');
-    $('totalPl').textContent = `${p >= 0 ? '▲' : '▼'} ${money(p)} (${pct(p/tCost*100)}) holding`;
-    const all = p + tReal;
-    $('totalAll').innerHTML = `Paid ${money(tCost)} · Realized <b class="${cls(tReal)}">${money(tReal)}</b> · All-in <b class="${cls(all)}">${money(all)}</b>` +
-      (tAll - tVal > 0.5 ? `<br><span class="sub">P/L covers coins with a Paid amount. ${money(tAll - tVal)} is in coins without one yet.</span>` : '');
-  } else if (tAll){
-    $('total').textContent = money(tAll);
-    $('totalPl').className = 'pl'; $('totalPl').textContent = 'Add Paid amounts for P/L';
-    $('totalAll').textContent = '';
-  } else {
-    $('total').textContent = '—';
-    $('totalPl').className = 'pl'; $('totalPl').textContent = 'Add your holdings below';
-    $('totalAll').textContent = '';
-  }
-  renderToday();
-  $('updated').textContent = cfg.coins.length + ' coins · ' + (live ? 'Live prices' : 'Prices from your bot (live feed unavailable)') +
-    ' · updated ' + new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit', second:'2-digit'}) + ' · refreshes every 30s';
-}
 // ---------- Today: Depop + reminders (saved on this device) ----------
 const dayKey = d => (d || new Date()).toLocaleDateString('en-CA');
 let T = {goal:3, listed:0, listedDay:'', streak:1, lastHitDay:'2026-10-16',
@@ -1047,6 +776,7 @@ let T = {goal:3, listed:0, listedDay:'', streak:1, lastHitDay:'2026-10-16',
 try { Object.assign(T, JSON.parse(localStorage.getItem('hq-today') || '{}')); } catch(e){}
 let coinAlerts = 0;
 function saveT(){ try { localStorage.setItem('hq-today', JSON.stringify(T)); } catch(e){} }
+if (!T.waterTask){ T.tasks.unshift({t:'💧 Drink water (3 Owala bottles)', d:false}); T.waterTask = true; saveT(); }
 function rollDay(){
   const t = dayKey();
   if (T.listedDay !== t){
@@ -1085,7 +815,7 @@ function renderToday(){
     del.onclick = () => { T.tasks.splice(i, 1); saveT(); renderToday(); };
     li.append(cb, sp, del); ul.append(li);
   });
-  const todo = left + T.tasks.filter(x => !x.d).length + coinAlerts + (typeof waterLeft === 'function' ? waterLeft() : 0);
+  const todo = left + T.tasks.filter(x => !x.d).length + coinAlerts + (() => { try { return renderPfDue(); } catch(e){ return 0; } })();
   $('attn').className = 'attn ' + (todo ? 'on' : 'off');
   $('attn').textContent = todo ? `${todo} thing${todo > 1 ? 's' : ''} need you` : 'All caught up';
 }
@@ -1185,32 +915,6 @@ const read = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); re
 const mk = (tag, cls, text) => { const x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; };
 const mondayOf = d => { const m = new Date(d); m.setHours(0,0,0,0); m.setDate(m.getDate() - ((m.getDay() + 6) % 7)); return m; };
 const shortDate = k => new Date(k + 'T12:00').toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
-
-// ---------- Water (resets daily, tracked in ounces) ----------
-let WA = read('hq-water', {day:'', oz:0, goal:64, log:[]});
-if (WA.cups != null && WA.oz == null){ WA = {day: WA.day, oz: WA.cups * 8, goal: (WA.goal || 8) * 8, log: Array(WA.cups).fill(8)}; }
-WA.log = WA.log || [];
-function waterRoll(){ if (WA.day !== dayKey()){ WA.day = dayKey(); WA.oz = 0; WA.log = []; store('hq-water', WA); } }
-function waterLeft(){ waterRoll(); return WA.oz < WA.goal ? 1 : 0; }
-function addWater(n){ waterRoll(); WA.oz += n; WA.log.push(n); store('hq-water', WA); renderWater(); renderToday(); }
-function renderWater(){
-  waterRoll();
-  $('waterOz').textContent = WA.oz; $('waterGoalOz').textContent = WA.goal;
-  $('waterBar').style.width = Math.min(100, Math.round(WA.oz / WA.goal * 100)) + '%';
-  const bottles = WA.log.filter(x => x === 24).length, cups = WA.log.filter(x => x === 8).length;
-  const parts = [bottles && `${bottles} bottle${bottles > 1 ? 's' : ''}`, cups && `${cups} cup${cups > 1 ? 's' : ''}`].filter(Boolean).join(' + ');
-  const left = WA.goal - WA.oz;
-  $('waterSub').textContent = left > 0
-    ? (parts ? parts + ' so far. ' : '') + `${left} oz to go (about ${Math.ceil(left / 24)} more bottle${Math.ceil(left / 24) > 1 ? 's' : ''}).`
-    : `Goal hit: ${parts} today 💪`;
-  $('waterGoalTxt').textContent = `Goal ${WA.goal} oz`;
-  $('waterUndo').disabled = !WA.log.length; $('waterUndo').style.opacity = WA.log.length ? 1 : .4;
-}
-$('waterBottle').onclick = () => addWater(24);
-$('waterCup').onclick = () => addWater(8);
-$('waterUndo').onclick = () => { if (!WA.log.length) return; WA.oz -= WA.log.pop(); store('hq-water', WA); renderWater(); renderToday(); };
-$('waterPlus').onclick = () => { if (WA.goal < 200){ WA.goal += 8; store('hq-water', WA); renderWater(); renderToday(); } };
-$('waterMinus').onclick = () => { if (WA.goal > 8){ WA.goal -= 8; store('hq-water', WA); renderWater(); renderToday(); } };
 
 // ---------- Gym ----------
 const SPLITS = [
@@ -1533,9 +1237,10 @@ $('binSave').onclick = async () => {
 function binReset(){ BIN = {photos: [], text: '', brand: '', type: '', color: '', status: null}; $('binValue').value = ''; $('binNote').value = ''; renderBins(); }
 $('binClear').onclick = () => { binReset(); $('binStatus').textContent = ''; };
 let tabBeforeBins = 'today';
-$('openBins').onclick = () => {
-  tabBeforeBins = (localStorage.getItem('hq-tab') || 'today');
-  Object.values(TABS).forEach(([, v]) => $(v).hidden = true);
+$('openBins').onclick = e => {
+  if (e) e.preventDefault();
+  tabBeforeBins = curView;
+  Object.values(VIEWS).forEach(v => $(v).hidden = true);
   $('viewBins').hidden = false; window.scrollTo({top: 0}); renderBins();
   loadTesseract().catch(() => {});   // warm up the tag reader
 };
@@ -1921,8 +1626,6 @@ function renderMoney(){
     x.onclick = () => { if (confirm('Remove ' + a.name + '?')){ M.accounts.splice(i, 1); saveLife(); renderMoney(); } };
     row.append(nm, inp, x); ab.append(row);
   });
-  const cr = mk('div', 'acct'); const cn = mk('span', '', 'Crypto'); cn.append(mk('small', '', 'Live from your Coins tab'));
-  cr.append(cn, mk('b', '', usd0(crypto))); ab.append(cr);
   [['mGoal', M.goal], ['mAge', M.age], ['mMonthly', M.monthly]].forEach(([id, v]) => { if (document.activeElement !== $(id)) $(id).value = v; });
   const hl = $('mHist'); hl.innerHTML = '';
   M.hist.slice().reverse().slice(0, 12).forEach((h, i, arr) => {
@@ -2049,43 +1752,150 @@ $('setupLoad').onclick = () => {
   const t = $('setupText').value.trim();
   if (!t) return;
   let ok = [];
-  try { if (applyHoldSeed(t)){ ok.push('coin holdings'); load(); } } catch(e){}
   try { if (applyBizSeed(t)){ ok.push('business ideas'); renderPath(); } } catch(e){}
   try { if (applyLifeSeed(t)){ ok.push('wins and money'); renderWins(); renderMoney(); } } catch(e){}
+  try { if (applyProfitSeed(t)){ ok.push('Depop profit history'); renderProfit(); } } catch(e){}
   $('setupMsg').textContent = ok.length ? '✓ Loaded your ' + ok.join(' and ') + '. Paste another link or close this.' : "✗ That link didn't work. Copy the whole link and try again.";
   if (ok.length) $('setupText').value = '';
 };
 
-const TABS = {today:['tabToday','viewToday'], mind:['tabMind','viewMind'], gym:['tabGym','viewGym'], coins:['tabCoins','viewCoins'], cook:['tabCook','viewCook'], notes:['tabNotes','viewNotes'], path:['tabPath','viewPath']};
-function showTab(which){
-  if (!TABS[which]) which = 'today';
-  $('viewBins').hidden = true;
-  for (const [k, [tab, view]] of Object.entries(TABS)){
-    $(tab).classList.toggle('on', k === which);
-    $(tab).setAttribute('aria-selected', k === which);
-    $(view).hidden = k !== which;
-  }
-  try { localStorage.setItem('hq-tab', which); } catch(e){}
+// ---------- Depop profit (receipts + monthly earnings; saved on this phone, photos in IndexedDB) ----------
+const monthKey = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+const monthName = k => new Date(k + '-15T12:00').toLocaleDateString('en-US', {month: 'long', year: 'numeric'});
+const monthShort = k => new Date(k + '-15T12:00').toLocaleDateString('en-US', {month: 'long'});
+let PF = read('hq-profit', null);
+if (!PF){ PF = {start: monthKey(new Date()), buys: [], months: {}}; store('hq-profit', PF); }
+const savePF = () => store('hq-profit', PF);
+const pfSales = m => m.sales != null ? m.sales : (m.earn || 0);
+const pfNet = m => pfSales(m) - (m.fees || 0) - (m.ship || 0);
+function applyProfitSeed(text){
+  const mt = String(text).match(/#profit=([A-Za-z0-9+/=_-]+)/);
+  if (!mt) return false;
+  const sd = decodeSeed(mt[1]);
+  Object.assign(PF.months, sd.months || {});
+  (sd.buys || []).forEach(b => { if (!PF.buys.some(x => x.id === b.id)) PF.buys.push(b); });
+  savePF(); return true;
 }
-$('tabToday').onclick = () => showTab('today');
-$('tabCoins').onclick = () => showTab('coins');
-$('tabCook').onclick = () => showTab('cook');
-$('tabGym').onclick = () => showTab('gym');
-$('tabNotes').onclick = () => showTab('notes');
-$('tabPath').onclick = () => showTab('path');
-$('tabMind').onclick = () => showTab('mind');
+try { if (applyProfitSeed(location.hash)) history.replaceState(null, '', location.pathname); } catch(e){}
+let pfMon = monthKey(new Date()), pfPhotoData = null;
+const num$ = v => { const n = parseFloat(String(v).replace(/[$,\s]/g, '')); return isNaN(n) ? null : n; };
+function pfDueMonth(){
+  const now = new Date(), cur = monthKey(now), prev = monthKey(new Date(now.getFullYear(), now.getMonth() - 1, 15));
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  if (prev >= PF.start && !PF.months[prev]) return prev;
+  if (now.getDate() >= lastDay - 2 && !PF.months[cur]) return cur;
+  return null;
+}
+function renderPfDue(){
+  const due = pfDueMonth();
+  $('pfDue').hidden = !due;
+  if (due) $('pfDue').innerHTML = `<div>📊 Log your ${monthShort(due)} Depop earnings<br><small style="color:var(--soft)">Check your seller dashboard</small></div><span>Log ›</span>`;
+  return due ? 1 : 0;
+}
+$('pfDue').onclick = () => { pfMon = pfDueMonth() || pfMon; showTab('depop'); renderProfit(); $('pfMadeForm').hidden = false; $('pfBuyForm').hidden = true; $('pfCard').scrollIntoView({behavior: 'smooth'}); $('pfEarn').focus(); };
+function renderProfit(){
+  const buys = PF.buys.filter(b => b.date.startsWith(pfMon)).sort((a, b) => b.date.localeCompare(a.date));
+  const spent = buys.reduce((t, b) => t + b.amt, 0), m = PF.months[pfMon];
+  $('pfMonth').textContent = monthName(pfMon);
+  $('pfNext').disabled = pfMon >= monthKey(new Date());
+  $('pfSpent').textContent = money(spent);
+  $('pfMade').innerHTML = m ? money(pfNet(m)) + (m.sold ? `<span>${m.sold} sold</span>` : '') : 'Not logged';
+  $('pfBreak').textContent = m ? `Sales ${money(pfSales(m))} − fees ${money(m.fees || 0)}${m.ship ? ' − shipping ' + money(m.ship) : ''}${m.note ? ' · ' + m.note : ''}` : '';
+  if (m){ const p = pfNet(m) - spent; $('pfProfit').textContent = (p < 0 ? '-' : '') + money(Math.abs(p)); $('pfProfit').className = 'pfbig ' + (p >= 0 ? 'pos' : 'neg'); $('pfProfitLbl').textContent = 'profit this month'; }
+  else { $('pfProfit').textContent = '-' + money(spent).replace('-', ''); $('pfProfit').className = 'pfbig'; $('pfProfitLbl').textContent = spent ? 'spent so far · log earnings at month end' : 'no receipts yet this month'; }
+  const ul = $('pfList'); ul.innerHTML = '';
+  buys.forEach(b => {
+    const li = mk('li', 'rc');
+    if (b.photo){ const im = document.createElement('img'); im.alt = 'Receipt'; photoDB.get('rcpt-' + b.id).then(u => { if (u) im.src = u; }); im.onclick = () => { const v = mk('div', 'pfview'); const big = document.createElement('img'); big.src = im.src; v.append(big); v.onclick = () => v.remove(); document.body.append(v); }; li.append(im); }
+    li.append(mk('span', 'd', new Date(b.date + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})), mk('span', '', b.note || 'Goodwill bins'), mk('b', '', money(b.amt)));
+    const x = mk('button', 'x', '×'); x.setAttribute('aria-label', 'Delete receipt');
+    x.onclick = () => { if (!confirm('Delete this ' + money(b.amt) + ' receipt?')) return; PF.buys = PF.buys.filter(y => y.id !== b.id); if (b.photo) photoDB.del('rcpt-' + b.id).catch(() => {}); savePF(); renderProfit(); };
+    li.append(x); ul.append(li);
+  });
+  const yr = pfMon.slice(0, 4);
+  const ySpent = PF.buys.filter(b => b.date.startsWith(yr)).reduce((t, b) => t + b.amt, 0);
+  const ym = Object.entries(PF.months).filter(([k]) => k.startsWith(yr)).map(([, v]) => v);
+  const ySales = ym.reduce((t, v) => t + pfSales(v), 0), yFees = ym.reduce((t, v) => t + (v.fees || 0), 0), yShip = ym.reduce((t, v) => t + (v.ship || 0), 0);
+  const yNet = ySales - yFees - yShip - ySpent;
+  const yb = $('pfYear'); yb.innerHTML = '';
+  yb.append(mk('p', 'feelhead', yr + ' so far'));
+  [['Sales', ySales, ''], ['Depop fees', -yFees, 'neg'], ['Shipping', -yShip, 'neg'], ['Goodwill', -ySpent, 'neg']].forEach(([n, v, c]) => {
+    const r = mk('li', 'gr'); r.append(mk('span', '', n), mk('b', c, (v < 0 ? '−' : '') + money(Math.abs(v)))); yb.append(r);
+  });
+  const r = mk('li', 'gr'); r.append(mk('span', '', 'Net profit' + (ySales ? ` · ${(yNet / ySales * 100).toFixed(1)}% margin` : '')), mk('b', yNet >= 0 ? 'pos' : 'neg', (yNet < 0 ? '−' : '') + money(Math.abs(yNet)))); r.style.fontWeight = '700'; yb.append(r);
+  renderToday();
+}
+$('pfPrev').onclick = () => { const d = new Date(pfMon + '-15T12:00'); d.setMonth(d.getMonth() - 1); pfMon = monthKey(d); renderProfit(); };
+$('pfNext').onclick = () => { const d = new Date(pfMon + '-15T12:00'); d.setMonth(d.getMonth() + 1); if (monthKey(d) <= monthKey(new Date())){ pfMon = monthKey(d); renderProfit(); } };
+$('pfAddBuy').onclick = () => { $('pfBuyForm').hidden = !$('pfBuyForm').hidden; $('pfMadeForm').hidden = true; const t = dayKey(); $('pfDate').value = t.startsWith(pfMon) ? t : pfMon + '-01'; if (!$('pfBuyForm').hidden) $('pfAmt').focus(); };
+$('pfAddMade').onclick = () => { $('pfMadeForm').hidden = !$('pfMadeForm').hidden; $('pfBuyForm').hidden = true; const m = PF.months[pfMon]; $('pfEarn').value = m ? pfSales(m) : ''; $('pfFees').value = m && m.fees != null ? m.fees : ''; $('pfShip').value = m && m.ship ? m.ship : ''; $('pfSold').value = m && m.sold ? m.sold : ''; $('pfMNote').value = m && m.note || ''; };
+$('pfPhotoBtn').onclick = () => $('pfPhoto').click();
+$('pfPhoto').onchange = async () => {
+  const f = $('pfPhoto').files[0]; if (!f) return;
+  $('pfPhotoBtn').textContent = 'Processing…';
+  try { pfPhotoData = await shrinkTo(f, 1400, 0.8); $('pfPhotoPrev').src = pfPhotoData; $('pfPhotoPrev').hidden = false; $('pfPhotoBtn').textContent = '📷 Change photo'; }
+  catch(e){ $('pfPhotoBtn').textContent = "Couldn't read that photo. Try again."; }
+  $('pfPhoto').value = '';
+};
+$('pfSaveBuy').onclick = async () => {
+  const amt = num$($('pfAmt').value), date = $('pfDate').value;
+  if (amt == null || amt <= 0){ $('pfAmt').focus(); return; }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+  const b = {id: Date.now().toString(36), date, amt, note: $('pfNote').value.trim(), photo: false};
+  if (pfPhotoData){ try { await photoDB.put('rcpt-' + b.id, pfPhotoData); b.photo = true; } catch(e){} }
+  PF.buys.push(b); savePF();
+  pfPhotoData = null; $('pfAmt').value = ''; $('pfNote').value = ''; $('pfPhotoPrev').hidden = true; $('pfPhotoBtn').textContent = '📷 Add photo (optional)';
+  $('pfBuyForm').hidden = true; pfMon = date.slice(0, 7); renderProfit();
+};
+$('pfSaveMade').onclick = () => {
+  const earn = num$($('pfEarn').value); if (earn == null){ $('pfEarn').focus(); return; }
+  const sold = parseInt($('pfSold').value, 10);
+  PF.months[pfMon] = {sales: earn, fees: num$($('pfFees').value) || 0, ship: num$($('pfShip').value) || 0, sold: isNaN(sold) ? null : sold, note: $('pfMNote').value.trim(), at: dayKey()}; savePF();
+  $('pfMadeForm').hidden = true; renderProfit();
+};
+renderProfit();
+
+// ---------- Countdowns ----------
+let CD = [{name:'Steamboat', date:'2027-01-09'}];
+try { const v = JSON.parse(localStorage.getItem('hq-count')); if (Array.isArray(v)) CD = v; } catch(e){}
+const saveCD = () => { try { localStorage.setItem('hq-count', JSON.stringify(CD)); } catch(e){} };
+function renderCountdowns(){
+  const today = new Date(dayKey() + 'T12:00');
+  const days = d => Math.round((new Date(d + 'T12:00') - today) / 864e5);
+  const list = [{name:'Graduation', date: (typeof PA !== 'undefined' && PA.grad) || '2027-05-15', fixed:true}].concat(CD.map((c, i) => Object.assign({i}, c)));
+  list.sort((a, b) => a.date.localeCompare(b.date));
+  $('cds').replaceChildren(...list.map(c => {
+    const n = days(c.date), box = mk('div', 'cd');
+    box.append(mk('b', '', n > 0 ? n + 'd' : n === 0 ? 'Today' : 'Done'), mk('span', '', c.name));
+    if (!c.fixed){ const x = mk('button', '', '×'); x.setAttribute('aria-label', 'Remove ' + c.name); x.onclick = () => { CD.splice(c.i, 1); saveCD(); renderCountdowns(); }; box.append(x); }
+    return box;
+  }));
+}
+$('cdAdd').onclick = () => { const n = $('cdName').value.trim(), d = $('cdDate').value; if (!n || !/^\d{4}-\d{2}-\d{2}$/.test(d)) return; CD.push({name:n, date:d}); saveCD(); $('cdName').value = ''; $('cdDate').value = ''; renderCountdowns(); };
+renderCountdowns();
+
+const VIEWS = {today:'viewToday', depop:'viewDepop', gym:'viewGym', mind:'viewMind', cook:'viewCook', notes:'viewNotes', path:'viewPath'};
+let curView = 'today';
+function showTab(which){
+  if (!VIEWS[which]) which = 'today';
+  curView = which;
+  $('viewBins').hidden = true;
+  for (const [k, view] of Object.entries(VIEWS)) $(view).hidden = k !== which;
+  document.querySelectorAll('.tabs [data-go]').forEach(b => { const on = b.dataset.go === which; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+  try { localStorage.setItem('hq-tab', which); } catch(e){}
+  window.scrollTo({top: 0});
+}
+document.querySelectorAll('.tabs [data-go]').forEach(b => b.onclick = () => showTab(b.dataset.go));
 renderMind(); renderJournal();
 skReset(); renderSkinForm(); renderSkin().catch(() => {});
 try { bodySeg(localStorage.getItem('hq-bodyseg') || 'gym'); } catch(e){ bodySeg('gym'); }
 try { mindSeg(localStorage.getItem('hq-mindseg') || 'check'); } catch(e){ mindSeg('check'); }
-renderWater(); renderGym(); renderGroc(); renderNotes(); renderPath(); renderWins(); renderMoney();
+renderGym(); renderGroc(); renderNotes(); renderPath(); renderWins(); renderMoney();
 try { pathSeg(localStorage.getItem('hq-pathseg') || 'biz'); } catch(e){ pathSeg('biz'); }
 try { showTab(localStorage.getItem('hq-tab') || 'today'); } catch(e){ showTab('today'); }
 renderToday();
 
-$('refresh').onclick = load;
-load(); setInterval(load, 30000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden){ renderWater(); renderGym(); renderToday(); load(); checkForUpdate(false); } });
+document.addEventListener('visibilitychange', () => { if (!document.hidden){ renderGym(); renderToday(); renderCountdowns(); renderProfit(); checkForUpdate(false); } });
 $('verLine').textContent = 'Version ' + APP_VERSION;
 $('updBtn').onclick = () => { $('verLine').textContent = 'Checking…'; checkForUpdate(true); };
 setTimeout(() => checkForUpdate(false), 1500);
